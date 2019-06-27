@@ -101,7 +101,9 @@ public class MenuPagWebActivity extends AppCompatActivity {
         imgModa.setColorFilter(Color.argb(150,20,20,20), PorterDuff.Mode.DARKEN);
         imgComida.setColorFilter(Color.argb(150,20,20,20), PorterDuff.Mode.DARKEN);
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        progressDialog.show();
 
         db.collection("webs")
                 .whereEqualTo("idUsuario", user.getUid())
@@ -109,14 +111,22 @@ public class MenuPagWebActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (progressDialog.isShowing()){
+                            progressDialog.dismiss();
+                        }
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 miPagina = document.toObject(pagWebs.class);
                             }
 
                             if(miPagina != null){
+
+                                Toast.makeText(getApplicationContext(),"Tu página web se ha cargado correctamente, puedes editarla o visualizarla oprimiendo el botón verde",Toast.LENGTH_LONG).show();
+
                                 if(miPagina.getTipo() == 1){
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putString(user.getUid()+"-tipo_mi_pag_web", "1");
+                                    editor.putString("nombrePagWeb", miPagina.getUrl());
 
                                     //COMIDA
 
@@ -2117,6 +2127,9 @@ public class MenuPagWebActivity extends AppCompatActivity {
 
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
 
+                                    editor.putString(user.getUid()+"-tipo_mi_pag_web", "2");
+                                    editor.putString("nombrePagWeb", miPagina.getUrl());
+
                                     //PRODUCTOS
 
                                     Map<String, Object> web;
@@ -3614,6 +3627,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                 else if(miPagina.getTipo() == 3){
 
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putString(user.getUid()+"-tipo_mi_pag_web", "3");
+                                    editor.putString("nombrePagWeb", miPagina.getUrl());
 
                                     //SERVICIOS
 
@@ -5931,7 +5946,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                 else if(miPagina.getTipo() == 4){
 
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
-
+                                    editor.putString(user.getUid()+"-tipo_mi_pag_web", "4");
+                                    editor.putString("nombrePagWeb", miPagina.getUrl());
                                     //MODA
 
                                     List<caracteristicas_web> work = new ArrayList<>();
@@ -7908,6 +7924,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                 else if(miPagina.getTipo() == 5){
 
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putString(user.getUid()+"-tipo_mi_pag_web", "5");
+                                    editor.putString("nombrePagWeb", miPagina.getUrl());
 
                                     //SALUD
 
@@ -8838,6 +8856,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                 else if(miPagina.getTipo() == 6){
 
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putString(user.getUid()+"-tipo_mi_pag_web", "6");
+                                    editor.putString("nombrePagWeb", miPagina.getUrl());
 
                                     //APPS
 
@@ -8937,14 +8957,14 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                     editor.putString("web_apps_titulo_seccion_5", contacto_titulo);
 
                                     editor.commit();
-
                                 }
                             }
-                        } else {
+                            else {
+                                Toast.makeText(getApplicationContext(),"Puedes crear tu página web, elige una de estas categorías",Toast.LENGTH_LONG).show();
+                            }
                         }
                     }
                 });
-
 
         speedDialView.setMenuListener(new SimpleMenuListenerAdapter() {
             @Override
@@ -8953,7 +8973,7 @@ public class MenuPagWebActivity extends AppCompatActivity {
                 int id = menuItem.getItemId();
 
                 if(id == R.id.action_ver_mi_pag){
-                    if(sharedPreferences.getString("tipo_mi_pag_web", "").equals("1")){
+                    if(sharedPreferences.getString(user.getUid()+ "-tipo_mi_pag_web", "").equals("1")){
                         if(sharedPreferences.getString("nombrePagWeb","").length() > 0){
                             String url = "http://food.solucionescolabora.com/u/" + sharedPreferences.getString("nombrePagWeb", "");
                             Intent i = new Intent(Intent.ACTION_VIEW);
@@ -8961,7 +8981,7 @@ public class MenuPagWebActivity extends AppCompatActivity {
                             startActivity(i);
                         }
                     }
-                    else if(sharedPreferences.getString("tipo_mi_pag_web", "").equals("2")){
+                    else if(sharedPreferences.getString(user.getUid()+"-tipo_mi_pag_web", "").equals("2")){
                         if(sharedPreferences.getString("nombrePagWeb","").length() > 0){
                             String url = "http://products.solucionescolabora.com/u/" + sharedPreferences.getString("nombrePagWeb", "");
                             Intent i = new Intent(Intent.ACTION_VIEW);
@@ -8969,7 +8989,7 @@ public class MenuPagWebActivity extends AppCompatActivity {
                             startActivity(i);
                         }
                     }
-                    else if(sharedPreferences.getString("tipo_mi_pag_web", "").equals("3")){
+                    else if(sharedPreferences.getString(user.getUid()+"-tipo_mi_pag_web", "").equals("3")){
                         if(sharedPreferences.getString("nombrePagWeb","").length() > 0){
                             String url = "http://services.solucionescolabora.com/u/" + sharedPreferences.getString("nombrePagWeb", "");
                             Intent i = new Intent(Intent.ACTION_VIEW);
@@ -8977,7 +8997,7 @@ public class MenuPagWebActivity extends AppCompatActivity {
                             startActivity(i);
                         }
                     }
-                    else if(sharedPreferences.getString("tipo_mi_pag_web", "").equals("4")){
+                    else if(sharedPreferences.getString(user.getUid()+"-tipo_mi_pag_web", "").equals("4")){
                         if(sharedPreferences.getString("nombrePagWeb","").length() > 0){
                             String url = "http://fashion.solucionescolabora.com/u/" + sharedPreferences.getString("nombrePagWeb", "");
                             Intent i = new Intent(Intent.ACTION_VIEW);
@@ -8985,7 +9005,7 @@ public class MenuPagWebActivity extends AppCompatActivity {
                             startActivity(i);
                         }
                     }
-                    else if(sharedPreferences.getString("tipo_mi_pag_web", "").equals("5")){
+                    else if(sharedPreferences.getString(user.getUid()+"-tipo_mi_pag_web", "").equals("5")){
                         if(sharedPreferences.getString("nombrePagWeb","").length() > 0){
                             String url = "http://health.solucionescolabora.com/u/" + sharedPreferences.getString("nombrePagWeb", "");
                             Intent i = new Intent(Intent.ACTION_VIEW);
@@ -8993,7 +9013,7 @@ public class MenuPagWebActivity extends AppCompatActivity {
                             startActivity(i);
                         }
                     }
-                    else if(sharedPreferences.getString("tipo_mi_pag_web", "").equals("6")){
+                    else if(sharedPreferences.getString(user.getUid()+"-tipo_mi_pag_web", "").equals("6")){
                         if(sharedPreferences.getString("nombrePagWeb","").length() > 0){
                             String url = "http://apps.solucionescolabora.com/u/" + sharedPreferences.getString("nombrePagWeb", "");
                             Intent i = new Intent(Intent.ACTION_VIEW);
@@ -9007,27 +9027,27 @@ public class MenuPagWebActivity extends AppCompatActivity {
                     return true;
                 }
                 else if(id == R.id.action_editar_mi_pag){
-                    if(sharedPreferences.getString("tipo_mi_pag_web", "").equals("1")){
+                    if(sharedPreferences.getString(user.getUid()+"-tipo_mi_pag_web", "").equals("1")){
                         Intent i = new Intent(MenuPagWebActivity.this, WebsComidaSeccion1.class);
                         startActivity(i);
                     }
-                    else if(sharedPreferences.getString("tipo_mi_pag_web", "").equals("2")){
+                    else if(sharedPreferences.getString(user.getUid()+"-tipo_mi_pag_web", "").equals("2")){
                         Intent i = new Intent(MenuPagWebActivity.this, WebsProductosSeccion1.class);
                         startActivity(i);
                     }
-                    else if(sharedPreferences.getString("tipo_mi_pag_web", "").equals("3")){
+                    else if(sharedPreferences.getString(user.getUid()+"-tipo_mi_pag_web", "").equals("3")){
                         Intent i = new Intent(MenuPagWebActivity.this, WebsServiciosSeccion1.class);
                         startActivity(i);
                     }
-                    else if(sharedPreferences.getString("tipo_mi_pag_web", "").equals("4")){
+                    else if(sharedPreferences.getString(user.getUid()+"-tipo_mi_pag_web", "").equals("4")){
                         Intent i = new Intent(MenuPagWebActivity.this, WebsModaSeccion1.class);
                         startActivity(i);
                     }
-                    else if(sharedPreferences.getString("tipo_mi_pag_web", "").equals("5")){
+                    else if(sharedPreferences.getString(user.getUid()+"-tipo_mi_pag_web", "").equals("5")){
                         Intent i = new Intent(MenuPagWebActivity.this, WebsSaludSeccion1.class);
                         startActivity(i);
                     }
-                    else if(sharedPreferences.getString("tipo_mi_pag_web", "").equals("6")){
+                    else if(sharedPreferences.getString(user.getUid()+"-tipo_mi_pag_web", "").equals("6")){
                         Intent i = new Intent(MenuPagWebActivity.this, WebAppsSeccion1Activity.class);
                         startActivity(i);
                     }

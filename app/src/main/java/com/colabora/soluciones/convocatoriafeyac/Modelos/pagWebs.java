@@ -8,6 +8,7 @@ public class pagWebs {
     private Map<String, Object> secciones;
     private int tipo;
     private String idUsuario;
+    private String Url;
 
 
     public String getIcon() {
@@ -43,13 +44,22 @@ public class pagWebs {
         this.idUsuario = idUsuario;
     }
 
+    public String getUrl() {
+        return Url;
+    }
+
+    public void setUrl(String url) {
+        Url = url;
+    }
+
     public pagWebs() {
     }
 
-    public pagWebs(String icon, Map<String, Object> secciones, int tipo, String idUsuario) {
+    public pagWebs(String icon, Map<String, Object> secciones, int tipo, String idUsuario, String url) {
         this.icon = icon;
         this.secciones = secciones;
         this.tipo = tipo;
         this.idUsuario = idUsuario;
+        this.Url = url;
     }
 }

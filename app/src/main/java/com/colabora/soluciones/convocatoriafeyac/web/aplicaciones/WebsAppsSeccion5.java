@@ -186,9 +186,9 @@ public class WebsAppsSeccion5 extends AppCompatActivity {
                 web.put("home", home);
                 web.put("servicios", servicios);
 
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-                pagWebs pag = new pagWebs("",web, 6, user.getUid());
+                final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                String url = sharedPreferences.getString("nombrePagWeb", "");
+                pagWebs pag = new pagWebs("",web, 6, user.getUid(), url);
 
                 db.collection("webs").document(sharedPreferences.getString("nombrePagWeb", ""))
                         .set(pag)
@@ -199,7 +199,7 @@ public class WebsAppsSeccion5 extends AppCompatActivity {
                                     progressDialog.dismiss();
                                 }
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putString("tipo_mi_pag_web", "6");
+                                editor.putString(user.getUid() + "-tipo_mi_pag_web", "6");
                                 editor.commit();
                                 Toast.makeText(getApplicationContext(),"¡Página web creada exitosamente!", Toast.LENGTH_LONG).show();
                                 String url = "http://apps.solucionescolabora.com/u/" + sharedPreferences.getString("nombrePagWeb", "");
@@ -217,7 +217,6 @@ public class WebsAppsSeccion5 extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(),"Ha ocurrido un error, favor de volver a intentar", Toast.LENGTH_LONG).show();
                             }
                         });
-
             }
         });
 

@@ -561,9 +561,10 @@ public class WebsComidaSeccion6 extends AppCompatActivity {
                 web.put("menu", menu);
                 web.put("contacto", contacto);
 
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 user.getUid();
-                pagWebs pag = new pagWebs("",web, 1,  user.getUid());
+                String url = sharedPreferences.getString("nombrePagWeb", "");
+                pagWebs pag = new pagWebs("",web, 1,  user.getUid(), url);
 
                 db.collection("webs").document(sharedPreferences.getString("nombrePagWeb", ""))
                         .set(pag)
@@ -574,7 +575,7 @@ public class WebsComidaSeccion6 extends AppCompatActivity {
                                     progressDialog.dismiss();
                                 }
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putString("tipo_mi_pag_web", "1");
+                                editor.putString(user.getUid() + "-tipo_mi_pag_web", "1");
                                 editor.commit();
                                 Toast.makeText(getApplicationContext(),"¡Página web creada exitosamente!", Toast.LENGTH_LONG).show();
                                 String url = "http://food.solucionescolabora.com/u/" + sharedPreferences.getString("nombrePagWeb", "");

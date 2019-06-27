@@ -486,8 +486,9 @@ public class WebsProductosSeccion6 extends AppCompatActivity {
                 web.put("galeria", galeria);
                 web.put("contacto", contacto);
 
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                pagWebs pag = new pagWebs("",web, 2, user.getUid());
+                final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                String url = sharedPreferences.getString("nombrePagWeb", "");
+                pagWebs pag = new pagWebs("",web, 2, user.getUid(), url);
 
                 db.collection("webs").document(sharedPreferences.getString("nombrePagWeb", ""))
                         .set(pag)
@@ -498,7 +499,7 @@ public class WebsProductosSeccion6 extends AppCompatActivity {
                                     progressDialog.dismiss();
                                 }
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putString("tipo_mi_pag_web", "2");
+                                editor.putString(user.getUid() + "-tipo_mi_pag_web", "2");
                                 editor.commit();
                                 Toast.makeText(getApplicationContext(),"¡Página web creada exitosamente!", Toast.LENGTH_LONG).show();
                                 String url = "http://products.solucionescolabora.com/u/" + sharedPreferences.getString("nombrePagWeb", "");

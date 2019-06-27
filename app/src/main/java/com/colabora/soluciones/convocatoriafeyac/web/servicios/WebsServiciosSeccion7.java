@@ -576,8 +576,9 @@ public class WebsServiciosSeccion7 extends AppCompatActivity {
                 web.put("portafolio", portafolio);
                 web.put("contacto", contacto);
 
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                pagWebs pag = new pagWebs("",web, 3, user.getUid());
+                final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                String url = sharedPreferences.getString("nombrePagWeb", "");
+                pagWebs pag = new pagWebs("",web, 3, user.getUid(), url);
 
                 db.collection("webs").document(sharedPreferences.getString("nombrePagWeb", ""))
                         .set(pag)
@@ -590,7 +591,7 @@ public class WebsServiciosSeccion7 extends AppCompatActivity {
 
                                 String nombreEmpresa = sharedPreferences.getString("nombreEmpresa", "");
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putString("tipo_mi_pag_web", "3");
+                                editor.putString(user.getUid() + "-tipo_mi_pag_web", "3");
                                 editor.commit();
                                 crearActualizarUsuario(nombreEmpresa, sharedPreferences.getString("nombrePagWeb", ""), "servicios");
                                 /*  Toast.makeText(getApplicationContext(),"¡Página web creada exitosamente!", Toast.LENGTH_LONG).show();
@@ -611,6 +612,7 @@ public class WebsServiciosSeccion7 extends AppCompatActivity {
                         });
 
             }
+
         });
 
     }
@@ -618,7 +620,7 @@ public class WebsServiciosSeccion7 extends AppCompatActivity {
     private void crearActualizarUsuario(String nombreEmpresa, String nombrePaginaWeb, String tipoPaginaWeb){
 
         String id = FirebaseAuth.getInstance().getUid();
-        Usuario usuario = new Usuario(id, nombrePaginaWeb, tipoPaginaWeb, nombreEmpresa);
+        final Usuario usuario = new Usuario(id, nombrePaginaWeb, tipoPaginaWeb, nombreEmpresa);
 
         db.collection("Usuarios").document(id)
                 .set(usuario)
@@ -629,7 +631,6 @@ public class WebsServiciosSeccion7 extends AppCompatActivity {
                         if(progressDialog.isShowing()){
                             progressDialog.dismiss();
                         }
-
                         Toast.makeText(getApplicationContext(),"¡Página web creada exitosamente!", Toast.LENGTH_LONG).show();
                         String url = "http://services.solucionescolabora.com/u/" + sharedPreferences.getString("nombrePagWeb", "");
                         Intent i = new Intent(Intent.ACTION_VIEW);
