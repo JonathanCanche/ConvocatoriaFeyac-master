@@ -66,6 +66,7 @@ public class WebVisualizacionPreviaActivity extends AppCompatActivity {
     private String nombre_web = "";
     private FirebaseFirestore db;
     private ProgressDialog progressDialog;
+    private String nada;
 
     public static final String PAG_WEB = "com.colabora.soluciones.convocatoriafeyac.web_tipo";
     private SharedPreferences sharedPreferences;
