@@ -71,7 +71,7 @@ public class WebsSaludSeccion1 extends AppCompatActivity {
         editDescripcion.setText(sharedPreferences.getString("web_salud_subtitulo_home", ""));
         if (sharedPreferences.getString("web_salud_img_seccion_1","").length() > 1){
             imgUpoloaded = true;
-            Picasso.get().load(sharedPreferences.getString("web_salud_img_seccion_1","")).into(img);
+            Picasso.get().load(sharedPreferences.getString("web_salud_img_seccion_1","")).placeholder(R.drawable.progress_animation).into(img);
         }
 
         btnSubirFoto.setOnClickListener(new View.OnClickListener() {

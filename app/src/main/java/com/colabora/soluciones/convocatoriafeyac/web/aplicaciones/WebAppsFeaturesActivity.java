@@ -99,7 +99,7 @@ public class WebAppsFeaturesActivity extends AppCompatActivity {
 
         if (sharedPreferences.getString("web_apps_img_seccion_3","").length() > 1){
             imgUpoloaded = true;
-            Picasso.get().load(sharedPreferences.getString("web_apps_img_seccion_3","")).into(img);
+            Picasso.get().load(sharedPreferences.getString("web_apps_img_seccion_3","")).placeholder(R.drawable.progress_animation).into(img);
         }
 
         btnSubirFoto.setOnClickListener(new View.OnClickListener() {

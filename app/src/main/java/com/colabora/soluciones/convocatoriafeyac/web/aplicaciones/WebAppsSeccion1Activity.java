@@ -67,7 +67,7 @@ public class WebAppsSeccion1Activity extends AppCompatActivity {
 
         editTitulo.setText(sharedPreferences.getString("web_apps_titulo_home", ""));
         if (sharedPreferences.getString("web_apps_img_seccion_1","").length() > 1){
-            Picasso.get().load(sharedPreferences.getString("web_apps_img_seccion_1","")).into(img);
+            Picasso.get().load(sharedPreferences.getString("web_apps_img_seccion_1","")).placeholder(R.drawable.progress_animation).into(img);
             imgUpoloaded = true;
         }
 

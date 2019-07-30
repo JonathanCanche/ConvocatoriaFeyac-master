@@ -77,10 +77,11 @@ public class WebsProductosSeccion3 extends AppCompatActivity {
 
                     itemTitulo = (TextInputEditText) formElementsView.findViewById(R.id.editItemSimpleTitulo);
                     itemDescripcion = (TextInputEditText) formElementsView.findViewById(R.id.editItemSimpleDescripcion);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
                     itemTitulo.setText(itemSimpleList.get(position).getTitulo());
                     itemDescripcion.setText(itemSimpleList.get(position).getDescripcion());
+
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
                     builder.setTitle("Servicios");
                     builder.setMessage("Por favor, introduce un título y descripción de tus servicios");
@@ -183,7 +184,7 @@ public class WebsProductosSeccion3 extends AppCompatActivity {
     private String nombre_web;
     private Button btnSiguiente;
     private boolean imgUpoloaded = false;
-    private List<itemSimple> itemSimpleList = new ArrayList<>();
+    private List<itemSimple> itemSimpleList = new ArrayList<itemSimple>();
     private SharedPreferences sharedPreferences;
 
     private String imagen_ = "";
@@ -209,6 +210,7 @@ public class WebsProductosSeccion3 extends AppCompatActivity {
         nombre_web = sharedPreferences.getString("nombrePagWeb","");
 
         txtTitulo.setText(sharedPreferences.getString("web_productos_seccion_3_titulo", ""));
+
         if(sharedPreferences.getString("web_productos_seccion_3_recycler","").equals("1")){
             imagen_ = "";
             titulo = sharedPreferences.getString("web_productos_seccion_3_caracteristica1_titulo","");
@@ -461,8 +463,8 @@ public class WebsProductosSeccion3 extends AppCompatActivity {
                 }
 
 
-                if(itemSimpleList.size() < 2){
-                    Toast.makeText(getApplicationContext(), "Debes introducir por lo menos dos de tus servicios", Toast.LENGTH_LONG).show();
+                if(itemSimpleList.size() < 3){
+                    Toast.makeText(getApplicationContext(), "Debes introducir por lo menos tres de tus servicios", Toast.LENGTH_LONG).show();
                     return;
                 }
 

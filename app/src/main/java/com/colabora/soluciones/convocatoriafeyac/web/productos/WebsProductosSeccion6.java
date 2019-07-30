@@ -39,7 +39,7 @@ public class WebsProductosSeccion6 extends AppCompatActivity {
     private String ubicacion = "";
     private String email = "";
     private String telefono = "";
-
+    private String nombre_web = "";
     private SharedPreferences sharedPreferences;
 
     private ProgressDialog progressDialog;
@@ -169,6 +169,7 @@ public class WebsProductosSeccion6 extends AppCompatActivity {
 
                 servicios_navbar = "Servicios";
                 servicios_titulo = sharedPreferences.getString("web_productos_seccion_3_titulo", "");
+
                 if(sharedPreferences.getString("web_productos_seccion_3_recycler","").equals("1")){
                     imagen_ = "";
                     titulo = sharedPreferences.getString("web_productos_seccion_3_caracteristica1_titulo","");
@@ -462,7 +463,7 @@ public class WebsProductosSeccion6 extends AppCompatActivity {
                 about.put("descripcion", about_descripcion);
 
                 servicios.put("navbar", servicios_navbar);
-                servicios.put("titulo", servicios_navbar);
+                servicios.put("titulo", servicios_titulo);
                 servicios.put("servicio", servicio);
 
                 imagencontacto.put("imagen",imagencontacto_imagen);

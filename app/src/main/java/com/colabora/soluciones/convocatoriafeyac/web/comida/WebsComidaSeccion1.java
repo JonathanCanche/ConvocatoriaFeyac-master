@@ -87,14 +87,14 @@ public class WebsComidaSeccion1 extends AppCompatActivity {
         editTitulo3.setText(sharedPreferences.getString("web_comida_titulo_3_home", ""));
         if (sharedPreferences.getString("web_comida_img_1_seccion_1","").length() > 1){
             imgUpoloaded = true;
-            Picasso.get().load(sharedPreferences.getString("web_comida_img_1_seccion_1","")).into(img);
+            Picasso.get().load(sharedPreferences.getString("web_comida_img_1_seccion_1","")).placeholder(R.drawable.progress_animation).into(img);
         }
         if (sharedPreferences.getString("web_comida_img_2_seccion_1","").length() > 1){
             imgUpoloaded2 = true;
-            Picasso.get().load(sharedPreferences.getString("web_comida_img_2_seccion_1","")).into(img2);
+            Picasso.get().load(sharedPreferences.getString("web_comida_img_2_seccion_1","")).placeholder(R.drawable.progress_animation).into(img2);
         }
         if (sharedPreferences.getString("web_comida_img_3_seccion_1","").length() > 1){
-            Picasso.get().load(sharedPreferences.getString("web_comida_img_3_seccion_1","")).into(img3);
+            Picasso.get().load(sharedPreferences.getString("web_comida_img_3_seccion_1","")).placeholder(R.drawable.progress_animation).into(img3);
         }
 
         btnSubirFoto.setOnClickListener(new View.OnClickListener() {

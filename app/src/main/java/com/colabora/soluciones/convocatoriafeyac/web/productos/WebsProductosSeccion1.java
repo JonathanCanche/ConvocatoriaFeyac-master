@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.constraint.Placeholder;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -83,14 +84,14 @@ public class WebsProductosSeccion1 extends AppCompatActivity {
         editDescripcion.setText(sharedPreferences.getString("web_productos_subtitulo_home", ""));
         if (sharedPreferences.getString("web_productos_img_1_seccion_1","").length() > 1){
             imgUpoloaded = true;
-            Picasso.get().load(sharedPreferences.getString("web_productos_img_1_seccion_1","")).into(img);
+            Picasso.get().load(sharedPreferences.getString("web_productos_img_1_seccion_1","")).placeholder(R.drawable.progress_animation).into(img);
         }
-        if (sharedPreferences.getString("web_productos_img_2_seccion_1","").length() > 1){
+        if (sharedPreferences.getString("web_productos_img_2_seccion_1","").length() > 2){
             imgUpoloaded2 = true;
-            Picasso.get().load(sharedPreferences.getString("web_productos_img_2_seccion_1","")).into(img2);
+            Picasso.get().load(sharedPreferences.getString("web_productos_img_2_seccion_1","")).placeholder(R.drawable.progress_animation).into(img2);
         }
-        if (sharedPreferences.getString("web_productos_img_3_seccion_1","").length() > 1){
-            Picasso.get().load(sharedPreferences.getString("web_productos_img_3_seccion_1","")).into(img3);
+        if (sharedPreferences.getString("web_productos_img_3_seccion_1","").length() > 3){
+            Picasso.get().load(sharedPreferences.getString("web_productos_img_3_seccion_1","")).placeholder(R.drawable.progress_animation).into(img3);
         }
 
 
@@ -256,7 +257,6 @@ public class WebsProductosSeccion1 extends AppCompatActivity {
                                         SharedPreferences.Editor editor = sharedPreferences.edit();
                                         editor.putString("web_productos_img_3_seccion_1", url.toString());
                                         editor.commit();
-                                        imgUpoloaded = true;
                                         // ******************************************************************************
                                     }
                                 });

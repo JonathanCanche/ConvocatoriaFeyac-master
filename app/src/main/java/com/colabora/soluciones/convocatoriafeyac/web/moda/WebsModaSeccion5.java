@@ -115,35 +115,35 @@ public class WebsModaSeccion5 extends AppCompatActivity {
         editTitulo.setText(sharedPreferences.getString("web_moda_titulo_seccion5", ""));
         editSubtitulo.setText(sharedPreferences.getString("web_moda_subtitulo_seccion5", ""));
 
-        if (sharedPreferences.getString("web_moda_img_4_seccion_5","").length() > 1){
-            Picasso.get().load(sharedPreferences.getString("web_moda_img_4_seccion_5","")).into(img4);
-        }
-        if (sharedPreferences.getString("web_moda_img_5_seccion_5","").length() > 1){
-            Picasso.get().load(sharedPreferences.getString("web_moda_img_5_seccion_5","")).into(img4);
-        }
-        if (sharedPreferences.getString("web_moda_img_6_seccion_5","").length() > 1){
-            Picasso.get().load(sharedPreferences.getString("web_moda_img_6_seccion_5","")).into(img4);
-        }
-        if (sharedPreferences.getString("web_moda_img_7_seccion_5","").length() > 1){
-            Picasso.get().load(sharedPreferences.getString("web_moda_img_7_seccion_5","")).into(img4);
-        }
-        if (sharedPreferences.getString("web_moda_img_8_seccion_5","").length() > 1){
-            Picasso.get().load(sharedPreferences.getString("web_moda_img_8_seccion_5","")).into(img4);
-        }
-        if (sharedPreferences.getString("web_moda_img_9_seccion_5","").length() > 1){
-            Picasso.get().load(sharedPreferences.getString("web_moda_img_9_seccion_5","")).into(img4);
-        }
         if (sharedPreferences.getString("web_moda_img_1_seccion_5","").length() > 1){
-            Picasso.get().load(sharedPreferences.getString("web_moda_img_1_seccion_5","")).into(img);
             imgUpoloaded = true;
+            Picasso.get().load(sharedPreferences.getString("web_moda_img_1_seccion_5","")).placeholder(R.drawable.progress_animation).into(img);
         }
         if (sharedPreferences.getString("web_moda_img_2_seccion_5","").length() > 1){
-            Picasso.get().load(sharedPreferences.getString("web_moda_img_2_seccion_5","")).into(img2);
             imgUpoloaded2 = true;
+            Picasso.get().load(sharedPreferences.getString("web_moda_img_2_seccion_5","")).placeholder(R.drawable.progress_animation).into(img2);
         }
         if (sharedPreferences.getString("web_moda_img_3_seccion_5","").length() > 1){
-            Picasso.get().load(sharedPreferences.getString("web_moda_img_3_seccion_5","")).into(img3);
             imgUpoloaded3 = true;
+            Picasso.get().load(sharedPreferences.getString("web_moda_img_3_seccion_5","")).placeholder(R.drawable.progress_animation).into(img3);
+        }
+        if (sharedPreferences.getString("web_moda_img_4_seccion_5","").length() > 1){
+            Picasso.get().load(sharedPreferences.getString("web_moda_img_4_seccion_5","")).placeholder(R.drawable.progress_animation).into(img4);
+        }
+        if (sharedPreferences.getString("web_moda_img_5_seccion_5","").length() > 1){
+            Picasso.get().load(sharedPreferences.getString("web_moda_img_5_seccion_5","")).placeholder(R.drawable.progress_animation).into(img5);
+        }
+        if (sharedPreferences.getString("web_moda_img_6_seccion_5","").length() > 1){
+            Picasso.get().load(sharedPreferences.getString("web_moda_img_6_seccion_5","")).placeholder(R.drawable.progress_animation).into(img6);
+        }
+        if (sharedPreferences.getString("web_moda_img_7_seccion_5","").length() > 1){
+            Picasso.get().load(sharedPreferences.getString("web_moda_img_7_seccion_5","")).placeholder(R.drawable.progress_animation).into(img7);
+        }
+        if (sharedPreferences.getString("web_moda_img_8_seccion_5","").length() > 1){
+            Picasso.get().load(sharedPreferences.getString("web_moda_img_8_seccion_5","")).placeholder(R.drawable.progress_animation).into(img8);
+        }
+        if (sharedPreferences.getString("web_moda_img_9_seccion_5","").length() > 1){
+            Picasso.get().load(sharedPreferences.getString("web_moda_img_9_seccion_5","")).placeholder(R.drawable.progress_animation).into(img9);
         }
 
         btnSubirFoto.setOnClickListener(new View.OnClickListener() {

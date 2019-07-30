@@ -234,7 +234,7 @@ public class WebsModaSeccion4 extends AppCompatActivity {
 
         if (sharedPreferences.getString("web_moda_img_seccion_4","").length() > 1){
             imgUpoloaded = true;
-            Picasso.get().load(sharedPreferences.getString("web_moda_img_seccion_4","")).into(img);
+            Picasso.get().load(sharedPreferences.getString("web_moda_img_seccion_4","")).placeholder(R.drawable.progress_animation).into(img);
         }
 
         if(sharedPreferences.getString("web_servicios_seccion_4_recycler", "").equals("1")){

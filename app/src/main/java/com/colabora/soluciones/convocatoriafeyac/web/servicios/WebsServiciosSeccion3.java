@@ -79,11 +79,11 @@ public class WebsServiciosSeccion3 extends AppCompatActivity {
         txtDescripcion2.setText(sharedPreferences.getString("web_servicios_seccion_3_descripcion2", ""));
         if (sharedPreferences.getString("web_servicios_img1_seccion_3","").length() > 1){
             imgUploaded1 = true;
-            Picasso.get().load(sharedPreferences.getString("web_servicios_img1_seccion_3","")).into(img1);
+            Picasso.get().load(sharedPreferences.getString("web_servicios_img1_seccion_3","")).placeholder(R.drawable.progress_animation).into(img1);
         }
         if (sharedPreferences.getString("web_servicios_img2_seccion_3","").length() > 1){
             imgUploaded2 = true;
-            Picasso.get().load(sharedPreferences.getString("web_servicios_img2_seccion_3","")).into(img2);
+            Picasso.get().load(sharedPreferences.getString("web_servicios_img2_seccion_3","")).placeholder(R.drawable.progress_animation).into(img2);
         }
 
 

@@ -110,18 +110,24 @@ public class WebsComidaSeccion5 extends AppCompatActivity {
 
                             String titulo = itemTitulo.getText().toString();
                             String descripcion = itemDescripcion.getText().toString();
-                            int precio = Integer.valueOf(itemPrecio.getText().toString());
 
-                            if(titulo.length() > 0 && descripcion.length() > 0){
-                                menuComidaList.remove(position);
-                                MenuComida menuComida = new MenuComida(titulo, precio, descripcion);
-                                menuComidaList.add(menuComida);
 
-                                // *********** LLENAMOS EL RECYCLER VIEW *****************************
-                                adapter = new WebsComidaSeccion5.DataConfigAdapter(menuComidaList, getApplicationContext());
-                                recyclerView.setAdapter(adapter);
-                            }
-                            else{
+                            try {
+                               int precio = Integer.valueOf(itemPrecio.getText().toString());
+
+                                if(titulo.length() > 0 && descripcion.length() > 0 && String.valueOf(precio).length() > 0){
+                                    menuComidaList.remove(position);
+                                    MenuComida menuComida = new MenuComida(titulo,precio, descripcion);
+                                    menuComidaList.add(menuComida);
+
+                                    // *********** LLENAMOS EL RECYCLER VIEW *****************************
+                                    adapter = new WebsComidaSeccion5.DataConfigAdapter(menuComidaList, getApplicationContext());
+                                    recyclerView.setAdapter(adapter);
+                                }
+                                else{
+                                    Toast.makeText(getApplicationContext(), "Debes introducir datos válidos", Toast.LENGTH_LONG).show();
+                                }
+                            } catch (NumberFormatException e) {
                                 Toast.makeText(getApplicationContext(), "Debes introducir datos válidos", Toast.LENGTH_LONG).show();
                             }
 
@@ -202,6 +208,7 @@ public class WebsComidaSeccion5 extends AppCompatActivity {
     private TextInputEditText itemTitulo;
     private TextInputEditText itemDescripcion;
     private TextInputEditText itemPrecio;
+    private String nombre_web = "";
 
     private String specials_img = "";
     private String specials_titulo = "";
@@ -419,17 +426,22 @@ public class WebsComidaSeccion5 extends AppCompatActivity {
 
                             String titulo = itemTitulo.getText().toString();
                             String descripcion = itemDescripcion.getText().toString();
-                            int precio = Integer.valueOf(itemPrecio.getText().toString());
 
-                            if(titulo.length() > 0 && descripcion.length() > 0){
-                                MenuComida menuComida = new MenuComida(titulo, precio, descripcion);
-                                menuComidaList.add(menuComida);
+                            try {
+                                int precio = Integer.valueOf(itemPrecio.getText().toString());
 
-                                // *********** LLENAMOS EL RECYCLER VIEW *****************************
-                                adapter = new WebsComidaSeccion5.DataConfigAdapter(menuComidaList, getApplicationContext());
-                                recyclerView.setAdapter(adapter);
-                            }
-                            else{
+                                if(titulo.length() > 0 && descripcion.length() > 0){
+                                    MenuComida menuComida = new MenuComida(titulo, precio, descripcion);
+                                    menuComidaList.add(menuComida);
+
+                                    // *********** LLENAMOS EL RECYCLER VIEW *****************************
+                                    adapter = new WebsComidaSeccion5.DataConfigAdapter(menuComidaList, getApplicationContext());
+                                    recyclerView.setAdapter(adapter);
+                                }
+                                else{
+                                    Toast.makeText(getApplicationContext(), "Debes introducir datos válidos", Toast.LENGTH_LONG).show();
+                                }
+                            } catch (NumberFormatException  e) {
                                 Toast.makeText(getApplicationContext(), "Debes introducir datos válidos", Toast.LENGTH_LONG).show();
                             }
 
@@ -516,9 +528,9 @@ public class WebsComidaSeccion5 extends AppCompatActivity {
                     editor.putString("web_comida_seccion_5_caracteristica3_descripcion", menuComidaList.get(2).getDescripcion());
                     editor.putInt("web_comida_seccion_5_caracteristica3_precio", menuComidaList.get(2).getPrecio());
 
-                    editor.putString("web_comida_seccion_5_caracteristica4_titulo", menuComidaList.get(2).getTitulo());
-                    editor.putString("web_comida_seccion_5_caracteristica4_descripcion", menuComidaList.get(2).getDescripcion());
-                    editor.putInt("web_comida_seccion_5_caracteristica4_precio", menuComidaList.get(2).getPrecio());
+                    editor.putString("web_comida_seccion_5_caracteristica4_titulo", menuComidaList.get(3).getTitulo());
+                    editor.putString("web_comida_seccion_5_caracteristica4_descripcion", menuComidaList.get(3).getDescripcion());
+                    editor.putInt("web_comida_seccion_5_caracteristica4_precio", menuComidaList.get(3).getPrecio());
                 }
                 else if(menuComidaList.size() == 5){
                     editor.putString("web_comida_seccion_5_recycler", "5");
@@ -534,13 +546,13 @@ public class WebsComidaSeccion5 extends AppCompatActivity {
                     editor.putString("web_comida_seccion_5_caracteristica3_descripcion", menuComidaList.get(2).getDescripcion());
                     editor.putInt("web_comida_seccion_5_caracteristica3_precio", menuComidaList.get(2).getPrecio());
 
-                    editor.putString("web_comida_seccion_5_caracteristica4_titulo", menuComidaList.get(2).getTitulo());
-                    editor.putString("web_comida_seccion_5_caracteristica4_descripcion", menuComidaList.get(2).getDescripcion());
-                    editor.putInt("web_comida_seccion_5_caracteristica4_precio", menuComidaList.get(2).getPrecio());
+                    editor.putString("web_comida_seccion_5_caracteristica4_titulo", menuComidaList.get(3).getTitulo());
+                    editor.putString("web_comida_seccion_5_caracteristica4_descripcion", menuComidaList.get(3).getDescripcion());
+                    editor.putInt("web_comida_seccion_5_caracteristica4_precio", menuComidaList.get(3).getPrecio());
 
-                    editor.putString("web_comida_seccion_5_caracteristica5_titulo", menuComidaList.get(3).getTitulo());
-                    editor.putString("web_comida_seccion_5_caracteristica5_descripcion", menuComidaList.get(3).getDescripcion());
-                    editor.putInt("web_comida_seccion_5_caracteristica5_precio", menuComidaList.get(3).getPrecio());
+                    editor.putString("web_comida_seccion_5_caracteristica5_titulo", menuComidaList.get(4).getTitulo());
+                    editor.putString("web_comida_seccion_5_caracteristica5_descripcion", menuComidaList.get(4).getDescripcion());
+                    editor.putInt("web_comida_seccion_5_caracteristica5_precio", menuComidaList.get(4).getPrecio());
                 }
                 else if(menuComidaList.size() == 6){
                     editor.putString("web_comida_seccion_5_recycler", "6");
@@ -556,17 +568,17 @@ public class WebsComidaSeccion5 extends AppCompatActivity {
                     editor.putString("web_comida_seccion_5_caracteristica3_descripcion", menuComidaList.get(2).getDescripcion());
                     editor.putInt("web_comida_seccion_5_caracteristica3_precio", menuComidaList.get(2).getPrecio());
 
-                    editor.putString("web_comida_seccion_5_caracteristica4_titulo", menuComidaList.get(2).getTitulo());
-                    editor.putString("web_comida_seccion_5_caracteristica4_descripcion", menuComidaList.get(2).getDescripcion());
-                    editor.putInt("web_comida_seccion_5_caracteristica4_precio", menuComidaList.get(2).getPrecio());
+                    editor.putString("web_comida_seccion_5_caracteristica4_titulo", menuComidaList.get(3).getTitulo());
+                    editor.putString("web_comida_seccion_5_caracteristica4_descripcion", menuComidaList.get(3).getDescripcion());
+                    editor.putInt("web_comida_seccion_5_caracteristica4_precio", menuComidaList.get(3).getPrecio());
 
-                    editor.putString("web_comida_seccion_5_caracteristica5_titulo", menuComidaList.get(3).getTitulo());
-                    editor.putString("web_comida_seccion_5_caracteristica5_descripcion", menuComidaList.get(3).getDescripcion());
-                    editor.putInt("web_comida_seccion_5_caracteristica5_precio", menuComidaList.get(3).getPrecio());
+                    editor.putString("web_comida_seccion_5_caracteristica5_titulo", menuComidaList.get(4).getTitulo());
+                    editor.putString("web_comida_seccion_5_caracteristica5_descripcion", menuComidaList.get(4).getDescripcion());
+                    editor.putInt("web_comida_seccion_5_caracteristica5_precio", menuComidaList.get(4).getPrecio());
 
-                    editor.putString("web_comida_seccion_5_caracteristica6_titulo", menuComidaList.get(4).getTitulo());
-                    editor.putString("web_comida_seccion_5_caracteristica6_descripcion", menuComidaList.get(4).getDescripcion());
-                    editor.putInt("web_comida_seccion_5_caracteristica6_precio", menuComidaList.get(4).getPrecio());
+                    editor.putString("web_comida_seccion_5_caracteristica6_titulo", menuComidaList.get(5).getTitulo());
+                    editor.putString("web_comida_seccion_5_caracteristica6_descripcion", menuComidaList.get(5).getDescripcion());
+                    editor.putInt("web_comida_seccion_5_caracteristica6_precio", menuComidaList.get(5).getPrecio());
                 }
                 editor.commit();
                 // ******************************************************************************

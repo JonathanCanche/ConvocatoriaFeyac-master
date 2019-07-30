@@ -100,7 +100,7 @@ public class WebsServiciosSeccion6 extends AppCompatActivity {
 
                     itemTitulo.setText(itemFotos.get(position).getTitulo());
                     itemDescripcion.setText(itemFotos.get(position).getDescripcion());
-                    Picasso.get().load(itemFotos.get(position).getUrl()).into(imgPortafolio);
+                    Picasso.get().load(itemFotos.get(position).getUrl()).placeholder(R.drawable.progress_animation).into(imgPortafolio);
 
 
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -116,8 +116,8 @@ public class WebsServiciosSeccion6 extends AppCompatActivity {
                                         public void onPickResult(PickResult r) {
                                             //TODO: do what you have to...
                                             imgPortafolio.setImageBitmap(r.getBitmap());
-
                                             progressDialog.show();
+
                                             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                                             r.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, outputStream);
                                             byte[] data = outputStream.toByteArray();
@@ -499,7 +499,6 @@ public class WebsServiciosSeccion6 extends AppCompatActivity {
                                         public void onPickResult(PickResult r) {
                                             //TODO: do what you have to...
                                             imgPortafolio.setImageBitmap(r.getBitmap());
-                                            progressDialog.show();
 
                                             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                                             r.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, outputStream);
@@ -655,7 +654,7 @@ public class WebsServiciosSeccion6 extends AppCompatActivity {
                     editor.putString("web_servicios_seccion_6_caracteristica3_titulo", itemFotoList.get(2).getTitulo());
                     editor.putString("web_servicios_seccion_6_caracteristica3_descripcion", itemFotoList.get(2).getDescripcion());
                     editor.putString("web_servicios_seccion_6_caracteristica3_url", itemFotoList.get(2).getUrl());
-                    editor.putString("web_servicios_seccion_6_caracteristica4_titulo", itemFotoList.get(2).getTitulo());
+                    editor.putString("web_servicios_seccion_6_caracteristica4_titulo", itemFotoList.get(3).getTitulo());
                     editor.putString("web_servicios_seccion_6_caracteristica4_descripcion", itemFotoList.get(3).getDescripcion());
                     editor.putString("web_servicios_seccion_6_caracteristica4_url", itemFotoList.get(3).getUrl());
                     editor.putString("web_servicios_seccion_6_caracteristica5_titulo", itemFotoList.get(4).getTitulo());
@@ -673,7 +672,7 @@ public class WebsServiciosSeccion6 extends AppCompatActivity {
                     editor.putString("web_servicios_seccion_6_caracteristica3_titulo", itemFotoList.get(2).getTitulo());
                     editor.putString("web_servicios_seccion_6_caracteristica3_descripcion", itemFotoList.get(2).getDescripcion());
                     editor.putString("web_servicios_seccion_6_caracteristica3_url", itemFotoList.get(2).getUrl());
-                    editor.putString("web_servicios_seccion_6_caracteristica4_titulo", itemFotoList.get(2).getTitulo());
+                    editor.putString("web_servicios_seccion_6_caracteristica4_titulo", itemFotoList.get(3).getTitulo());
                     editor.putString("web_servicios_seccion_6_caracteristica4_descripcion", itemFotoList.get(3).getDescripcion());
                     editor.putString("web_servicios_seccion_6_caracteristica4_url", itemFotoList.get(3).getUrl());
                     editor.putString("web_servicios_seccion_6_caracteristica5_titulo", itemFotoList.get(4).getTitulo());

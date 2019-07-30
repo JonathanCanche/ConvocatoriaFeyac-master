@@ -75,7 +75,7 @@ public class WebsProductosSeccion2 extends AppCompatActivity {
         editDescripcio2.setText(sharedPreferences.getString("web_productos_descripcion_seccion_2", ""));
         if (sharedPreferences.getString("web_productos_img_seccion_2","").length() > 1){
             imgUpoloaded = true;
-            Picasso.get().load(sharedPreferences.getString("web_productos_img_seccion_2","")).into(img);
+            Picasso.get().load(sharedPreferences.getString("web_productos_img_seccion_2","")).placeholder(R.drawable.progress_animation).into(img);
         }
 
         btnSubirFoto.setOnClickListener(new View.OnClickListener() {

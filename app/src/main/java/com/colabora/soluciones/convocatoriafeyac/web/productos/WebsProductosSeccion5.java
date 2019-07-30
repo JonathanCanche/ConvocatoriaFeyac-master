@@ -101,7 +101,7 @@ public class WebsProductosSeccion5 extends AppCompatActivity {
 
                     itemTitulo.setText(itemFotos.get(position).getTitulo());
                     itemDescripcion.setText(itemFotos.get(position).getDescripcion());
-                    Picasso.get().load(itemFotos.get(position).getUrl()).into(imgPortafolio);
+                    Picasso.get().load(itemFotos.get(position).getUrl()).placeholder(R.drawable.progress_animation).into(imgPortafolio);
 
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
@@ -170,7 +170,7 @@ public class WebsProductosSeccion5 extends AppCompatActivity {
 
                             if(titulo.length() > 0 && descripcion.length() > 0 && url_.length() > 0){
                                 itemFotoList.remove(position);
-                                ItemFoto itemFoto = new ItemFoto(titulo, descripcion, url_);
+                                ItemFoto itemFoto = new ItemFoto(titulo, descripcion,url_);
                                 itemFotoList.add(itemFoto);
 
                                 // *********** LLENAMOS EL RECYCLER VIEW *****************************
@@ -659,7 +659,7 @@ public class WebsProductosSeccion5 extends AppCompatActivity {
                     editor.putString("web_productos_seccion_5_caracteristica3_titulo", itemFotoList.get(2).getTitulo());
                     editor.putString("web_productos_seccion_5_caracteristica3_descripcion", itemFotoList.get(2).getDescripcion());
                     editor.putString("web_productos_seccion_5_caracteristica3_url", itemFotoList.get(2).getUrl());
-                    editor.putString("web_productos_seccion_5_caracteristica4_titulo", itemFotoList.get(2).getTitulo());
+                    editor.putString("web_productos_seccion_5_caracteristica4_titulo", itemFotoList.get(3).getTitulo());
                     editor.putString("web_productos_seccion_5_caracteristica4_descripcion", itemFotoList.get(3).getDescripcion());
                     editor.putString("web_productos_seccion_5_caracteristica4_url", itemFotoList.get(3).getUrl());
                     editor.putString("web_productos_seccion_5_caracteristica5_titulo", itemFotoList.get(4).getTitulo());
@@ -677,7 +677,7 @@ public class WebsProductosSeccion5 extends AppCompatActivity {
                     editor.putString("web_productos_seccion_5_caracteristica3_titulo", itemFotoList.get(2).getTitulo());
                     editor.putString("web_productos_seccion_5_caracteristica3_descripcion", itemFotoList.get(2).getDescripcion());
                     editor.putString("web_productos_seccion_5_caracteristica3_url", itemFotoList.get(2).getUrl());
-                    editor.putString("web_productos_seccion_5_caracteristica4_titulo", itemFotoList.get(2).getTitulo());
+                    editor.putString("web_productos_seccion_5_caracteristica4_titulo", itemFotoList.get(3).getTitulo());
                     editor.putString("web_productos_seccion_5_caracteristica4_descripcion", itemFotoList.get(3).getDescripcion());
                     editor.putString("web_productos_seccion_5_caracteristica4_url", itemFotoList.get(3).getUrl());
                     editor.putString("web_productos_seccion_5_caracteristica5_titulo", itemFotoList.get(4).getTitulo());

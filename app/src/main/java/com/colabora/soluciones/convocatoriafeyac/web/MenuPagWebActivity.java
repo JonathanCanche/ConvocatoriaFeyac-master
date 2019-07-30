@@ -2255,6 +2255,7 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                     prueba  = servicios.get("servicio");
                                     datos = convertObjectToList(prueba);
 
+
                                     if (datos.size() == 1){
 
                                         String frase = datos.get(0).toString();
@@ -2263,7 +2264,6 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         String descripcionTexto = itemCortado[0];
                                         String ImgTexto = itemCortado[1];
                                         String tituloTexto = itemCortado[2];
-
                                         String[] descripcionCortado = descripcionTexto.split("=");
                                         String descripTextoFinal = descripcionCortado[1];
 
@@ -2271,6 +2271,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         String tituloFinal = tituloCortado[1];
                                         tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
 
+
+                                        editor.putString("web_productos_seccion_3_recycler", "1");
                                         editor.putString("web_productos_seccion_3_caracteristica1_titulo", tituloFinal);
                                         editor.putString("web_productos_seccion_3_caracteristica1_descripcion", descripTextoFinal);
 
@@ -2283,7 +2285,6 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         String descripcionTexto = itemCortado[0];
                                         String ImgTexto = itemCortado[1];
                                         String tituloTexto = itemCortado[2];
-
                                         String[] descripcionCortado = descripcionTexto.split("=");
                                         String descripTextoFinal = descripcionCortado[1];
 
@@ -2291,6 +2292,7 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         String tituloFinal = tituloCortado[1];
                                         tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
 
+                                        editor.putString("web_productos_seccion_3_recycler", "1");
                                         editor.putString("web_productos_seccion_3_caracteristica1_titulo", tituloFinal);
                                         editor.putString("web_productos_seccion_3_caracteristica1_descripcion", descripTextoFinal);
 
@@ -2308,6 +2310,7 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         tituloFinal = tituloCortado[1];
                                         tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
 
+                                        editor.putString("web_productos_seccion_3_recycler", "2");
                                         editor.putString("web_productos_seccion_3_caracteristica2_titulo", tituloFinal);
                                         editor.putString("web_productos_seccion_3_caracteristica2_descripcion", descripTextoFinal);
 
@@ -2340,6 +2343,7 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                             tituloFinal = "";
                                         }
 
+                                        editor.putString("web_productos_seccion_3_recycler", "1");
                                         editor.putString("web_productos_seccion_3_caracteristica1_titulo", tituloFinal);
                                         editor.putString("web_productos_seccion_3_caracteristica1_descripcion", descripTextoFinal);
 
@@ -2367,6 +2371,7 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                             tituloFinal = "";
                                         }
 
+                                        editor.putString("web_productos_seccion_3_recycler", "2");
                                         editor.putString("web_productos_seccion_3_caracteristica2_titulo", tituloFinal);
                                         editor.putString("web_productos_seccion_3_caracteristica2_descripcion", descripTextoFinal);
 
@@ -2394,6 +2399,7 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                             tituloFinal = "";
                                         }
 
+                                        editor.putString("web_productos_seccion_3_recycler", "3");
                                         editor.putString("web_productos_seccion_3_caracteristica3_titulo", tituloFinal);
                                         editor.putString("web_productos_seccion_3_caracteristica3_descripcion", descripTextoFinal);
 
@@ -2426,6 +2432,7 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                             tituloFinal = "";
                                         }
 
+                                        editor.putString("web_productos_seccion_3_recycler", "1");
                                         editor.putString("web_productos_seccion_3_caracteristica1_titulo", tituloFinal);
                                         editor.putString("web_productos_seccion_3_caracteristica1_descripcion", descripTextoFinal);
 
@@ -2453,6 +2460,7 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                             tituloFinal = "";
                                         }
 
+                                        editor.putString("web_productos_seccion_3_recycler", "2");
                                         editor.putString("web_productos_seccion_3_caracteristica2_titulo", tituloFinal);
                                         editor.putString("web_productos_seccion_3_caracteristica2_descripcion", descripTextoFinal);
 
@@ -2480,6 +2488,7 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                             tituloFinal = "";
                                         }
 
+                                        editor.putString("web_productos_seccion_3_recycler", "3");
                                         editor.putString("web_productos_seccion_3_caracteristica3_titulo", tituloFinal);
                                         editor.putString("web_productos_seccion_3_caracteristica3_descripcion", descripTextoFinal);
 
@@ -2507,6 +2516,7 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                             tituloFinal = "";
                                         }
 
+                                        editor.putString("web_productos_seccion_3_recycler", "4");
                                         editor.putString("web_productos_seccion_3_caracteristica4_titulo", tituloFinal);
                                         editor.putString("web_productos_seccion_3_caracteristica4_descripcion", descripTextoFinal);
 
@@ -2539,6 +2549,7 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                             tituloFinal = "";
                                         }
 
+                                        editor.putString("web_productos_seccion_3_recycler", "1");
                                         editor.putString("web_productos_seccion_3_caracteristica1_titulo", tituloFinal);
                                         editor.putString("web_productos_seccion_3_caracteristica1_descripcion", descripTextoFinal);
 
@@ -2566,6 +2577,7 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                             tituloFinal = "";
                                         }
 
+                                        editor.putString("web_productos_seccion_3_recycler", "2");
                                         editor.putString("web_productos_seccion_3_caracteristica2_titulo", tituloFinal);
                                         editor.putString("web_productos_seccion_3_caracteristica2_descripcion", descripTextoFinal);
 
@@ -2593,6 +2605,7 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                             tituloFinal = "";
                                         }
 
+                                        editor.putString("web_productos_seccion_3_recycler", "3");
                                         editor.putString("web_productos_seccion_3_caracteristica3_titulo", tituloFinal);
                                         editor.putString("web_productos_seccion_3_caracteristica3_descripcion", descripTextoFinal);
 
@@ -2620,6 +2633,7 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                             tituloFinal = "";
                                         }
 
+                                        editor.putString("web_productos_seccion_3_recycler", "4");
                                         editor.putString("web_productos_seccion_3_caracteristica4_titulo", tituloFinal);
                                         editor.putString("web_productos_seccion_3_caracteristica4_descripcion", descripTextoFinal);
 
@@ -2647,6 +2661,7 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                             tituloFinal = "";
                                         }
 
+                                        editor.putString("web_productos_seccion_3_recycler", "5");
                                         editor.putString("web_productos_seccion_3_caracteristica5_titulo", tituloFinal);
                                         editor.putString("web_productos_seccion_3_caracteristica5_descripcion", descripTextoFinal);
 
@@ -2679,6 +2694,7 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                             tituloFinal = "";
                                         }
 
+                                        editor.putString("web_productos_seccion_3_recycler", "1");
                                         editor.putString("web_productos_seccion_3_caracteristica1_titulo", tituloFinal);
                                         editor.putString("web_productos_seccion_3_caracteristica1_descripcion", descripTextoFinal);
 
@@ -2706,6 +2722,7 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                             tituloFinal = "";
                                         }
 
+                                        editor.putString("web_productos_seccion_3_recycler", "2");
                                         editor.putString("web_productos_seccion_3_caracteristica2_titulo", tituloFinal);
                                         editor.putString("web_productos_seccion_3_caracteristica2_descripcion", descripTextoFinal);
 
@@ -2733,6 +2750,7 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                             tituloFinal = "";
                                         }
 
+                                        editor.putString("web_productos_seccion_3_recycler", "3");
                                         editor.putString("web_productos_seccion_3_caracteristica3_titulo", tituloFinal);
                                         editor.putString("web_productos_seccion_3_caracteristica3_descripcion", descripTextoFinal);
 
@@ -2760,6 +2778,7 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                             tituloFinal = "";
                                         }
 
+                                        editor.putString("web_productos_seccion_3_recycler", "4");
                                         editor.putString("web_productos_seccion_3_caracteristica4_titulo", tituloFinal);
                                         editor.putString("web_productos_seccion_3_caracteristica4_descripcion", descripTextoFinal);
 
@@ -2787,6 +2806,7 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                             tituloFinal = "";
                                         }
 
+                                        editor.putString("web_productos_seccion_3_recycler", "5");
                                         editor.putString("web_productos_seccion_3_caracteristica5_titulo", tituloFinal);
                                         editor.putString("web_productos_seccion_3_caracteristica5_descripcion", descripTextoFinal);
 
@@ -2814,6 +2834,7 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                             tituloFinal = "";
                                         }
 
+                                        editor.putString("web_productos_seccion_3_recycler", "6");
                                         editor.putString("web_productos_seccion_3_caracteristica6_titulo", tituloFinal);
                                         editor.putString("web_productos_seccion_3_caracteristica6_descripcion", descripTextoFinal);
 
@@ -3695,13 +3716,14 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                     Object prueba  = about.get("nosotros");
                                     List<?> datos = convertObjectToList(prueba);
 
+
                                     if (datos.size() == 1){
 
                                         String frase = datos.get(0).toString();
 
                                         String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[0];
-                                        String descripcionTexto = itemCortado[1];
+                                        String descripcionTexto = itemCortado[0];
+                                        String imagenTexto = itemCortado[1];
                                         String tituloTexto = itemCortado[2];
 
 
@@ -3725,8 +3747,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         String frase = datos.get(0).toString();
 
                                         String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[0];
-                                        String descripcionTexto = itemCortado[1];
+                                        String descripcionTexto = itemCortado[0];
+                                        String imagenTexto = itemCortado[1];
                                         String tituloTexto = itemCortado[2];
 
                                         String[] descripcionCortado = descripcionTexto.split("=");
@@ -3764,8 +3786,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(1).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -3802,13 +3824,14 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                     prueba  = about.get("caracteristicas");
                                     datos = convertObjectToList(prueba);
 
+
                                     if (datos.size() == 1){
 
                                         String frase = datos.get(0).toString();
 
                                         String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[0];
-                                        String descripcionTexto = itemCortado[1];
+                                        String descripcionTexto = itemCortado[0];
+                                        String imagenTexto = itemCortado[1];
                                         String tituloTexto = itemCortado[2];
 
                                         String[] descripcionCortado = descripcionTexto.split("=");
@@ -3849,8 +3872,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         String frase = datos.get(0).toString();
 
                                         String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[0];
-                                        String descripcionTexto = itemCortado[1];
+                                        String descripcionTexto = itemCortado[0];
+                                        String imagenTexto = itemCortado[1];
                                         String tituloTexto = itemCortado[2];
 
                                         String[] descripcionCortado = descripcionTexto.split("=");
@@ -3888,8 +3911,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(1).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -3927,8 +3950,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         String frase = datos.get(0).toString();
 
                                         String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[0];
-                                        String descripcionTexto = itemCortado[1];
+                                        String descripcionTexto = itemCortado[0];
+                                        String imagenTexto = itemCortado[1];
                                         String tituloTexto = itemCortado[2];
 
                                         String[] descripcionCortado = descripcionTexto.split("=");
@@ -3966,8 +3989,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(1).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -4002,8 +4025,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(2).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -4058,13 +4081,14 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                     prueba  = servicios.get("servicio");
                                     datos = convertObjectToList(prueba);
 
+
                                     if (datos.size() == 1){
 
                                         String frase = datos.get(0).toString();
 
                                         String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[0];
-                                        String descripcionTexto = itemCortado[1];
+                                        String descripcionTexto = itemCortado[0];
+                                        String imagenTexto = itemCortado[1];
                                         String tituloTexto = itemCortado[2];
 
                                         String[] descripcionCortado = descripcionTexto.split("=");
@@ -4105,8 +4129,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         String frase = datos.get(0).toString();
 
                                         String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[0];
-                                        String descripcionTexto = itemCortado[1];
+                                        String descripcionTexto = itemCortado[0];
+                                        String imagenTexto = itemCortado[1];
                                         String tituloTexto = itemCortado[2];
 
                                         String[] descripcionCortado = descripcionTexto.split("=");
@@ -4144,8 +4168,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(1).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -4183,8 +4207,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         String frase = datos.get(0).toString();
 
                                         String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[0];
-                                        String descripcionTexto = itemCortado[1];
+                                        String descripcionTexto = itemCortado[0];
+                                        String imagenTexto = itemCortado[1];
                                         String tituloTexto = itemCortado[2];
 
                                         String[] descripcionCortado = descripcionTexto.split("=");
@@ -4222,8 +4246,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(1).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -4258,8 +4282,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(2).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[2];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -4297,8 +4321,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         String frase = datos.get(0).toString();
 
                                         String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[0];
-                                        String descripcionTexto = itemCortado[1];
+                                        String descripcionTexto = itemCortado[0];
+                                        String imagenTexto = itemCortado[1];
                                         String tituloTexto = itemCortado[2];
 
                                         String[] descripcionCortado = descripcionTexto.split("=");
@@ -4336,8 +4360,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(1).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -4372,8 +4396,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(2).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -4408,8 +4432,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(3).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -4447,8 +4471,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         String frase = datos.get(0).toString();
 
                                         String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[0];
-                                        String descripcionTexto = itemCortado[1];
+                                        String descripcionTexto = itemCortado[0];
+                                        String imagenTexto = itemCortado[1];
                                         String tituloTexto = itemCortado[2];
 
                                         String[] descripcionCortado = descripcionTexto.split("=");
@@ -4486,8 +4510,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(1).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -4522,8 +4546,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(2).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -4558,8 +4582,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(3).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -4594,8 +4618,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(4).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -4633,8 +4657,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         String frase = datos.get(0).toString();
 
                                         String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[0];
-                                        String descripcionTexto = itemCortado[1];
+                                        String descripcionTexto = itemCortado[0];
+                                        String imagenTexto = itemCortado[1];
                                         String tituloTexto = itemCortado[2];
 
                                         String[] descripcionCortado = descripcionTexto.split("=");
@@ -4672,8 +4696,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(1).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -4708,8 +4732,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(2).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -4744,8 +4768,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(3).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -4780,8 +4804,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(4).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -4816,8 +4840,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(5).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -4864,13 +4888,14 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                     prueba  = banner.get("cuadroInfo");
                                     datos = convertObjectToList(prueba);
 
+
                                     if (datos.size() == 1){
 
                                         String frase = datos.get(0).toString();
 
                                         String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[0];
-                                        String descripcionTexto = itemCortado[1];
+                                        String descripcionTexto = itemCortado[0];
+                                        String imagenTexto = itemCortado[1];
                                         String tituloTexto = itemCortado[2];
 
                                         String[] descripcionCortado = descripcionTexto.split("=");
@@ -4911,8 +4936,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         String frase = datos.get(0).toString();
 
                                         String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[0];
-                                        String descripcionTexto = itemCortado[1];
+                                        String descripcionTexto = itemCortado[0];
+                                        String imagenTexto = itemCortado[1];
                                         String tituloTexto = itemCortado[2];
 
                                         String[] descripcionCortado = descripcionTexto.split("=");
@@ -4950,8 +4975,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(1).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -4989,8 +5014,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         String frase = datos.get(0).toString();
 
                                         String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[0];
-                                        String descripcionTexto = itemCortado[1];
+                                        String descripcionTexto = itemCortado[0];
+                                        String imagenTexto = itemCortado[1];
                                         String tituloTexto = itemCortado[2];
 
                                         String[] descripcionCortado = descripcionTexto.split("=");
@@ -5028,8 +5053,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(1).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -5064,8 +5089,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(2).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -5109,13 +5134,15 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                     prueba  = portafolio.get("imagenes");
                                     datos = convertObjectToList(prueba);
 
+                                    String frase1 = datos.get(0).toString();
+
                                     if (datos.size() == 1){
 
                                         String frase = datos.get(0).toString();
 
-                                        String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[0];
-                                        String descripcionTexto = itemCortado[1];
+                                        String[] itemCortado = frase.split( ",");
+                                        String descripcionTexto = itemCortado[0];
+                                        String imagenTexto = itemCortado[1];
                                         String tituloTexto = itemCortado[2];
 
                                         String[] descripcionCortado = descripcionTexto.split("=");
@@ -5148,7 +5175,7 @@ public class MenuPagWebActivity extends AppCompatActivity {
 
                                         editor.putString("web_servicios_seccion_6_recycler", "1");
                                         editor.putString("web_servicios_seccion_6_caracteristica1_titulo", tituloFinal);
-                                       // editor.putString("web_servicios_seccion_6_caracteristica1_descripcion", servicios_descripcion);
+                                        editor.putString("web_servicios_seccion_6_caracteristica1_descripcion", descripTextoFinal);
                                         editor.putString("web_servicios_seccion_6_caracteristica1_url", imagenFinal);
 
                                     }
@@ -5157,8 +5184,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         String frase = datos.get(0).toString();
 
                                         String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[0];
-                                        String descripcionTexto = itemCortado[1];
+                                        String descripcionTexto = itemCortado[0];
+                                        String imagenTexto = itemCortado[1];
                                         String tituloTexto = itemCortado[2];
 
                                         String[] descripcionCortado = descripcionTexto.split("=");
@@ -5191,14 +5218,14 @@ public class MenuPagWebActivity extends AppCompatActivity {
 
                                         editor.putString("web_servicios_seccion_6_recycler", "1");
                                         editor.putString("web_servicios_seccion_6_caracteristica1_titulo", tituloFinal);
-                                       // editor.putString("web_servicios_seccion_6_caracteristica1_descripcion", servicios_descripcion);
+                                        editor.putString("web_servicios_seccion_6_caracteristica1_descripcion", descripTextoFinal);
                                         editor.putString("web_servicios_seccion_6_caracteristica1_url", imagenFinal);
 
                                         frase = datos.get(1).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -5228,7 +5255,7 @@ public class MenuPagWebActivity extends AppCompatActivity {
 
                                         editor.putString("web_servicios_seccion_6_recycler", "2");
                                         editor.putString("web_servicios_seccion_6_caracteristica2_titulo", tituloFinal);
-                                        //editor.putString("web_servicios_seccion_6_caracteristica2_descripcion", servicios_descripcion);
+                                        editor.putString("web_servicios_seccion_6_caracteristica2_descripcion", descripTextoFinal);
                                         editor.putString("web_servicios_seccion_6_caracteristica2_url", imagenFinal);
 
                                     }
@@ -5237,8 +5264,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         String frase = datos.get(0).toString();
 
                                         String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[0];
-                                        String descripcionTexto = itemCortado[1];
+                                        String descripcionTexto = itemCortado[0];
+                                        String imagenTexto = itemCortado[1];
                                         String tituloTexto = itemCortado[2];
 
                                         String[] descripcionCortado = descripcionTexto.split("=");
@@ -5271,14 +5298,14 @@ public class MenuPagWebActivity extends AppCompatActivity {
 
                                         editor.putString("web_servicios_seccion_6_recycler", "1");
                                         editor.putString("web_servicios_seccion_6_caracteristica1_titulo", tituloFinal);
-                                  //      editor.putString("web_servicios_seccion_6_caracteristica1_descripcion", servicios_descripcion);
+                                        editor.putString("web_servicios_seccion_6_caracteristica1_descripcion", descripTextoFinal);
                                         editor.putString("web_servicios_seccion_6_caracteristica1_url", imagenFinal);
 
                                         frase = datos.get(1).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -5308,14 +5335,14 @@ public class MenuPagWebActivity extends AppCompatActivity {
 
                                         editor.putString("web_servicios_seccion_6_recycler", "2");
                                         editor.putString("web_servicios_seccion_6_caracteristica2_titulo", tituloFinal);
-                                   //     editor.putString("web_servicios_seccion_6_caracteristica2_descripcion", servicios_descripcion);
+                                        editor.putString("web_servicios_seccion_6_caracteristica2_descripcion", descripTextoFinal);
                                         editor.putString("web_servicios_seccion_6_caracteristica2_url", imagenFinal);
 
-                                        frase = datos.get(3).toString();
+                                        frase = datos.get(2).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -5345,7 +5372,7 @@ public class MenuPagWebActivity extends AppCompatActivity {
 
                                         editor.putString("web_servicios_seccion_6_recycler", "3");
                                         editor.putString("web_servicios_seccion_6_caracteristica3_titulo", tituloFinal);
-                                 //       editor.putString("web_servicios_seccion_6_caracteristica3_descripcion", servicios_descripcion);
+                                        editor.putString("web_servicios_seccion_6_caracteristica3_descripcion", descripTextoFinal);
                                         editor.putString("web_servicios_seccion_6_caracteristica3_url", imagenFinal);
 
                                     }
@@ -5354,8 +5381,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         String frase = datos.get(0).toString();
 
                                         String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[0];
-                                        String descripcionTexto = itemCortado[1];
+                                        String descripcionTexto = itemCortado[0];
+                                        String imagenTexto = itemCortado[1];
                                         String tituloTexto = itemCortado[2];
 
                                         String[] descripcionCortado = descripcionTexto.split("=");
@@ -5388,14 +5415,14 @@ public class MenuPagWebActivity extends AppCompatActivity {
 
                                         editor.putString("web_servicios_seccion_6_recycler", "1");
                                         editor.putString("web_servicios_seccion_6_caracteristica1_titulo", tituloFinal);
-                                 //       editor.putString("web_servicios_seccion_6_caracteristica1_descripcion", servicios_descripcion);
+                                        editor.putString("web_servicios_seccion_6_caracteristica1_descripcion", descripTextoFinal);
                                         editor.putString("web_servicios_seccion_6_caracteristica1_url", imagenFinal);
 
                                         frase = datos.get(1).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -5425,14 +5452,14 @@ public class MenuPagWebActivity extends AppCompatActivity {
 
                                         editor.putString("web_servicios_seccion_6_recycler", "2");
                                         editor.putString("web_servicios_seccion_6_caracteristica2_titulo", tituloFinal);
-                                     //   editor.putString("web_servicios_seccion_6_caracteristica2_descripcion", servicios_descripcion);
+                                        editor.putString("web_servicios_seccion_6_caracteristica2_descripcion", descripTextoFinal);
                                         editor.putString("web_servicios_seccion_6_caracteristica2_url", imagenFinal);
 
                                         frase = datos.get(2).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -5462,14 +5489,14 @@ public class MenuPagWebActivity extends AppCompatActivity {
 
                                         editor.putString("web_servicios_seccion_6_recycler", "3");
                                         editor.putString("web_servicios_seccion_6_caracteristica3_titulo", tituloFinal);
-                                   //     editor.putString("web_servicios_seccion_6_caracteristica3_descripcion", servicios_descripcion);
+                                        editor.putString("web_servicios_seccion_6_caracteristica3_descripcion", descripTextoFinal);
                                         editor.putString("web_servicios_seccion_6_caracteristica3_url", imagenFinal);
 
                                         frase = datos.get(3).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -5499,7 +5526,7 @@ public class MenuPagWebActivity extends AppCompatActivity {
 
                                         editor.putString("web_servicios_seccion_6_recycler", "4");
                                         editor.putString("web_servicios_seccion_6_caracteristica4_titulo", tituloFinal);
-                                 //       editor.putString("web_servicios_seccion_6_caracteristica4_descripcion", servicios_descripcion);
+                                        editor.putString("web_servicios_seccion_6_caracteristica4_descripcion", descripTextoFinal);
                                         editor.putString("web_servicios_seccion_6_caracteristica4_url", imagenFinal);
 
                                     }
@@ -5508,8 +5535,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         String frase = datos.get(0).toString();
 
                                         String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[0];
-                                        String descripcionTexto = itemCortado[1];
+                                        String descripcionTexto = itemCortado[0];
+                                        String imagenTexto = itemCortado[1];
                                         String tituloTexto = itemCortado[2];
 
                                         String[] descripcionCortado = descripcionTexto.split("=");
@@ -5542,14 +5569,14 @@ public class MenuPagWebActivity extends AppCompatActivity {
 
                                         editor.putString("web_servicios_seccion_6_recycler", "1");
                                         editor.putString("web_servicios_seccion_6_caracteristica1_titulo", tituloFinal);
-                             //           editor.putString("web_servicios_seccion_6_caracteristica1_descripcion", servicios_descripcion);
+                                        editor.putString("web_servicios_seccion_6_caracteristica1_descripcion", descripTextoFinal);
                                         editor.putString("web_servicios_seccion_6_caracteristica1_url", imagenFinal);
 
                                         frase = datos.get(1).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -5579,14 +5606,14 @@ public class MenuPagWebActivity extends AppCompatActivity {
 
                                         editor.putString("web_servicios_seccion_6_recycler", "2");
                                         editor.putString("web_servicios_seccion_6_caracteristica2_titulo", tituloFinal);
-                              //          editor.putString("web_servicios_seccion_6_caracteristica2_descripcion", servicios_descripcion);
+                                        editor.putString("web_servicios_seccion_6_caracteristica2_descripcion", descripTextoFinal);
                                         editor.putString("web_servicios_seccion_6_caracteristica2_url", imagenFinal);
 
                                         frase = datos.get(2).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -5616,14 +5643,14 @@ public class MenuPagWebActivity extends AppCompatActivity {
 
                                         editor.putString("web_servicios_seccion_6_recycler", "3");
                                         editor.putString("web_servicios_seccion_6_caracteristica3_titulo", tituloFinal);
-                                //        editor.putString("web_servicios_seccion_6_caracteristica3_descripcion", servicios_descripcion);
+                                        editor.putString("web_servicios_seccion_6_caracteristica3_descripcion", descripTextoFinal);
                                         editor.putString("web_servicios_seccion_6_caracteristica3_url", imagenFinal);
 
                                         frase = datos.get(3).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -5653,14 +5680,14 @@ public class MenuPagWebActivity extends AppCompatActivity {
 
                                         editor.putString("web_servicios_seccion_6_recycler", "4");
                                         editor.putString("web_servicios_seccion_6_caracteristica4_titulo", tituloFinal);
-                                 //       editor.putString("web_servicios_seccion_6_caracteristica4_descripcion", servicios_descripcion);
+                                        editor.putString("web_servicios_seccion_6_caracteristica4_descripcion", descripTextoFinal);
                                         editor.putString("web_servicios_seccion_6_caracteristica4_url", imagenFinal);
 
                                         frase = datos.get(4).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -5690,7 +5717,7 @@ public class MenuPagWebActivity extends AppCompatActivity {
 
                                         editor.putString("web_servicios_seccion_6_recycler", "5");
                                         editor.putString("web_servicios_seccion_6_caracteristica5_titulo", tituloFinal);
-                                    //    editor.putString("web_servicios_seccion_6_caracteristica5_descripcion", servicios_descripcion);
+                                        editor.putString("web_servicios_seccion_6_caracteristica5_descripcion", descripTextoFinal);
                                         editor.putString("web_servicios_seccion_6_caracteristica5_url", imagenFinal);
 
                                     }
@@ -5699,8 +5726,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         String frase = datos.get(0).toString();
 
                                         String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[0];
-                                        String descripcionTexto = itemCortado[1];
+                                        String descripcionTexto = itemCortado[0];
+                                        String imagenTexto = itemCortado[1];
                                         String tituloTexto = itemCortado[2];
 
                                         String[] descripcionCortado = descripcionTexto.split("=");
@@ -5733,14 +5760,14 @@ public class MenuPagWebActivity extends AppCompatActivity {
 
                                         editor.putString("web_servicios_seccion_6_recycler", "1");
                                         editor.putString("web_servicios_seccion_6_caracteristica1_titulo", tituloFinal);
-                                 //       editor.putString("web_servicios_seccion_6_caracteristica1_descripcion", servicios_descripcion);
+                                        editor.putString("web_servicios_seccion_6_caracteristica1_descripcion", descripTextoFinal);
                                         editor.putString("web_servicios_seccion_6_caracteristica1_url", imagenFinal);
 
                                         frase = datos.get(1).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -5770,14 +5797,14 @@ public class MenuPagWebActivity extends AppCompatActivity {
 
                                         editor.putString("web_servicios_seccion_6_recycler", "2");
                                         editor.putString("web_servicios_seccion_6_caracteristica2_titulo", tituloFinal);
-                                     //   editor.putString("web_servicios_seccion_6_caracteristica2_descripcion", servicios_descripcion);
+                                        editor.putString("web_servicios_seccion_6_caracteristica2_descripcion", descripTextoFinal);
                                         editor.putString("web_servicios_seccion_6_caracteristica2_url", imagenFinal);
 
                                         frase = datos.get(2).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -5807,14 +5834,14 @@ public class MenuPagWebActivity extends AppCompatActivity {
 
                                         editor.putString("web_servicios_seccion_6_recycler", "3");
                                         editor.putString("web_servicios_seccion_6_caracteristica3_titulo", tituloFinal);
-                                   //     editor.putString("web_servicios_seccion_6_caracteristica3_descripcion", servicios_descripcion);
+                                        editor.putString("web_servicios_seccion_6_caracteristica3_descripcion", descripTextoFinal);
                                         editor.putString("web_servicios_seccion_6_caracteristica3_url", imagenFinal);
 
                                         frase = datos.get(3).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -5844,14 +5871,14 @@ public class MenuPagWebActivity extends AppCompatActivity {
 
                                         editor.putString("web_servicios_seccion_6_recycler", "4");
                                         editor.putString("web_servicios_seccion_6_caracteristica4_titulo", tituloFinal);
-                                    //    editor.putString("web_servicios_seccion_6_caracteristica4_descripcion", servicios_descripcion);
+                                        editor.putString("web_servicios_seccion_6_caracteristica4_descripcion", descripTextoFinal);
                                         editor.putString("web_servicios_seccion_6_caracteristica4_url", imagenFinal);
 
                                         frase = datos.get(4).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -5881,14 +5908,14 @@ public class MenuPagWebActivity extends AppCompatActivity {
 
                                         editor.putString("web_servicios_seccion_6_recycler", "5");
                                         editor.putString("web_servicios_seccion_6_caracteristica5_titulo", tituloFinal);
-                                     //   editor.putString("web_servicios_seccion_6_caracteristica5_descripcion", servicios_descripcion);
+                                        editor.putString("web_servicios_seccion_6_caracteristica5_descripcion", descripTextoFinal);
                                         editor.putString("web_servicios_seccion_6_caracteristica5_url", imagenFinal);
 
                                         frase = datos.get(5).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -5918,7 +5945,7 @@ public class MenuPagWebActivity extends AppCompatActivity {
 
                                         editor.putString("web_servicios_seccion_6_recycler", "6");
                                         editor.putString("web_servicios_seccion_6_caracteristica6_titulo", tituloFinal);
-                                      //  editor.putString("web_servicios_seccion_6_caracteristica6_descripcion", servicios_descripcion);
+                                        editor.putString("web_servicios_seccion_6_caracteristica6_descripcion", descripTextoFinal);
                                         editor.putString("web_servicios_seccion_6_caracteristica6_url", imagenFinal);
 
                                     }
@@ -6023,13 +6050,14 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                     Object prueba  = services.get("list");
                                     List<?> datos = convertObjectToList(prueba);
 
+
                                     if (datos.size() == 1){
 
                                         String frase = datos.get(0).toString();
 
                                         String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[0];
-                                        String descripcionTexto = itemCortado[1];
+                                        String descripcionTexto = itemCortado[0];
+                                        String imagenTexto = itemCortado[1];
                                         String tituloTexto = itemCortado[2];
 
                                         String[] descripcionCortado = descripcionTexto.split("=");
@@ -6070,8 +6098,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         String frase = datos.get(0).toString();
 
                                         String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[0];
-                                        String descripcionTexto = itemCortado[1];
+                                        String imagenTexto = itemCortado[1];
+                                        String descripcionTexto = itemCortado[0];
                                         String tituloTexto = itemCortado[2];
 
                                         String[] descripcionCortado = descripcionTexto.split("=");
@@ -6109,8 +6137,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(1).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -6148,8 +6176,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         String frase = datos.get(0).toString();
 
                                         String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[0];
-                                        String descripcionTexto = itemCortado[1];
+                                        String imagenTexto = itemCortado[1];
+                                        String descripcionTexto = itemCortado[0];
                                         String tituloTexto = itemCortado[2];
 
                                         String[] descripcionCortado = descripcionTexto.split("=");
@@ -6187,8 +6215,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(1).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -6223,8 +6251,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(2).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -6262,8 +6290,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         String frase = datos.get(0).toString();
 
                                         String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[0];
-                                        String descripcionTexto = itemCortado[1];
+                                        String imagenTexto = itemCortado[1];
+                                        String descripcionTexto = itemCortado[0];
                                         String tituloTexto = itemCortado[2];
 
                                         String[] descripcionCortado = descripcionTexto.split("=");
@@ -6301,8 +6329,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(1).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -6337,8 +6365,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(2).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -6373,8 +6401,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(3).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -6412,8 +6440,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         String frase = datos.get(0).toString();
 
                                         String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[0];
-                                        String descripcionTexto = itemCortado[1];
+                                        String imagenTexto = itemCortado[1];
+                                        String descripcionTexto = itemCortado[0];
                                         String tituloTexto = itemCortado[2];
 
                                         String[] descripcionCortado = descripcionTexto.split("=");
@@ -6451,8 +6479,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(1).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -6487,8 +6515,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(2).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -6523,8 +6551,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(3).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -6559,8 +6587,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(4).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -6600,8 +6628,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         String frase = datos.get(0).toString();
 
                                         String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[0];
-                                        String descripcionTexto = itemCortado[1];
+                                        String imagenTexto = itemCortado[1];
+                                        String descripcionTexto = itemCortado[0];
                                         String tituloTexto = itemCortado[2];
 
                                         String[] descripcionCortado = descripcionTexto.split("=");
@@ -6639,8 +6667,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(1).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -6675,8 +6703,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(2).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -6711,8 +6739,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(3).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -6747,8 +6775,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(4).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -6783,8 +6811,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(5).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -6825,13 +6853,14 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                     prueba  = web.get("work");
                                     datos = convertObjectToList(prueba);
 
+
                                     if (datos.size() == 1){
 
                                         String frase = datos.get(0).toString();
 
                                         String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[0];
-                                        String descripcionTexto = itemCortado[1];
+                                        String descripcionTexto = itemCortado[0];
+                                        String imagenTexto = itemCortado[1];
                                         String tituloTexto = itemCortado[2];
 
                                         String[] descripcionCortado = descripcionTexto.split("=");
@@ -6872,8 +6901,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         String frase = datos.get(0).toString();
 
                                         String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[0];
-                                        String descripcionTexto = itemCortado[1];
+                                        String descripcionTexto = itemCortado[0];
+                                        String imagenTexto = itemCortado[1];
                                         String tituloTexto = itemCortado[2];
 
                                         String[] descripcionCortado = descripcionTexto.split("=");
@@ -6912,8 +6941,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(1).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -6952,8 +6981,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         String frase = datos.get(0).toString();
 
                                         String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[0];
-                                        String descripcionTexto = itemCortado[1];
+                                        String descripcionTexto = itemCortado[0];
+                                        String imagenTexto = itemCortado[1];
                                         String tituloTexto = itemCortado[2];
 
                                         String[] descripcionCortado = descripcionTexto.split("=");
@@ -6992,8 +7021,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(1).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -7029,8 +7058,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(2).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         descripcionCortado = descripcionTexto.split("=");
@@ -7086,8 +7115,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         String frase = datos.get(0).toString();
 
                                         String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[0];
-                                        String descripcionTexto = itemCortado[1];
+                                        String descripcionTexto = itemCortado[0];
+                                        String imagenTexto = itemCortado[1];
                                         String tituloTexto = itemCortado[2];
 
                                         String[] imagenCortado = imagenTexto.split("gen=");
@@ -7107,8 +7136,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         String frase = datos.get(0).toString();
 
                                         String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[0];
-                                        String descripcionTexto = itemCortado[1];
+                                        String descripcionTexto = itemCortado[0];
+                                        String imagenTexto = itemCortado[1];
                                         String tituloTexto = itemCortado[2];
 
                                         String[] imagenCortado = imagenTexto.split("gen=");
@@ -7125,8 +7154,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(1).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         imagenCortado = imagenTexto.split("gen=");
@@ -7146,8 +7175,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         String frase = datos.get(0).toString();
 
                                         String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[0];
-                                        String descripcionTexto = itemCortado[1];
+                                        String descripcionTexto = itemCortado[0];
+                                        String imagenTexto = itemCortado[1];
                                         String tituloTexto = itemCortado[2];
 
                                         String[] imagenCortado = imagenTexto.split("gen=");
@@ -7164,8 +7193,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(1).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         imagenCortado = imagenTexto.split("gen=");
@@ -7181,8 +7210,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(2).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         imagenCortado = imagenTexto.split("gen=");
@@ -7201,8 +7230,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         String frase = datos.get(0).toString();
 
                                         String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[0];
-                                        String descripcionTexto = itemCortado[1];
+                                        String descripcionTexto = itemCortado[0];
+                                        String imagenTexto = itemCortado[1];
                                         String tituloTexto = itemCortado[2];
 
                                         String[] imagenCortado = imagenTexto.split("gen=");
@@ -7219,8 +7248,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(1).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         imagenCortado = imagenTexto.split("gen=");
@@ -7236,8 +7265,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(2).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         imagenCortado = imagenTexto.split("gen=");
@@ -7253,8 +7282,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(3).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
+                                        imagenTexto = itemCortado[1];
                                         tituloTexto = itemCortado[2];
 
                                         imagenCortado = imagenTexto.split("gen=");
@@ -7273,8 +7302,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         String frase = datos.get(0).toString();
 
                                         String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[0];
-                                        String descripcionTexto = itemCortado[1];
+                                        String imagenTexto = itemCortado[1];
+                                        String descripcionTexto = itemCortado[0];
                                         String tituloTexto = itemCortado[2];
 
                                         String[] imagenCortado = imagenTexto.split("gen=");
@@ -7308,8 +7337,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(2).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         imagenCortado = imagenTexto.split("gen=");
@@ -7325,8 +7354,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(3).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         imagenCortado = imagenTexto.split("gen=");
@@ -7342,8 +7371,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(4).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         imagenCortado = imagenTexto.split("gen=");
@@ -7362,8 +7391,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         String frase = datos.get(0).toString();
 
                                         String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[0];
-                                        String descripcionTexto = itemCortado[1];
+                                        String imagenTexto = itemCortado[1];
+                                        String descripcionTexto = itemCortado[0];
                                         String tituloTexto = itemCortado[2];
 
                                         String[] imagenCortado = imagenTexto.split("gen=");
@@ -7380,8 +7409,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(1).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         imagenCortado = imagenTexto.split("gen=");
@@ -7397,8 +7426,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(2).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         imagenCortado = imagenTexto.split("gen=");
@@ -7414,8 +7443,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(3).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         imagenCortado = imagenTexto.split("gen=");
@@ -7431,8 +7460,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(4).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         imagenCortado = imagenTexto.split("gen=");
@@ -7448,8 +7477,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(5).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         imagenCortado = imagenTexto.split("gen=");
@@ -7468,8 +7497,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         String frase = datos.get(0).toString();
 
                                         String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[0];
-                                        String descripcionTexto = itemCortado[1];
+                                        String imagenTexto = itemCortado[1];
+                                        String descripcionTexto = itemCortado[0];
                                         String tituloTexto = itemCortado[2];
 
                                         String[] imagenCortado = imagenTexto.split("gen=");
@@ -7486,8 +7515,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(1).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         imagenCortado = imagenTexto.split("gen=");
@@ -7503,8 +7532,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(2).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         imagenCortado = imagenTexto.split("gen=");
@@ -7520,8 +7549,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(3).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         imagenCortado = imagenTexto.split("gen=");
@@ -7537,8 +7566,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(4).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         imagenCortado = imagenTexto.split("gen=");
@@ -7554,8 +7583,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(5).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         imagenCortado = imagenTexto.split("gen=");
@@ -7571,8 +7600,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(6).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         imagenCortado = imagenTexto.split("gen=");
@@ -7591,8 +7620,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         String frase = datos.get(0).toString();
 
                                         String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[0];
-                                        String descripcionTexto = itemCortado[1];
+                                        String imagenTexto = itemCortado[1];
+                                        String descripcionTexto = itemCortado[0];
                                         String tituloTexto = itemCortado[2];
 
                                         String[] imagenCortado = imagenTexto.split("gen=");
@@ -7609,8 +7638,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(1).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         imagenCortado = imagenTexto.split("gen=");
@@ -7626,8 +7655,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(2).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         imagenCortado = imagenTexto.split("gen=");
@@ -7643,8 +7672,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(3).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         imagenCortado = imagenTexto.split("gen=");
@@ -7660,8 +7689,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(4).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         imagenCortado = imagenTexto.split("gen=");
@@ -7677,8 +7706,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(5).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         imagenCortado = imagenTexto.split("gen=");
@@ -7694,8 +7723,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(6).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         imagenCortado = imagenTexto.split("gen=");
@@ -7711,8 +7740,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(7).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         imagenCortado = imagenTexto.split("gen=");
@@ -7731,8 +7760,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         String frase = datos.get(0).toString();
 
                                         String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[0];
-                                        String descripcionTexto = itemCortado[1];
+                                        String imagenTexto = itemCortado[1];
+                                        String descripcionTexto = itemCortado[0];
                                         String tituloTexto = itemCortado[2];
 
                                         String[] imagenCortado = imagenTexto.split("gen=");
@@ -7749,8 +7778,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(1).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         imagenCortado = imagenTexto.split("gen=");
@@ -7766,8 +7795,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(2).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         imagenCortado = imagenTexto.split("gen=");
@@ -7783,8 +7812,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(3).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         imagenCortado = imagenTexto.split("gen=");
@@ -7800,8 +7829,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(4).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         imagenCortado = imagenTexto.split("gen=");
@@ -7817,8 +7846,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(5).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         imagenCortado = imagenTexto.split("gen=");
@@ -7834,8 +7863,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(6).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         imagenCortado = imagenTexto.split("gen=");
@@ -7851,8 +7880,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(7).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         imagenCortado = imagenTexto.split("gen=");
@@ -7868,8 +7897,8 @@ public class MenuPagWebActivity extends AppCompatActivity {
                                         frase = datos.get(8).toString();
 
                                         itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
+                                        imagenTexto = itemCortado[1];
+                                        descripcionTexto = itemCortado[0];
                                         tituloTexto = itemCortado[2];
 
                                         imagenCortado = imagenTexto.split("gen=");
@@ -7986,6 +8015,7 @@ public class MenuPagWebActivity extends AppCompatActivity {
 
                                     Object prueba  = servicios.get("servicio");
                                     List<?> datos = convertObjectToList(prueba);
+
 
                                     if (datos.size() == 1){
 

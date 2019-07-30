@@ -48,14 +48,15 @@
                 <Button
                     android:id="@+id/btn_web_app_agregar_captura"
                     android:layout_width="match_parent"
-                    android:textAlignment="center"
                     android:layout_height="wrap_content"
-                    android:text="Agregar captura de imagen de la app" />
+                    android:text="Agregar captura de imagen de la app"
+                    android:textAlignment="center" />
 
                 <ImageView
                     android:id="@+id/imgWebAppsSeccion1"
                     android:layout_width="300sp"
                     android:layout_height="510sp"
+                    android:src="@drawable/ic_insert_photo_black_24dp"
                     android:layout_marginTop="10sp"
                     android:layout_marginBottom="10sp"
                     android:scaleType="centerCrop"

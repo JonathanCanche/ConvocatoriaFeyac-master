@@ -102,7 +102,7 @@ public class WebsModaSeccion3 extends AppCompatActivity {
 
                     itemTitulo.setText(itemFotos.get(position).getTitulo());
                     itemDescripcion.setText(itemFotos.get(position).getDescripcion());
-                    Picasso.get().load(itemFotos.get(position).getUrl()).into(imgPortafolio);
+                    Picasso.get().load(itemFotos.get(position).getUrl()).placeholder(R.drawable.progress_animation).into(imgPortafolio);
 
 
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));

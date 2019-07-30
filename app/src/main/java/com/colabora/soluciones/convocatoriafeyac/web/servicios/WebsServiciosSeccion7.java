@@ -402,132 +402,132 @@ public class WebsServiciosSeccion7 extends AppCompatActivity {
                     servicio_titulo = sharedPreferences.getString("web_servicios_seccion_6_caracteristica1_titulo","");
                     servicio_descripcion = sharedPreferences.getString("web_servicios_seccion_6_caracteristica1_descripcion","");
 
-                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicios_descripcion));
+                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicio_descripcion));
                 }
                 else if(sharedPreferences.getString("web_servicios_seccion_6_recycler", "").equals("2")){
                     servicio_imagen = sharedPreferences.getString("web_servicios_seccion_6_caracteristica1_url", "");
                     servicio_titulo = sharedPreferences.getString("web_servicios_seccion_6_caracteristica1_titulo","");
                     servicio_descripcion = sharedPreferences.getString("web_servicios_seccion_6_caracteristica1_descripcion","");
 
-                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicios_descripcion));
+                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicio_descripcion));
 
                     servicio_imagen = sharedPreferences.getString("web_servicios_seccion_6_caracteristica2_url", "");
                     servicio_titulo = sharedPreferences.getString("web_servicios_seccion_6_caracteristica2_titulo","");
                     servicio_descripcion = sharedPreferences.getString("web_servicios_seccion_6_caracteristica2_descripcion","");
 
-                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicios_descripcion));
+                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicio_descripcion));
                 }
                 else if(sharedPreferences.getString("web_servicios_seccion_6_recycler", "").equals("3")){
                     servicio_imagen = sharedPreferences.getString("web_servicios_seccion_6_caracteristica1_url", "");
                     servicio_titulo = sharedPreferences.getString("web_servicios_seccion_6_caracteristica1_titulo","");
                     servicio_descripcion = sharedPreferences.getString("web_servicios_seccion_6_caracteristica1_descripcion","");
 
-                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicios_descripcion));
+                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicio_descripcion));
 
                     servicio_imagen = sharedPreferences.getString("web_servicios_seccion_6_caracteristica2_url", "");
                     servicio_titulo = sharedPreferences.getString("web_servicios_seccion_6_caracteristica2_titulo","");
                     servicio_descripcion = sharedPreferences.getString("web_servicios_seccion_6_caracteristica2_descripcion","");
 
-                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicios_descripcion));
+                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicio_descripcion));
 
                     servicio_imagen = sharedPreferences.getString("web_servicios_seccion_6_caracteristica3_url", "");
                     servicio_titulo = sharedPreferences.getString("web_servicios_seccion_6_caracteristica3_titulo","");
                     servicio_descripcion = sharedPreferences.getString("web_servicios_seccion_6_caracteristica3_descripcion","");
 
-                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicios_descripcion));
+                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicio_descripcion));
                 }
                 else if(sharedPreferences.getString("web_servicios_seccion_6_recycler", "").equals("4")){
                     servicio_imagen = sharedPreferences.getString("web_servicios_seccion_6_caracteristica1_url", "");
                     servicio_titulo = sharedPreferences.getString("web_servicios_seccion_6_caracteristica1_titulo","");
                     servicio_descripcion = sharedPreferences.getString("web_servicios_seccion_6_caracteristica1_descripcion","");
 
-                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicios_descripcion));
+                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicio_descripcion));
 
                     servicio_imagen = sharedPreferences.getString("web_servicios_seccion_6_caracteristica2_url", "");
                     servicio_titulo = sharedPreferences.getString("web_servicios_seccion_6_caracteristica2_titulo","");
                     servicio_descripcion = sharedPreferences.getString("web_servicios_seccion_6_caracteristica2_descripcion","");
 
-                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicios_descripcion));
+                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicio_descripcion));
 
                     servicio_imagen = sharedPreferences.getString("web_servicios_seccion_6_caracteristica3_url", "");
                     servicio_titulo = sharedPreferences.getString("web_servicios_seccion_6_caracteristica3_titulo","");
                     servicio_descripcion = sharedPreferences.getString("web_servicios_seccion_6_caracteristica3_descripcion","");
 
-                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicios_descripcion));
+                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicio_descripcion));
 
                     servicio_imagen = sharedPreferences.getString("web_servicios_seccion_6_caracteristica4_url", "");
                     servicio_titulo = sharedPreferences.getString("web_servicios_seccion_6_caracteristica4_titulo","");
                     servicio_descripcion = sharedPreferences.getString("web_servicios_seccion_6_caracteristica4_descripcion","");
 
-                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicios_descripcion));
+                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicio_descripcion));
                 }
                 else if(sharedPreferences.getString("web_servicios_seccion_6_recycler", "").equals("5")){
                     servicio_imagen = sharedPreferences.getString("web_servicios_seccion_6_caracteristica1_url", "");
                     servicio_titulo = sharedPreferences.getString("web_servicios_seccion_6_caracteristica1_titulo","");
                     servicio_descripcion = sharedPreferences.getString("web_servicios_seccion_6_caracteristica1_descripcion","");
 
-                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicios_descripcion));
+                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicio_descripcion));
 
                     servicio_imagen = sharedPreferences.getString("web_servicios_seccion_6_caracteristica2_url", "");
                     servicio_titulo = sharedPreferences.getString("web_servicios_seccion_6_caracteristica2_titulo","");
                     servicio_descripcion = sharedPreferences.getString("web_servicios_seccion_6_caracteristica2_descripcion","");
 
-                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicios_descripcion));
+                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicio_descripcion));
 
                     servicio_imagen = sharedPreferences.getString("web_servicios_seccion_6_caracteristica3_url", "");
                     servicio_titulo = sharedPreferences.getString("web_servicios_seccion_6_caracteristica3_titulo","");
                     servicio_descripcion = sharedPreferences.getString("web_servicios_seccion_6_caracteristica3_descripcion","");
 
-                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicios_descripcion));
+                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicio_descripcion));
 
                     servicio_imagen = sharedPreferences.getString("web_servicios_seccion_6_caracteristica4_url", "");
                     servicio_titulo = sharedPreferences.getString("web_servicios_seccion_6_caracteristica4_titulo","");
                     servicio_descripcion = sharedPreferences.getString("web_servicios_seccion_6_caracteristica4_descripcion","");
 
-                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicios_descripcion));
+                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicio_descripcion));
 
                     servicio_imagen = sharedPreferences.getString("web_servicios_seccion_6_caracteristica5_url", "");
                     servicio_titulo = sharedPreferences.getString("web_servicios_seccion_6_caracteristica5_titulo","");
                     servicio_descripcion = sharedPreferences.getString("web_servicios_seccion_6_caracteristica5_descripcion","");
 
-                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicios_descripcion));
+                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicio_descripcion));
                 }
                 else if(sharedPreferences.getString("web_servicios_seccion_6_recycler", "").equals("6")){
                     servicio_imagen = sharedPreferences.getString("web_servicios_seccion_6_caracteristica1_url", "");
                     servicio_titulo = sharedPreferences.getString("web_servicios_seccion_6_caracteristica1_titulo","");
                     servicio_descripcion = sharedPreferences.getString("web_servicios_seccion_6_caracteristica1_descripcion","");
 
-                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicios_descripcion));
+                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicio_descripcion));
 
                     servicio_imagen = sharedPreferences.getString("web_servicios_seccion_6_caracteristica2_url", "");
                     servicio_titulo = sharedPreferences.getString("web_servicios_seccion_6_caracteristica2_titulo","");
                     servicio_descripcion = sharedPreferences.getString("web_servicios_seccion_6_caracteristica2_descripcion","");
 
-                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicios_descripcion));
+                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicio_descripcion));
 
                     servicio_imagen = sharedPreferences.getString("web_servicios_seccion_6_caracteristica3_url", "");
                     servicio_titulo = sharedPreferences.getString("web_servicios_seccion_6_caracteristica3_titulo","");
                     servicio_descripcion = sharedPreferences.getString("web_servicios_seccion_6_caracteristica3_descripcion","");
 
-                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicios_descripcion));
+                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicio_descripcion));
 
                     servicio_imagen = sharedPreferences.getString("web_servicios_seccion_6_caracteristica4_url", "");
                     servicio_titulo = sharedPreferences.getString("web_servicios_seccion_6_caracteristica4_titulo","");
                     servicio_descripcion = sharedPreferences.getString("web_servicios_seccion_6_caracteristica4_descripcion","");
 
-                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicios_descripcion));
+                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicio_descripcion));
 
                     servicio_imagen = sharedPreferences.getString("web_servicios_seccion_6_caracteristica5_url", "");
                     servicio_titulo = sharedPreferences.getString("web_servicios_seccion_6_caracteristica5_titulo","");
                     servicio_descripcion = sharedPreferences.getString("web_servicios_seccion_6_caracteristica5_descripcion","");
 
-                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicios_descripcion));
+                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicio_descripcion));
 
                     servicio_imagen = sharedPreferences.getString("web_servicios_seccion_6_caracteristica6_url", "");
                     servicio_titulo = sharedPreferences.getString("web_servicios_seccion_6_caracteristica6_titulo","");
                     servicio_descripcion = sharedPreferences.getString("web_servicios_seccion_6_caracteristica6_descripcion","");
 
-                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicios_descripcion));
+                    imagenes.add(new caracteristicas_web(servicio_imagen, servicio_titulo, servicio_descripcion));
                 }
 
                 contacto_navbar = "Contacto";

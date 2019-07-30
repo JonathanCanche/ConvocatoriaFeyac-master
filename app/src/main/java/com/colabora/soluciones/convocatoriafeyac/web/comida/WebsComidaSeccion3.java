@@ -105,7 +105,7 @@ public class WebsComidaSeccion3 extends AppCompatActivity {
                     itemDescripcion.setText(especialidadesComidas.get(position).getDescripcion());
                     itemPrecio.setText(String.valueOf(especialidadesComidas.get(position).getPrecio()));
 
-                    Picasso.get().load(especialidadesComidas.get(position).getImg()).into(imgPortafolio);
+                    Picasso.get().load(especialidadesComidas.get(position).getImg()).placeholder(R.drawable.progress_animation).into(imgPortafolio);
 
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
@@ -171,18 +171,24 @@ public class WebsComidaSeccion3 extends AppCompatActivity {
 
                             String titulo = itemTitulo.getText().toString();
                             String descripcion = itemDescripcion.getText().toString();
-                            int precio = Integer.valueOf(itemPrecio.getText().toString());
 
-                            if(titulo.length() > 0 && descripcion.length() > 0 && url_.length() > 0){
-                                especialidadesComidas.remove(position);
-                                EspecialidadesComida especialidadesComida = new EspecialidadesComida(url_, titulo, precio, descripcion);
-                                especialidadesComidas.add(especialidadesComida);
+                            try {
+                                int precio = Integer.valueOf(itemPrecio.getText().toString());
 
-                                // *********** LLENAMOS EL RECYCLER VIEW *****************************
-                                adapter = new WebsComidaSeccion3.DataConfigAdapter(especialidadesComidas, getApplicationContext());
-                                recyclerView.setAdapter(adapter);
-                            }
-                            else{
+                                if(titulo.length() > 0 && descripcion.length() > 0 && url_.length() > 0){
+                                    especialidadesComidas.remove(position);
+                                    EspecialidadesComida especialidadesComida = new EspecialidadesComida(url_, titulo, precio, descripcion);
+                                    especialidadesComidas.add(especialidadesComida);
+
+                                    // *********** LLENAMOS EL RECYCLER VIEW *****************************
+                                    adapter = new WebsComidaSeccion3.DataConfigAdapter(especialidadesComidas, getApplicationContext());
+                                    recyclerView.setAdapter(adapter);
+                                }
+                                else{
+                                    Toast.makeText(getApplicationContext(), "Debes introducir datos válidos", Toast.LENGTH_LONG).show();
+                                }
+
+                            } catch (NumberFormatException e) {
                                 Toast.makeText(getApplicationContext(), "Debes introducir datos válidos", Toast.LENGTH_LONG).show();
                             }
 
@@ -566,17 +572,25 @@ public class WebsComidaSeccion3 extends AppCompatActivity {
 
                             String titulo = itemTitulo.getText().toString();
                             String descripcion = itemDescripcion.getText().toString();
-                            int precio = Integer.valueOf(itemPrecio.getText().toString());
 
-                            if(titulo.length() > 0 && descripcion.length() > 0 && url_.length() > 0){
-                                EspecialidadesComida especialidadesComida = new EspecialidadesComida(url_, titulo, precio, descripcion);
-                                especialidadesComidas.add(especialidadesComida);
 
-                                // *********** LLENAMOS EL RECYCLER VIEW *****************************
-                                adapter = new WebsComidaSeccion3.DataConfigAdapter(especialidadesComidas, getApplicationContext());
-                                recyclerView.setAdapter(adapter);
-                            }
-                            else{
+
+                            try {
+                                int precio = Integer.valueOf(itemPrecio.getText().toString());
+
+                                if(titulo.length() > 0 && descripcion.length() > 0 && url_.length() > 0){
+                                    EspecialidadesComida especialidadesComida = new EspecialidadesComida(url_, titulo, precio, descripcion);
+                                    especialidadesComidas.add(especialidadesComida);
+
+                                    // *********** LLENAMOS EL RECYCLER VIEW *****************************
+                                    adapter = new WebsComidaSeccion3.DataConfigAdapter(especialidadesComidas, getApplicationContext());
+                                    recyclerView.setAdapter(adapter);
+                                }
+                                else{
+                                    Toast.makeText(getApplicationContext(), "Debes introducir datos válidos", Toast.LENGTH_LONG).show();
+                                }
+
+                            } catch (NumberFormatException e1) {
                                 Toast.makeText(getApplicationContext(), "Debes introducir datos válidos", Toast.LENGTH_LONG).show();
                             }
 

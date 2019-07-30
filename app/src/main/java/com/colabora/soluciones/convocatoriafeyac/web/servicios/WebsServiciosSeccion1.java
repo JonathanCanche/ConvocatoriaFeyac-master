@@ -72,11 +72,11 @@ public class WebsServiciosSeccion1 extends AppCompatActivity {
         editTitulo.setText(sharedPreferences.getString("web_servicios_titulo_home", ""));
         if (sharedPreferences.getString("web_servicios_img_seccion_1","").length() > 1){
             imgUpoloaded = true;
-            Picasso.get().load(sharedPreferences.getString("web_servicios_img_seccion_1","")).into(img);
+            Picasso.get().load(sharedPreferences.getString("web_servicios_img_seccion_1","")).placeholder(R.drawable.progress_animation).into(img);
         }
         if (sharedPreferences.getString("web_servicios_logo_seccion_1","").length() > 1){
             imgUpoloaded2 = true;
-            Picasso.get().load(sharedPreferences.getString("web_servicios_logo_seccion_1","")).into(logo);
+            Picasso.get().load(sharedPreferences.getString("web_servicios_logo_seccion_1","")).placeholder(R.drawable.progress_animation).into(logo);
         }
 
         btnSubirFoto.setOnClickListener(new View.OnClickListener() {
