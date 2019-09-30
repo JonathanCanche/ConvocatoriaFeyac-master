@@ -1,12 +1,14 @@
 package com.colabora.soluciones.convocatoriafeyac.web.moda;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +19,8 @@ import android.widget.Toast;
 import com.colabora.soluciones.convocatoriafeyac.Modelos.caracteristicas_web;
 import com.colabora.soluciones.convocatoriafeyac.Modelos.pagWebs;
 import com.colabora.soluciones.convocatoriafeyac.R;
+import com.colabora.soluciones.convocatoriafeyac.web.MenuPagWebActivity;
+import com.colabora.soluciones.convocatoriafeyac.web.comida.WebsComidaSeccion6;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -41,6 +45,7 @@ import java.util.Map;
 public class WebsModaSeccion7 extends AppCompatActivity {
 
     private Button btnSiguiente;
+    private Button btnbackmenu;
     private TextInputEditText editFacebook;
     private TextInputEditText editTwitter;
     private TextInputEditText editInstagram;
@@ -48,6 +53,7 @@ public class WebsModaSeccion7 extends AppCompatActivity {
     private String facebook = "";
     private String twitter = "";
     private String instagram = "";
+    private ImageView portada_seccion7;
 
     private ProgressDialog progressDialog;
     private SharedPreferences sharedPreferences;
@@ -116,6 +122,10 @@ public class WebsModaSeccion7 extends AppCompatActivity {
         editFacebook = (TextInputEditText)findViewById(R.id.txt_web_moda_seccion7_texto1);
         editInstagram = (TextInputEditText)findViewById(R.id.txt_web_moda_seccion7_descripcion_1);
         editTwitter = (TextInputEditText)findViewById(R.id.txt_web_moda_seccion7_subitutlo_1);
+        btnbackmenu = (Button)findViewById(R.id.btnModaSeccion7backmenu);
+        portada_seccion7 = (ImageView)findViewById(R.id.portada_moda_seccion7);
+
+        portada_seccion7.setImageResource(R.drawable.web_moda_seccion_7);
 
         db = FirebaseFirestore.getInstance();
         progressDialog = new ProgressDialog(WebsModaSeccion7.this);
@@ -130,322 +140,389 @@ public class WebsModaSeccion7 extends AppCompatActivity {
         editInstagram.setText(sharedPreferences.getString("web_moda_instagram_seccion7", ""));
         editFacebook.setText(sharedPreferences.getString("web_moda_facebook_seccion7", ""));
 
-        btnSiguiente.setOnClickListener(new View.OnClickListener() {
+        editTwitter.setSelection(editTwitter.getText().length());
+        editInstagram.setSelection(editInstagram.getText().length());
+        editFacebook.setSelection(editFacebook.getText().length());
+
+        btnbackmenu.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                facebook = editFacebook.getText().toString();
-                instagram = editInstagram.getText().toString();
-                twitter = editTwitter.getText().toString();
-
-                // *********** Guardamos los principales datos de los nuevos usuarios *************
-                sharedPreferences = getSharedPreferences("misDatos", 0);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("web_moda_facebook_seccion7", facebook);
-                editor.putString("web_moda_instagram_seccion7", instagram);
-                editor.putString("web_moda_twitter_seccion7", twitter);
-                editor.commit();
-                // ******************************************************************************
-
-                progressDialog.show();
-
-                web = new HashMap<>();
-                home = new HashMap<>();
-                about = new HashMap<>();
-                services = new HashMap<>();
-                gallery = new HashMap<>();
-                contact = new HashMap<>();
-                social = new HashMap<>();
-
-                home_navbar = "Inicio";
-                home_titulo = sharedPreferences.getString("web_moda_titulo_home", "");
-                home_subtitulo = sharedPreferences.getString("web_moda_subtitulo_home","");
-                home_text = sharedPreferences.getString("web_moda_descripcion_home","");
-                home_imagen = sharedPreferences.getString("web_moda_img_seccion_1", "");
-
-                about_navbar = "Empresa";
-                about_titulo = sharedPreferences.getString("web_moda_titulo_seccion_2", "");
-                about_subtitulo = sharedPreferences.getString("web_moda_subtitulo_seccion_2", "");
-                about_descripcion = sharedPreferences.getString("web_moda_descripcion_seccion_2", "");
-                about_imagen = sharedPreferences.getString("web_moda_img_seccion_2", "");
-
-                if(sharedPreferences.getString("web_moda_seccion_3_recycler", "").equals("1")){
-                    img = sharedPreferences.getString("web_moda_seccion_3_caracteristica1_url","");
-                    titulo = sharedPreferences.getString("web_moda_seccion_3_caracteristica1_titulo","");
-                    descripcion = sharedPreferences.getString("web_moda_seccion_3_caracteristica1_descripcion","");
-
-                    work.add(new caracteristicas_web(img, titulo, descripcion));
-                }
-                else if(sharedPreferences.getString("web_moda_seccion_3_recycler", "").equals("2")){
-                    img = sharedPreferences.getString("web_moda_seccion_3_caracteristica1_url","");
-                    titulo = sharedPreferences.getString("web_moda_seccion_3_caracteristica1_titulo","");
-                    descripcion = sharedPreferences.getString("web_moda_seccion_3_caracteristica1_descripcion","");
-
-                    work.add(new caracteristicas_web(img, titulo, descripcion));
-
-                    img = sharedPreferences.getString("web_moda_seccion_3_caracteristica2_url","");
-                    titulo = sharedPreferences.getString("web_moda_seccion_3_caracteristica2_titulo","");
-                    descripcion = sharedPreferences.getString("web_moda_seccion_3_caracteristica2_descripcion","");
-
-                    work.add(new caracteristicas_web(img, titulo, descripcion));
-                }
-                else if(sharedPreferences.getString("web_moda_seccion_3_recycler", "").equals("3")){
-                    img = sharedPreferences.getString("web_moda_seccion_3_caracteristica1_url","");
-                    titulo = sharedPreferences.getString("web_moda_seccion_3_caracteristica1_titulo","");
-                    descripcion = sharedPreferences.getString("web_moda_seccion_3_caracteristica1_descripcion","");
-
-                    work.add(new caracteristicas_web(img, titulo, descripcion));
-
-                    img = sharedPreferences.getString("web_moda_seccion_3_caracteristica2_url","");
-                    titulo = sharedPreferences.getString("web_moda_seccion_3_caracteristica2_titulo","");
-                    descripcion = sharedPreferences.getString("web_moda_seccion_3_caracteristica2_descripcion","");
-
-                    work.add(new caracteristicas_web(img, titulo, descripcion));
-
-                    img = sharedPreferences.getString("web_moda_seccion_3_caracteristica3_url","");
-                    titulo = sharedPreferences.getString("web_moda_seccion_3_caracteristica3_titulo","");
-                    descripcion = sharedPreferences.getString("web_moda_seccion_3_caracteristica3_descripcion","");
-
-                    work.add(new caracteristicas_web(img, titulo, descripcion));
-                }
-
-                servicios_navbar = "Servicios";
-                servicios_imagen = sharedPreferences.getString("web_moda_img_seccion_4","");
-
-                if(sharedPreferences.getString("web_servicios_seccion_4_recycler", "").equals("1")){
-                    img = "";
-                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica1_titulo","");
-                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica1_descripcion","");
-
-                    list.add(new caracteristicas_web(img, titulo, descripcion));
-                }
-                else if(sharedPreferences.getString("web_servicios_seccion_4_recycler", "").equals("2")){
-                    img = "";
-                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica1_titulo","");
-                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica1_descripcion","");
-
-                    list.add(new caracteristicas_web(img, titulo, descripcion));
-
-                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica2_titulo","");
-                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica2_descripcion","");
-
-                    list.add(new caracteristicas_web(img, titulo, descripcion));
-                }
-                else if(sharedPreferences.getString("web_servicios_seccion_4_recycler", "").equals("3")){
-                    img = "";
-                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica1_titulo","");
-                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica1_descripcion","");
-
-                    list.add(new caracteristicas_web(img, titulo, descripcion));
-
-                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica2_titulo","");
-                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica2_descripcion","");
-
-                    list.add(new caracteristicas_web(img, titulo, descripcion));
-
-                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica3_titulo","");
-                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica3_descripcion","");
-
-                    list.add(new caracteristicas_web(img, titulo, descripcion));
-                }
-                else if(sharedPreferences.getString("web_servicios_seccion_4_recycler", "").equals("4")){
-                    img = "";
-                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica1_titulo","");
-                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica1_descripcion","");
-
-                    list.add(new caracteristicas_web(img, titulo, descripcion));
-
-                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica2_titulo","");
-                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica2_descripcion","");
-
-                    list.add(new caracteristicas_web(img, titulo, descripcion));
-
-                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica3_titulo","");
-                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica3_descripcion","");
-
-                    list.add(new caracteristicas_web(img, titulo, descripcion));
-
-                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica4_titulo","");
-                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica4_descripcion","");
-
-                    list.add(new caracteristicas_web(img, titulo, descripcion));
-                }
-
-                else if(sharedPreferences.getString("web_servicios_seccion_4_recycler", "").equals("5")){
-                    img = "";
-                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica1_titulo","");
-                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica1_descripcion","");
-
-                    list.add(new caracteristicas_web(img, titulo, descripcion));
-
-                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica2_titulo","");
-                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica2_descripcion","");
-
-                    list.add(new caracteristicas_web(img, titulo, descripcion));
-
-                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica3_titulo","");
-                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica3_descripcion","");
-
-                    list.add(new caracteristicas_web(img, titulo, descripcion));
-
-                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica4_titulo","");
-                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica4_descripcion","");
-
-                    list.add(new caracteristicas_web(img, titulo, descripcion));
-
-                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica5_titulo","");
-                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica5_descripcion","");
-
-                    list.add(new caracteristicas_web(img, titulo, descripcion));
-                }
-
-                else if(sharedPreferences.getString("web_servicios_seccion_4_recycler", "").equals("6")){
-                    img = "";
-                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica1_titulo","");
-                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica1_descripcion","");
-
-                    list.add(new caracteristicas_web(img, titulo, descripcion));
-
-                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica2_titulo","");
-                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica2_descripcion","");
-
-                    list.add(new caracteristicas_web(img, titulo, descripcion));
-
-                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica3_titulo","");
-                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica3_descripcion","");
-
-                    list.add(new caracteristicas_web(img, titulo, descripcion));
-
-                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica4_titulo","");
-                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica4_descripcion","");
-
-                    list.add(new caracteristicas_web(img, titulo, descripcion));
-
-                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica5_titulo","");
-                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica5_descripcion","");
-
-                    list.add(new caracteristicas_web(img, titulo, descripcion));
-
-                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica6_titulo","");
-                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica6_descripcion","");
-
-                    list.add(new caracteristicas_web(img, titulo, descripcion));
-                }
-
-                galeria_navbar = "Galería";
-                galeria_titulo = sharedPreferences.getString("web_moda_titulo_seccion5","");
-                galeria_subtitulo = sharedPreferences.getString("web_moda_subtitulo_seccion5","");
-
-                imagen.add(new caracteristicas_web(sharedPreferences.getString("web_moda_img_1_seccion_5", ""), "", ""));
-                imagen.add(new caracteristicas_web(sharedPreferences.getString("web_moda_img_2_seccion_5", ""), "", ""));
-                imagen.add(new caracteristicas_web(sharedPreferences.getString("web_moda_img_3_seccion_5", ""), "", ""));
-
-                if(sharedPreferences.getString("web_moda_img_4_seccion_5", "").length() > 2){
-                    imagen.add(new caracteristicas_web(sharedPreferences.getString("web_moda_img_4_seccion_5", ""), "", ""));
-                }
-                if(sharedPreferences.getString("web_moda_img_5_seccion_5", "").length() > 2){
-                    imagen.add(new caracteristicas_web(sharedPreferences.getString("web_moda_img_5_seccion_5", ""), "", ""));
-                }
-                if(sharedPreferences.getString("web_moda_img_6_seccion_5", "").length() > 2){
-                    imagen.add(new caracteristicas_web(sharedPreferences.getString("web_moda_img_6_seccion_5", ""), "", ""));
-                }
-                if(sharedPreferences.getString("web_moda_img_7_seccion_5", "").length() > 2){
-                    imagen.add(new caracteristicas_web(sharedPreferences.getString("web_moda_img_7_seccion_5", ""), "", ""));
-                }
-                if(sharedPreferences.getString("web_moda_img_8_seccion_5", "").length() > 2){
-                    imagen.add(new caracteristicas_web(sharedPreferences.getString("web_moda_img_8_seccion_5", ""), "", ""));
-                }
-                if(sharedPreferences.getString("web_moda_img_9_seccion_5", "").length() > 2){
-                    imagen.add(new caracteristicas_web(sharedPreferences.getString("web_moda_img_9_seccion_5", ""), "", ""));
-                }
-
-                contacto_lugar = sharedPreferences.getString("web_moda_direccion_seccion6", "");
-                contacto_email = sharedPreferences.getString("web_moda_email_seccion6", "");
-                contacto_telefono = sharedPreferences.getString("web_moda_telefono_seccion6", "");
-                contacto_titulo = sharedPreferences.getString("web_moda_titulo_seccion6", "");
-                contacto_navbar = "Contacto";
-                contacto_img = sharedPreferences.getString("web_moda_img_seccion_6", "");
-
-                social_facebook = sharedPreferences.getString("web_moda_facebook_seccion7","");
-                social_instagram = sharedPreferences.getString("web_moda_instagram_seccion7","");
-                social_twitter = sharedPreferences.getString("web_moda_twitter_seccion7","");
-
-                social.put("facebook", social_facebook);
-                social.put("twitter", social_twitter);
-                social.put("instagram", social_instagram);
-
-                contact.put("navbar", contacto_navbar);
-                contact.put("title", contacto_titulo);
-                contact.put("address", contacto_lugar);
-                contact.put("phone", contacto_telefono);
-                contact.put("email", contacto_email);
-                contact.put("img", contacto_img);
-
-                gallery.put("navbar", galeria_navbar);
-                gallery.put("title", galeria_titulo);
-                gallery.put("subtitle", galeria_subtitulo);
-                gallery.put("categories", "");
-                gallery.put("imagen", imagen);
-
-                services.put("navbar", servicios_navbar);
-                services.put("img", servicios_imagen);
-                services.put("list", list);
-
-                about.put("navbar", about_navbar);
-                about.put("title", about_titulo);
-                about.put("subtitle", about_subtitulo);
-                about.put("text", about_descripcion);
-                about.put("button", "");
-                about.put("img", about_imagen);
-
-                home.put("navbar", home_navbar);
-                home.put("background", home_imagen);
-                home.put("title", home_titulo);
-                home.put("subtitle", home_subtitulo);
-                home.put("text", home_text);
-
-                web.put("home", home);
-                web.put("about", about);
-                web.put("work", work);
-                web.put("services", services);
-                web.put("gallery", gallery);
-                web.put("contact", contact);
-                web.put("social", social);
-
-                final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-                String url = sharedPreferences.getString("nombrePagWeb", "");
-                pagWebs pag = new pagWebs("",web, 4, user.getUid(), url);
-
-
-                db.collection("webs").document(sharedPreferences.getString("nombrePagWeb", ""))
-                        .set(pag)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                if(progressDialog.isShowing()){
-                                    progressDialog.dismiss();
-                                }
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putString(user.getUid() + "-tipo_mi_pag_web", "4");
-                                editor.commit();
-                                Toast.makeText(getApplicationContext(),"¡Página web creada exitosamente!", Toast.LENGTH_LONG).show();
-                                String url = "http://fashion.solucionescolabora.com/u/" + sharedPreferences.getString("nombrePagWeb", "");
-                                Intent i = new Intent(Intent.ACTION_VIEW);
-                                i.setData(Uri.parse(url));
-                                startActivity(i);
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(WebsModaSeccion7.this);
+                builder.setTitle("Aviso");
+                builder.setMessage("¿Estas seguro de querer volver al menú principal?")
+                        .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                Intent intent = new Intent(getApplicationContext(),MenuPagWebActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
                             }
                         })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                if(progressDialog.isShowing()){
-                                    progressDialog.dismiss();
-                                }
-                                Toast.makeText(getApplicationContext(),"Ha ocurrido un error, favor de volver a intentar", Toast.LENGTH_LONG).show();
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
                             }
                         });
+                // Create the AlertDialog object and return it
+                builder.create();
+                builder.show();
+
             }
         });
 
+        btnSiguiente.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(WebsModaSeccion7.this);
+                builder.setTitle("Aviso");
+                builder.setMessage("¿Estas seguro de querer finalizar?")
+                        .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                facebook = editFacebook.getText().toString();
+                                instagram = editInstagram.getText().toString();
+                                twitter = editTwitter.getText().toString();
+
+                                // *********** Guardamos los principales datos de los nuevos usuarios *************
+                                sharedPreferences = getSharedPreferences("misDatos", 0);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("web_moda_facebook_seccion7", facebook);
+                                editor.putString("web_moda_instagram_seccion7", instagram);
+                                editor.putString("web_moda_twitter_seccion7", twitter);
+                                editor.commit();
+                                // ******************************************************************************
+
+                                progressDialog.show();
+
+                                web = new HashMap<>();
+                                home = new HashMap<>();
+                                about = new HashMap<>();
+                                services = new HashMap<>();
+                                gallery = new HashMap<>();
+                                contact = new HashMap<>();
+                                social = new HashMap<>();
+
+                                home_navbar = "Inicio";
+                                home_titulo = sharedPreferences.getString("web_moda_titulo_home", "");
+                                home_subtitulo = sharedPreferences.getString("web_moda_subtitulo_home","");
+                                home_text = sharedPreferences.getString("web_moda_descripcion_home","");
+                                home_imagen = sharedPreferences.getString("web_moda_img_seccion_1", "");
+
+                                about_navbar = "nada";
+                                about_titulo = sharedPreferences.getString("web_moda_titulo_seccion_2", "");
+                                about_subtitulo = sharedPreferences.getString("web_moda_subtitulo_seccion_2", "");
+                                about_descripcion = sharedPreferences.getString("web_moda_descripcion_seccion_2", "");
+                                about_imagen = sharedPreferences.getString("web_moda_img_seccion_2", "");
+
+                                if(sharedPreferences.getString("web_moda_seccion_3_recycler", "").equals("1")){
+                                    img = sharedPreferences.getString("web_moda_seccion_3_caracteristica1_url","");
+                                    titulo = sharedPreferences.getString("web_moda_seccion_3_caracteristica1_titulo","");
+                                    descripcion = sharedPreferences.getString("web_moda_seccion_3_caracteristica1_descripcion","");
+
+                                    work.add(new caracteristicas_web(img, titulo, descripcion));
+                                }
+                                else if(sharedPreferences.getString("web_moda_seccion_3_recycler", "").equals("2")){
+                                    img = sharedPreferences.getString("web_moda_seccion_3_caracteristica1_url","");
+                                    titulo = sharedPreferences.getString("web_moda_seccion_3_caracteristica1_titulo","");
+                                    descripcion = sharedPreferences.getString("web_moda_seccion_3_caracteristica1_descripcion","");
+
+                                    work.add(new caracteristicas_web(img, titulo, descripcion));
+
+                                    img = sharedPreferences.getString("web_moda_seccion_3_caracteristica2_url","");
+                                    titulo = sharedPreferences.getString("web_moda_seccion_3_caracteristica2_titulo","");
+                                    descripcion = sharedPreferences.getString("web_moda_seccion_3_caracteristica2_descripcion","");
+
+                                    work.add(new caracteristicas_web(img, titulo, descripcion));
+                                }
+                                else if(sharedPreferences.getString("web_moda_seccion_3_recycler", "").equals("3")){
+                                    img = sharedPreferences.getString("web_moda_seccion_3_caracteristica1_url","");
+                                    titulo = sharedPreferences.getString("web_moda_seccion_3_caracteristica1_titulo","");
+                                    descripcion = sharedPreferences.getString("web_moda_seccion_3_caracteristica1_descripcion","");
+
+                                    work.add(new caracteristicas_web(img, titulo, descripcion));
+
+                                    img = sharedPreferences.getString("web_moda_seccion_3_caracteristica2_url","");
+                                    titulo = sharedPreferences.getString("web_moda_seccion_3_caracteristica2_titulo","");
+                                    descripcion = sharedPreferences.getString("web_moda_seccion_3_caracteristica2_descripcion","");
+
+                                    work.add(new caracteristicas_web(img, titulo, descripcion));
+
+                                    img = sharedPreferences.getString("web_moda_seccion_3_caracteristica3_url","");
+                                    titulo = sharedPreferences.getString("web_moda_seccion_3_caracteristica3_titulo","");
+                                    descripcion = sharedPreferences.getString("web_moda_seccion_3_caracteristica3_descripcion","");
+
+                                    work.add(new caracteristicas_web(img, titulo, descripcion));
+                                }
+
+                                servicios_navbar = sharedPreferences.getString("web_moda_titulo_nav_seccion4","");
+                                servicios_imagen = sharedPreferences.getString("web_moda_img_seccion_4","");
+
+                                if(sharedPreferences.getString("web_servicios_seccion_4_recycler", "").equals("1")){
+                                    img = "";
+                                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica1_titulo","");
+                                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica1_descripcion","");
+
+                                    list.add(new caracteristicas_web(img, titulo, descripcion));
+                                }
+                                else if(sharedPreferences.getString("web_servicios_seccion_4_recycler", "").equals("2")){
+                                    img = "";
+                                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica1_titulo","");
+                                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica1_descripcion","");
+
+                                    list.add(new caracteristicas_web(img, titulo, descripcion));
+
+                                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica2_titulo","");
+                                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica2_descripcion","");
+
+                                    list.add(new caracteristicas_web(img, titulo, descripcion));
+                                }
+                                else if(sharedPreferences.getString("web_servicios_seccion_4_recycler", "").equals("3")){
+                                    img = "";
+                                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica1_titulo","");
+                                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica1_descripcion","");
+
+                                    list.add(new caracteristicas_web(img, titulo, descripcion));
+
+                                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica2_titulo","");
+                                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica2_descripcion","");
+
+                                    list.add(new caracteristicas_web(img, titulo, descripcion));
+
+                                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica3_titulo","");
+                                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica3_descripcion","");
+
+                                    list.add(new caracteristicas_web(img, titulo, descripcion));
+                                }
+                                else if(sharedPreferences.getString("web_servicios_seccion_4_recycler", "").equals("4")){
+                                    img = "";
+                                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica1_titulo","");
+                                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica1_descripcion","");
+
+                                    list.add(new caracteristicas_web(img, titulo, descripcion));
+
+                                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica2_titulo","");
+                                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica2_descripcion","");
+
+                                    list.add(new caracteristicas_web(img, titulo, descripcion));
+
+                                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica3_titulo","");
+                                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica3_descripcion","");
+
+                                    list.add(new caracteristicas_web(img, titulo, descripcion));
+
+                                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica4_titulo","");
+                                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica4_descripcion","");
+
+                                    list.add(new caracteristicas_web(img, titulo, descripcion));
+                                }
+
+                                else if(sharedPreferences.getString("web_servicios_seccion_4_recycler", "").equals("5")){
+                                    img = "";
+                                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica1_titulo","");
+                                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica1_descripcion","");
+
+                                    list.add(new caracteristicas_web(img, titulo, descripcion));
+
+                                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica2_titulo","");
+                                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica2_descripcion","");
+
+                                    list.add(new caracteristicas_web(img, titulo, descripcion));
+
+                                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica3_titulo","");
+                                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica3_descripcion","");
+
+                                    list.add(new caracteristicas_web(img, titulo, descripcion));
+
+                                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica4_titulo","");
+                                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica4_descripcion","");
+
+                                    list.add(new caracteristicas_web(img, titulo, descripcion));
+
+                                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica5_titulo","");
+                                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica5_descripcion","");
+
+                                    list.add(new caracteristicas_web(img, titulo, descripcion));
+                                }
+
+                                else if(sharedPreferences.getString("web_servicios_seccion_4_recycler", "").equals("6")){
+                                    img = "";
+                                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica1_titulo","");
+                                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica1_descripcion","");
+
+                                    list.add(new caracteristicas_web(img, titulo, descripcion));
+
+                                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica2_titulo","");
+                                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica2_descripcion","");
+
+                                    list.add(new caracteristicas_web(img, titulo, descripcion));
+
+                                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica3_titulo","");
+                                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica3_descripcion","");
+
+                                    list.add(new caracteristicas_web(img, titulo, descripcion));
+
+                                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica4_titulo","");
+                                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica4_descripcion","");
+
+                                    list.add(new caracteristicas_web(img, titulo, descripcion));
+
+                                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica5_titulo","");
+                                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica5_descripcion","");
+
+                                    list.add(new caracteristicas_web(img, titulo, descripcion));
+
+                                    titulo = sharedPreferences.getString("web_servicios_seccion_4_caracteristica6_titulo","");
+                                    descripcion = sharedPreferences.getString("web_servicios_seccion_4_caracteristica6_descripcion","");
+
+                                    list.add(new caracteristicas_web(img, titulo, descripcion));
+                                }
+
+                                galeria_navbar = "Galería";
+                                galeria_titulo = sharedPreferences.getString("web_moda_titulo_seccion5","");
+                                galeria_subtitulo = sharedPreferences.getString("web_moda_subtitulo_seccion5","");
+
+                                imagen.add(new caracteristicas_web(sharedPreferences.getString("web_moda_img_1_seccion_5", ""), "", ""));
+                                imagen.add(new caracteristicas_web(sharedPreferences.getString("web_moda_img_2_seccion_5", ""), "", ""));
+                                imagen.add(new caracteristicas_web(sharedPreferences.getString("web_moda_img_3_seccion_5", ""), "", ""));
+
+                                if(sharedPreferences.getString("web_moda_img_4_seccion_5", "").length() > 2){
+                                    imagen.add(new caracteristicas_web(sharedPreferences.getString("web_moda_img_4_seccion_5", ""), "", ""));
+                                }
+                                if(sharedPreferences.getString("web_moda_img_5_seccion_5", "").length() > 2){
+                                    imagen.add(new caracteristicas_web(sharedPreferences.getString("web_moda_img_5_seccion_5", ""), "", ""));
+                                }
+                                if(sharedPreferences.getString("web_moda_img_6_seccion_5", "").length() > 2){
+                                    imagen.add(new caracteristicas_web(sharedPreferences.getString("web_moda_img_6_seccion_5", ""), "", ""));
+                                }
+                                if(sharedPreferences.getString("web_moda_img_7_seccion_5", "").length() > 2){
+                                    imagen.add(new caracteristicas_web(sharedPreferences.getString("web_moda_img_7_seccion_5", ""), "", ""));
+                                }
+                                if(sharedPreferences.getString("web_moda_img_8_seccion_5", "").length() > 2){
+                                    imagen.add(new caracteristicas_web(sharedPreferences.getString("web_moda_img_8_seccion_5", ""), "", ""));
+                                }
+                                if(sharedPreferences.getString("web_moda_img_9_seccion_5", "").length() > 2){
+                                    imagen.add(new caracteristicas_web(sharedPreferences.getString("web_moda_img_9_seccion_5", ""), "", ""));
+                                }
+
+                                contacto_lugar = sharedPreferences.getString("web_moda_direccion_seccion6", "");
+                                contacto_email = sharedPreferences.getString("web_moda_email_seccion6", "");
+                                contacto_telefono = sharedPreferences.getString("web_moda_telefono_seccion6", "");
+                                contacto_titulo = sharedPreferences.getString("web_moda_titulo_seccion6", "");
+                                contacto_navbar = "Contacto";
+                                contacto_img = sharedPreferences.getString("web_moda_img_seccion_6", "");
+
+                                social_facebook = sharedPreferences.getString("web_moda_facebook_seccion7","");
+                                social_instagram = sharedPreferences.getString("web_moda_instagram_seccion7","");
+                                social_twitter = sharedPreferences.getString("web_moda_twitter_seccion7","");
+
+                                social.put("facebook", social_facebook);
+                                social.put("twitter", social_twitter);
+                                social.put("instagram", social_instagram);
+
+                                contact.put("navbar", contacto_navbar);
+                                contact.put("title", contacto_titulo);
+                                contact.put("address", contacto_lugar);
+                                contact.put("phone", contacto_telefono);
+                                contact.put("email", contacto_email);
+                                contact.put("img", contacto_img);
+
+                                gallery.put("navbar", galeria_navbar);
+                                gallery.put("title", galeria_titulo);
+                                gallery.put("subtitle", galeria_subtitulo);
+                                gallery.put("categories", "");
+                                gallery.put("imagen", imagen);
+
+                                services.put("navbar", servicios_navbar);
+                                services.put("img", servicios_imagen);
+                                services.put("list", list);
+
+                                about.put("navbar", about_navbar);
+                                about.put("title", about_titulo);
+                                about.put("subtitle", about_subtitulo);
+                                about.put("text", about_descripcion);
+                                about.put("button", "");
+                                about.put("img", about_imagen);
+
+                                home.put("navbar", home_navbar);
+                                home.put("background", home_imagen);
+                                home.put("title", home_titulo);
+                                home.put("subtitle", home_subtitulo);
+                                home.put("text", home_text);
+
+                                web.put("home", home);
+                                web.put("about", about);
+                                web.put("work", work);
+                                web.put("services", services);
+                                web.put("gallery", gallery);
+                                web.put("contact", contact);
+                                web.put("social", social);
+
+                                final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                                String url = sharedPreferences.getString("nombrePagWeb", "");
+                                pagWebs pag = new pagWebs("",web, 4, user.getUid(), url);
+
+
+                                db.collection("webs").document(sharedPreferences.getString("nombrePagWeb", ""))
+                                        .set(pag)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                if(progressDialog.isShowing()){
+                                                    progressDialog.dismiss();
+                                                }
+                                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                                editor.putString(user.getUid() + "-tipo_mi_pag_web", "4");
+                                                editor.commit();
+                                                Toast.makeText(getApplicationContext(),"¡Página web creada exitosamente!", Toast.LENGTH_LONG).show();
+                                                String url = "http://fashion.solucionescolabora.com/u/" + sharedPreferences.getString("nombrePagWeb", "");
+                                                Intent i = new Intent(Intent.ACTION_VIEW);
+                                                i.setData(Uri.parse(url));
+                                                startActivity(i);
+
+
+
+
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                if(progressDialog.isShowing()){
+                                                    progressDialog.dismiss();
+                                                }
+                                                Toast.makeText(getApplicationContext(),"Ha ocurrido un error, favor de volver a intentar", Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                            }
+                        });
+                // Create the AlertDialog object and return it
+                builder.create();
+                builder.show();
+
+
+            }
+        });
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        portada_seccion7.setImageDrawable(null);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(WebsModaSeccion7.this, WebsModaSeccion6.class);
+        startActivity(i);
+        finish();
     }
 }

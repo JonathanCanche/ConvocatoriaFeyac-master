@@ -8,11 +8,11 @@
     tools:context=".web.moda.WebsModaSeccion3">
 
     <ImageView
+        android:id="@+id/portada_moda_seccion3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scaleType="fitStart"
-        android:adjustViewBounds="true"
-        android:src="@drawable/web_moda_seccion_3"/>
+        android:adjustViewBounds="true" />
 
     <ScrollView
         android:layout_width="match_parent"

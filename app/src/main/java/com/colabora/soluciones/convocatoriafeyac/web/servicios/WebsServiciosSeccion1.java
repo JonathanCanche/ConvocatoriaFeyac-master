@@ -39,9 +39,11 @@ public class WebsServiciosSeccion1 extends AppCompatActivity {
     private Button btnAddLogo;
     private ImageView logo;
     private TextInputEditText editTitulo;
+    private TextInputEditText editTitulo2;
     private ImageView img;
     private String nombre_web = "";
     private String titulo = "";
+    private String tituloNav = "";
     private boolean imgUpoloaded = false;
     private boolean imgUpoloaded2 = false;
 
@@ -56,8 +58,8 @@ public class WebsServiciosSeccion1 extends AppCompatActivity {
 
         btnSiguiente = (Button)findViewById(R.id.btnServiciosSeccion1Siguiente);
         btnSubirFoto = (Button)findViewById(R.id.btnServiciosSeccion1);
-        btnAddLogo = (Button)findViewById(R.id.btnServiciosSeccionAddLogo);
-        logo = (ImageView)findViewById(R.id.imgServiciosSeccionLogo);
+//        btnAddLogo = (Button)findViewById(R.id.btnServiciosSeccionAddLogo);
+//        logo = (ImageView)findViewById(R.id.imgServiciosSeccionLogo);
         img = (ImageView)findViewById(R.id.imgServiciosSeccion1);
         editTitulo = (TextInputEditText)findViewById(R.id.txt_web_servicio_seccion1_texto1);
 
@@ -70,14 +72,17 @@ public class WebsServiciosSeccion1 extends AppCompatActivity {
         nombre_web = sharedPreferences.getString("nombrePagWeb","");
 
         editTitulo.setText(sharedPreferences.getString("web_servicios_titulo_home", ""));
+
+        editTitulo.setSelection(editTitulo.getText().length());
+
         if (sharedPreferences.getString("web_servicios_img_seccion_1","").length() > 1){
             imgUpoloaded = true;
             Picasso.get().load(sharedPreferences.getString("web_servicios_img_seccion_1","")).placeholder(R.drawable.progress_animation).into(img);
         }
-        if (sharedPreferences.getString("web_servicios_logo_seccion_1","").length() > 1){
+        /*if (sharedPreferences.getString("web_servicios_logo_seccion_1","").length() > 1){
             imgUpoloaded2 = true;
             Picasso.get().load(sharedPreferences.getString("web_servicios_logo_seccion_1","")).placeholder(R.drawable.progress_animation).into(logo);
-        }
+        }*/
 
         btnSubirFoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,7 +143,7 @@ public class WebsServiciosSeccion1 extends AppCompatActivity {
             }
         });
 
-        btnAddLogo.setOnClickListener(new View.OnClickListener() {
+        /*btnAddLogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -196,7 +201,7 @@ public class WebsServiciosSeccion1 extends AppCompatActivity {
                             }
                         }).show(getSupportFragmentManager());
             }
-        });
+        });*/
 
 
         btnSiguiente.setOnClickListener(new View.OnClickListener() {
@@ -205,12 +210,7 @@ public class WebsServiciosSeccion1 extends AppCompatActivity {
                 titulo = editTitulo.getText().toString();
 
                 if(!imgUpoloaded){
-                    Toast.makeText(getApplicationContext(), "Para continuar debes subir la imagen que irá en la sección de home", Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                else if(!imgUpoloaded2){
-                    Toast.makeText(getApplicationContext(), "Para continuar debes subir tu logotipo", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Para continuar debes subir la imagen que irá en la sección de inicio", Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -223,12 +223,13 @@ public class WebsServiciosSeccion1 extends AppCompatActivity {
                     // ******************************************************************************
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), "Para continuar debes escribir el titulo que llevará la sección de home", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Para continuar debes escribir el titulo que llevará la sección de Inicio", Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 Intent i = new Intent(WebsServiciosSeccion1.this, WebsServiciosSeccion2.class);
                 startActivity(i);
+                finish();
             }
         });
 

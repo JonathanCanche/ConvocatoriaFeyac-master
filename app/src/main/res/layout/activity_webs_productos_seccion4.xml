@@ -8,11 +8,11 @@
     tools:context=".web.productos.WebsProductosSeccion4">
 
     <ImageView
+        android:id="@+id/imgProductoSeccion4_portada"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scaleType="fitStart"
-        android:adjustViewBounds="true"
-        android:src="@drawable/web_producto_seccion_4"/>
+        android:adjustViewBounds="true"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -28,7 +28,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Por favor, ingrese los datos correspondientes a las sección de su página web."
+                android:text="Por favor, ingrese alguna frase que motive a comprar sus productos."
                 android:layout_marginBottom="10sp"/>
 
             <android.support.design.widget.TextInputLayout
@@ -64,10 +64,27 @@
                 android:layout_width="match_parent"
                 android:textAlignment="center"
                 android:layout_height="wrap_content"
-                android:text="Agregar imagen" />
+                android:text="Agregar imagen 1 (Izquierda)" />
 
             <ImageView
                 android:id="@+id/imgProductoSeccion4"
+                android:layout_width="300sp"
+                android:layout_height="200sp"
+                android:layout_marginTop="10sp"
+                android:src="@drawable/no_image"
+                android:layout_marginBottom="10sp"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"/>
+
+            <Button
+                android:id="@+id/btnProductoSeccion4_img2"
+                android:layout_width="match_parent"
+                android:textAlignment="center"
+                android:layout_height="wrap_content"
+                android:text="Agregar imagen de fondo (Derecha)" />
+
+            <ImageView
+                android:id="@+id/img2ProductoSeccion4"
                 android:layout_width="300sp"
                 android:layout_height="200sp"
                 android:layout_marginTop="10sp"

@@ -8,11 +8,11 @@
     tools:context=".web.moda.WebsModaSeccion7">
 
     <ImageView
+        android:id="@+id/portada_moda_seccion7"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scaleType="fitStart"
-        android:adjustViewBounds="true"
-        android:src="@drawable/web_moda_seccion_7"/>
+        android:adjustViewBounds="true"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -28,7 +28,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Por favor, ingrese los datos correspondientes a las sección de su página web."
+                android:text="“Por favor, ingrese los datos correspondientes a la sección de &quot;Redes sociales&quot; de su página web."
                 android:layout_marginBottom="10sp"/>
 
             <android.support.design.widget.TextInputLayout
@@ -41,7 +41,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine|textCapSentences"
                     android:imeOptions="actionDone"
-                    android:hint="Facebook (URL)" />
+                    android:hint="Facebook (URL o link de la página)" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -55,7 +55,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine|textCapSentences"
                     android:imeOptions="actionDone"
-                    android:hint="Twitter (URL)" />
+                    android:hint="Twitter (URL o link de la página)" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -69,16 +69,28 @@
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine|textCapSentences"
                     android:imeOptions="actionDone"
-                    android:hint="Instagram (URL)" />
+                    android:hint="Instagram (URL o link de la página)" />
 
             </android.support.design.widget.TextInputLayout>
 
-            <Button
-                android:id="@+id/btnModaSeccion7Siguiente"
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:text="Finalizar"/>
+                android:layout_height="match_parent" >
+
+                <Button
+                    android:id="@+id/btnModaSeccion7backmenu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Volver al menú principal"/>
+
+                <Button
+                    android:id="@+id/btnModaSeccion7Siguiente"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="Finalizar"/>
+
+            </RelativeLayout>
 
         </LinearLayout>
 

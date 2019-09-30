@@ -28,7 +28,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Por favor, ingrese los datos correspondientes a las sección de su página web."
+                android:text="A continuación, agrega una breve descripción de lo mejor de tu aplicación."
                 android:layout_marginBottom="10sp"/>
 
             <android.support.design.widget.TextInputLayout

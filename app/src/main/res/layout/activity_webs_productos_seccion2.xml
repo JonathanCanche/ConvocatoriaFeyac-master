@@ -8,11 +8,11 @@
     tools:context=".web.productos.WebsProductosSeccion2">
 
     <ImageView
+        android:id="@+id/imgProductoSeccion_portada"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scaleType="fitStart"
-        android:adjustViewBounds="true"
-        android:src="@drawable/web_producto_seccion_2"/>
+        android:adjustViewBounds="true"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -28,7 +28,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Por favor, ingrese los datos correspondientes a las sección de su página web."
+                android:text="Por favor, ingrese los datos correspondientes a la sección de &quot;Nosotros&quot; de su página web."
                 android:layout_marginBottom="10sp"/>
 
             <android.support.design.widget.TextInputLayout
@@ -41,7 +41,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine|textCapSentences"
                     android:imeOptions="actionDone"
-                    android:hint="Título" />
+                    android:hint="Título de la sección (Ejemplo:Nosotros)" />
 
             </android.support.design.widget.TextInputLayout>
 

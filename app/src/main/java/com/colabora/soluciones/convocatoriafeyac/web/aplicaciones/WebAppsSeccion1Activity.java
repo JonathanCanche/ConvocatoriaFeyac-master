@@ -38,9 +38,11 @@ public class WebAppsSeccion1Activity extends AppCompatActivity {
     private Button btnSiguiente;
     private Button btnSubirFoto;
     private TextInputEditText editTitulo;
+    private TextInputEditText txtTituloNav;
     private ImageView img;
     private String nombre_web = "";
     private String titulo = "";
+    private String tituloNav;
     private boolean imgUpoloaded = false;
 
     FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -66,6 +68,10 @@ public class WebAppsSeccion1Activity extends AppCompatActivity {
         nombre_web = sharedPreferences.getString("nombrePagWeb","");
 
         editTitulo.setText(sharedPreferences.getString("web_apps_titulo_home", ""));
+
+        editTitulo.setSelection(editTitulo.getText().length());
+
+
         if (sharedPreferences.getString("web_apps_img_seccion_1","").length() > 1){
             Picasso.get().load(sharedPreferences.getString("web_apps_img_seccion_1","")).placeholder(R.drawable.progress_animation).into(img);
             imgUpoloaded = true;
@@ -136,7 +142,7 @@ public class WebAppsSeccion1Activity extends AppCompatActivity {
                 titulo = editTitulo.getText().toString();
 
                 if(!imgUpoloaded){
-                    Toast.makeText(getApplicationContext(), "Para continuar debes subir la imagen que irá en la sección de home", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Para continuar debes subir la imagen que irá en la sección de inicio", Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -149,15 +155,14 @@ public class WebAppsSeccion1Activity extends AppCompatActivity {
                     // ******************************************************************************
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), "Para continuar debes escribir el titulo y la descripción que llevará la sección de home", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Para continuar debes escribir los datos que llevará está sección", Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 Intent i = new Intent(WebAppsSeccion1Activity.this, WebsAppsSeccion2Activity.class);
                 startActivity(i);
+                finish();
             }
         });
-
-
     }
 }

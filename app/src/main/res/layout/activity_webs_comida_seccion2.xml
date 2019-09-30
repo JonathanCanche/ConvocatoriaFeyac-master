@@ -28,7 +28,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Por favor, ingrese los datos correspondientes a las sección de su página web."
+                android:text="por favor, ingrese los datos correspondientes a la sección de &quot;Características del negocio&quot; de su página web."
                 android:layout_marginBottom="10sp"/>
 
             <android.support.design.widget.TextInputLayout
@@ -41,7 +41,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine|textCapSentences"
                     android:imeOptions="actionDone"
-                    android:hint="Título 1" />
+                    android:hint="Título del icono 1" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -69,7 +69,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine|textCapSentences"
                     android:imeOptions="actionDone"
-                    android:hint="Título 2" />
+                    android:hint="Título del icono 2" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -97,7 +97,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine|textCapSentences"
                     android:imeOptions="actionDone"
-                    android:hint="Título 3" />
+                    android:hint="Título del icono 3" />
 
             </android.support.design.widget.TextInputLayout>
 

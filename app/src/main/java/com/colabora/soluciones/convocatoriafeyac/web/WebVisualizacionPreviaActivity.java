@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.squareup.picasso.Picasso;
 
 import com.colabora.soluciones.convocatoriafeyac.R;
 import com.colabora.soluciones.convocatoriafeyac.VisualizarTarjetaActivity;
@@ -90,24 +91,22 @@ public class WebVisualizacionPreviaActivity extends AppCompatActivity {
         tipo_pag = i.getStringExtra(PAG_WEB);
 
         if(tipo_pag.equals("comida")){
-            imageView.setImageResource(R.drawable.web_comida);
-
+            imageView.setImageResource(R.drawable.web_food);
         }
         else if(tipo_pag.equals("moda")){
-            imageView.setImageResource(R.drawable.web_modas);
+            imageView.setImageResource(R.drawable.web_fashion);
         }
         else if(tipo_pag.equals("aplicaciones")){
-            imageView.setImageResource(R.drawable.web_aplicaciones_moviles);
+            imageView.setImageResource(R.drawable.web_apps);
         }
         else if(tipo_pag.equals("servicios")){
-            imageView.setImageResource(R.drawable.web_servicio);
+            imageView.setImageResource(R.drawable.web_service);
         }
         else if(tipo_pag.equals("productos")){
-            imageView.setImageResource(R.drawable.web_producto);
-
+            imageView.setImageResource(R.drawable.web_products);
         }
         else if(tipo_pag.equals("salud")){
-            imageView.setImageResource(R.drawable.web_salud);
+            imageView.setImageResource(R.drawable.web_health);
         }
 
         btnComenzar.setOnClickListener(new View.OnClickListener() {
@@ -165,7 +164,8 @@ public class WebVisualizacionPreviaActivity extends AppCompatActivity {
                         txtCheck = (TextInputEditText) formElementsView.findViewById(R.id.dialog_check_web);
 
                         builder.setTitle("Mi página web");
-                        builder.setMessage("Por favor, ingrese el nombre que llevará su página web sin acentos, el cual estará disponible en el dominio www.pymeassistant.com/web/su_pagina_web");
+                        builder.setMessage("Por favor, ingrese el nombre que llevará su página web sin acentos, el cual estará disponible en el dominio www.pymeassistant.com/web/su_pagina_web. \n\n" +"Nota: \n" +
+                                "Una vez seleccionada la plantilla para su página web, esta no podrá cambiarse por ningún otro diseño de plantilla.");
 
                         builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                             @Override
@@ -265,11 +265,15 @@ public class WebVisualizacionPreviaActivity extends AppCompatActivity {
                         // builder.show();
 
                     }
-
                 }
-
             }
         });
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        imageView.setImageResource(0);
     }
 }

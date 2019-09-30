@@ -77,6 +77,12 @@ public class WebsServiciosSeccion3 extends AppCompatActivity {
         txtTitulo2.setText(sharedPreferences.getString("web_servicios_seccion_3_titulo2", ""));
         txtDescripcion1.setText(sharedPreferences.getString("web_servicios_seccion_3_descripcion1", ""));
         txtDescripcion2.setText(sharedPreferences.getString("web_servicios_seccion_3_descripcion2", ""));
+
+        txtTitulo1.setSelection(txtTitulo1.getText().length());
+        txtTitulo2.setSelection(txtTitulo2.getText().length());
+        txtDescripcion1.setSelection(txtDescripcion1.getText().length());
+        txtDescripcion2.setSelection(txtDescripcion2.getText().length());
+
         if (sharedPreferences.getString("web_servicios_img1_seccion_3","").length() > 1){
             imgUploaded1 = true;
             Picasso.get().load(sharedPreferences.getString("web_servicios_img1_seccion_3","")).placeholder(R.drawable.progress_animation).into(img1);
@@ -213,19 +219,19 @@ public class WebsServiciosSeccion3 extends AppCompatActivity {
                 String descripcion2 = txtDescripcion2.getText().toString();
 
                 if(titulo1.length() == 0){
-                    Toast.makeText(getApplicationContext(), "Debes completar los campos requeridos", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Debes completar los datos requeridos", Toast.LENGTH_LONG).show();
                     return;
                 }
                 else if(titulo2.length() == 0){
-                    Toast.makeText(getApplicationContext(), "Debes completar los campos requeridos", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Debes completar los datos requeridos", Toast.LENGTH_LONG).show();
                     return;
                 }
                 else if(descripcion1.length() == 0){
-                    Toast.makeText(getApplicationContext(), "Debes completar los campos requeridos", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Debes completar los datos requeridos", Toast.LENGTH_LONG).show();
                     return;
                 }
                 else if(descripcion2.length() == 0){
-                    Toast.makeText(getApplicationContext(), "Debes completar los campos requeridos", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Debes completar los datos requeridos", Toast.LENGTH_LONG).show();
                     return;
                 }
                 if(!imgUploaded1){
@@ -249,7 +255,16 @@ public class WebsServiciosSeccion3 extends AppCompatActivity {
 
                 Intent i = new Intent(WebsServiciosSeccion3.this, WebsServiciosSeccion4.class);
                 startActivity(i);
+                finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(WebsServiciosSeccion3.this, WebsServiciosSeccion2.class);
+        startActivity(i);
+        finish();
     }
 }

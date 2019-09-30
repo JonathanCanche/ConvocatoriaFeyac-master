@@ -41,6 +41,7 @@ public class WebsComidaSeccion1 extends AppCompatActivity {
     private TextInputEditText editTitulo;
     private TextInputEditText editTitulo2;
     private TextInputEditText editTitulo3;
+    private TextInputEditText editTituloNavbar;
     private ImageView img;
     private ImageView img2;
     private ImageView img3;
@@ -48,6 +49,7 @@ public class WebsComidaSeccion1 extends AppCompatActivity {
     private String titulo = "";
     private String titulo2 = "";
     private String titulo3 = "";
+    private String tituloNav;
     private boolean imgUpoloaded = false;
     private boolean imgUpoloaded2 = false;
     private boolean imgUpoloaded3 = false;
@@ -66,6 +68,7 @@ public class WebsComidaSeccion1 extends AppCompatActivity {
         btnSubirFoto2 = (Button)findViewById(R.id.btnComidaSeccion2);
         btnSubirFoto3 = (Button)findViewById(R.id.btnComidaSeccion3);
 
+
         img = (ImageView)findViewById(R.id.imgComidaSeccion1);
         img2 = (ImageView)findViewById(R.id.imgComidaSeccion2);
         img3 = (ImageView)findViewById(R.id.imgComidaSeccion3);
@@ -73,6 +76,7 @@ public class WebsComidaSeccion1 extends AppCompatActivity {
         editTitulo = (TextInputEditText)findViewById(R.id.txt_web_comida_seccion1_texto1);
         editTitulo2 = (TextInputEditText)findViewById(R.id.txt_web_comida_seccion1_texto2);
         editTitulo3 = (TextInputEditText)findViewById(R.id.txt_web_comida_seccion1_texto3);
+
 
         progressDialog = new ProgressDialog(WebsComidaSeccion1.this);
 
@@ -85,6 +89,11 @@ public class WebsComidaSeccion1 extends AppCompatActivity {
         editTitulo.setText(sharedPreferences.getString("web_comida_titulo_1_home", ""));
         editTitulo2.setText(sharedPreferences.getString("web_comida_titulo_2_home", ""));
         editTitulo3.setText(sharedPreferences.getString("web_comida_titulo_3_home", ""));
+
+        editTitulo.setSelection(editTitulo.getText().length()); //coloca el puntero hacia el final
+        editTitulo2.setSelection(editTitulo2.getText().length());
+        editTitulo3.setSelection(editTitulo3.getText().length());
+
         if (sharedPreferences.getString("web_comida_img_1_seccion_1","").length() > 1){
             imgUpoloaded = true;
             Picasso.get().load(sharedPreferences.getString("web_comida_img_1_seccion_1","")).placeholder(R.drawable.progress_animation).into(img);
@@ -283,12 +292,12 @@ public class WebsComidaSeccion1 extends AppCompatActivity {
                 titulo3 = editTitulo3.getText().toString();
 
                 if(!imgUpoloaded){
-                    Toast.makeText(getApplicationContext(), "Para continuar debes subir la imagen 1 que irá en la sección de home", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Para continuar debes subir la imagen 1 que irá en la sección de inicio", Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 else if(!imgUpoloaded2){
-                    Toast.makeText(getApplicationContext(), "Para continuar debes subir la imagen 2 que irá en la sección de home", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Para continuar debes subir la imagen 2 que irá en la sección de inicio", Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -303,12 +312,13 @@ public class WebsComidaSeccion1 extends AppCompatActivity {
                     // ******************************************************************************
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), "Para continuar debes escribir el titulo que llevará la sección de home", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Para continuar debes escribir el titulo que llevará la sección de inicio", Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 Intent i = new Intent(WebsComidaSeccion1.this, WebsComidaSeccion2.class);
                 startActivity(i);
+                finish();
             }
         });
     }

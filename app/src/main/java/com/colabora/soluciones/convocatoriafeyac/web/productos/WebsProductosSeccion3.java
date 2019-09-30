@@ -10,10 +10,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +28,7 @@ import com.colabora.soluciones.convocatoriafeyac.R;
 import com.colabora.soluciones.convocatoriafeyac.web.salud.WebsSaludSeccion2;
 import com.colabora.soluciones.convocatoriafeyac.web.salud.WebsSaludSeccion3;
 import com.colabora.soluciones.convocatoriafeyac.web.servicios.WebsServiciosSeccion2;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +58,8 @@ public class WebsProductosSeccion3 extends AppCompatActivity {
             btnEditar = (Button)itemView.findViewById(R.id.dialogItemSimpleEditar);
             btnEliminar = (Button)itemView.findViewById(R.id.dialogItemSimpleEliminar);
 
+
+
             btnEliminar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -78,8 +86,14 @@ public class WebsProductosSeccion3 extends AppCompatActivity {
                     itemTitulo = (TextInputEditText) formElementsView.findViewById(R.id.editItemSimpleTitulo);
                     itemDescripcion = (TextInputEditText) formElementsView.findViewById(R.id.editItemSimpleDescripcion);
 
+
                     itemTitulo.setText(itemSimpleList.get(position).getTitulo());
                     itemDescripcion.setText(itemSimpleList.get(position).getDescripcion());
+
+
+
+                    itemTitulo.setSelection(itemTitulo.getText().length());
+                    itemDescripcion.setSelection(itemDescripcion.getText().length());
 
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
@@ -190,6 +204,9 @@ public class WebsProductosSeccion3 extends AppCompatActivity {
     private String imagen_ = "";
     private String titulo = "";
     private String descripcion = "";
+    private ImageView imgPortada;
+
+    private String charactersForbiden = ",";
 
     private List<caracteristicas_web> servicio = new ArrayList<>();
 
@@ -203,13 +220,19 @@ public class WebsProductosSeccion3 extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerProductosSeccion3);
         addCaracteristica = (Button) findViewById(R.id.btnProductosSeccion3AddCaracteristica);
         btnSiguiente = (Button) findViewById(R.id.btnProductoSeccion3Siguiente);
+        imgPortada = (ImageView)findViewById(R.id.img_web_producto_seccion3_portada);
+
+        imgPortada.setImageResource(R.drawable.web_producto_seccion_3);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
         sharedPreferences = getSharedPreferences("misDatos", 0);
         nombre_web = sharedPreferences.getString("nombrePagWeb","");
 
+
         txtTitulo.setText(sharedPreferences.getString("web_productos_seccion_3_titulo", ""));
+
+        txtTitulo.setSelection(txtTitulo.getText().length());
 
         if(sharedPreferences.getString("web_productos_seccion_3_recycler","").equals("1")){
             imagen_ = "";
@@ -406,6 +429,7 @@ public class WebsProductosSeccion3 extends AppCompatActivity {
                     itemDescripcion = (TextInputEditText) formElementsView.findViewById(R.id.editItemSimpleDescripcion);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
+
                     builder.setTitle("Servicio");
                     builder.setMessage("Por favor, introduce un título y descripción de tus servicios");
                     builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
@@ -538,7 +562,16 @@ public class WebsProductosSeccion3 extends AppCompatActivity {
 
                 Intent i = new Intent(WebsProductosSeccion3.this, WebsProductosSeccion4.class);
                 startActivity(i);
+                finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(WebsProductosSeccion3.this, WebsProductosSeccion2.class);
+        startActivity(i);
+        finish();
     }
 }

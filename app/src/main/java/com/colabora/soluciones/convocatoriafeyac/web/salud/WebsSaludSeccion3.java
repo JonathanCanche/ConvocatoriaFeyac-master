@@ -14,6 +14,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,15 +91,18 @@ public class WebsSaludSeccion3 extends AppCompatActivity {
 
                     // Get the layout inflater
                     LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    final View formElementsView = inflater.inflate(R.layout.dialog_item_simple,
+                    final View formElementsView = inflater.inflate(R.layout.dialog_item_salud,
                             null, false);
 
-                    itemTitulo = (TextInputEditText) formElementsView.findViewById(R.id.editItemSimpleTitulo);
-                    itemDescripcion = (TextInputEditText) formElementsView.findViewById(R.id.editItemSimpleDescripcion);
+                    itemTitulo = (TextInputEditText) formElementsView.findViewById(R.id.editItemSimpleDiaSalud);
+                    itemDescripcion = (TextInputEditText) formElementsView.findViewById(R.id.editItemSimpleHoraSalud);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
                     itemTitulo.setText(itemSimpleList.get(position).getTitulo());
                     itemDescripcion.setText(itemSimpleList.get(position).getDescripcion());
+
+                    itemTitulo.setSelection(itemTitulo.getText().length());
+                    itemDescripcion.setSelection(itemDescripcion.getText().length());
 
                     builder.setTitle("Horario");
                     builder.setMessage("Por favor, introduce los días y los horarios de atención a tus clientes");
@@ -199,7 +204,7 @@ public class WebsSaludSeccion3 extends AppCompatActivity {
     private Button addCaracteristica;
     private Button btnSiguiente;
     private List<itemSimple> itemSimpleList = new ArrayList<>();
-
+    private String charactersForbiden = ",";
 
     FirebaseStorage storage = FirebaseStorage.getInstance();
     private ProgressDialog progressDialog;
@@ -321,11 +326,11 @@ public class WebsSaludSeccion3 extends AppCompatActivity {
 
                     // Get the layout inflater
                     LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    final View formElementsView = inflater.inflate(R.layout.dialog_item_simple,
+                    final View formElementsView = inflater.inflate(R.layout.dialog_item_salud,
                             null, false);
 
-                    itemTitulo = (TextInputEditText) formElementsView.findViewById(R.id.editItemSimpleTitulo);
-                    itemDescripcion = (TextInputEditText) formElementsView.findViewById(R.id.editItemSimpleDescripcion);
+                    itemTitulo = (TextInputEditText) formElementsView.findViewById(R.id.editItemSimpleDiaSalud);
+                    itemDescripcion = (TextInputEditText) formElementsView.findViewById(R.id.editItemSimpleHoraSalud);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
                     builder.setTitle("Horario");
@@ -380,7 +385,7 @@ public class WebsSaludSeccion3 extends AppCompatActivity {
             public void onClick(View v) {
 
                 if(itemSimpleList.size() < 1){
-                    Toast.makeText(getApplicationContext(), "Debes introducir por lo menos una característica de tus servicios", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Debes introducir por lo menos un horario", Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -425,8 +430,17 @@ public class WebsSaludSeccion3 extends AppCompatActivity {
 
                 Intent i = new Intent(WebsSaludSeccion3.this, WebsSaludSeccion4.class);
                 startActivity(i);
+                finish();
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(WebsSaludSeccion3.this, WebsSaludSeccion2.class);
+        startActivity(i);
+        finish();
     }
 }

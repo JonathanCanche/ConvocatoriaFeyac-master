@@ -45,6 +45,7 @@ public class WebsModaSeccion6 extends AppCompatActivity {
     private String telefono = "";
     private String ubicacion = "";
     private boolean imgUpoloaded = false;
+    private ImageView portada_seccion6;
 
     FirebaseStorage storage = FirebaseStorage.getInstance();
     private ProgressDialog progressDialog;
@@ -62,6 +63,9 @@ public class WebsModaSeccion6 extends AppCompatActivity {
         editUbicacion = (TextInputEditText)findViewById(R.id.txt_web_moda_seccion6_subitutlo_1);
         editEmail = (TextInputEditText)findViewById(R.id.txt_web_moda_seccion6_email);
         editTelefono = (TextInputEditText)findViewById(R.id.txt_web_moda_seccion6_descripcion_1);
+        portada_seccion6 = (ImageView)findViewById(R.id.portada_moda_seccion6);
+
+        portada_seccion6.setImageResource(R.drawable.web_moda_seccion_6);
 
         progressDialog = new ProgressDialog(WebsModaSeccion6.this);
 
@@ -75,6 +79,12 @@ public class WebsModaSeccion6 extends AppCompatActivity {
         editEmail.setText(sharedPreferences.getString("web_moda_email_seccion6", ""));
         editUbicacion.setText(sharedPreferences.getString("web_moda_direccion_seccion6", ""));
         editTelefono.setText(sharedPreferences.getString("web_moda_telefono_seccion6", ""));
+
+        editTitulo.setSelection(editTitulo.getText().length());
+        editEmail.setSelection(editEmail.getText().length());
+        editUbicacion.setSelection(editUbicacion.getText().length());
+        editTelefono.setSelection(editTelefono.getText().length());
+
         if (sharedPreferences.getString("web_moda_img_seccion_6","").length() > 1){
             imgUpoloaded = true;
             Picasso.get().load(sharedPreferences.getString("web_moda_img_seccion_6","")).placeholder(R.drawable.progress_animation).into(img);
@@ -148,7 +158,7 @@ public class WebsModaSeccion6 extends AppCompatActivity {
                 email = editEmail.getText().toString();
 
                 if(!imgUpoloaded){
-                    Toast.makeText(getApplicationContext(), "Para continuar debes subir la imagen que irá en la sección de home", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Para continuar debes subir la imagen que irá en está sección", Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -164,14 +174,29 @@ public class WebsModaSeccion6 extends AppCompatActivity {
                     // ******************************************************************************
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), "Para continuar debes escribir el titulo y la descripción que llevará la sección de home", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Para continuar debes escribir el titulo y la descripción que llevará está sección", Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 Intent i = new Intent(WebsModaSeccion6.this, WebsModaSeccion7.class);
                 startActivity(i);
+                finish();
             }
         });
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        portada_seccion6.setImageDrawable(null);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(WebsModaSeccion6.this, WebsModaSeccion5.class);
+        startActivity(i);
+        finish();
     }
 }

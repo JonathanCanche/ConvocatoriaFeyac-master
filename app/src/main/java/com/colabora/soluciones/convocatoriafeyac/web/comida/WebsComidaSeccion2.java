@@ -55,6 +55,13 @@ public class WebsComidaSeccion2 extends AppCompatActivity {
         editDescripcion2.setText(sharedPreferences.getString("web_comida_descripcion_2_seccion_2", ""));
         editDescripcion3.setText(sharedPreferences.getString("web_comida_descripcion_3_seccion_2", ""));
 
+        editTitulo.setSelection(editTitulo.getText().length());
+        editTitulo2.setSelection(editTitulo2.getText().length());
+        editTitulo3.setSelection(editTitulo3.getText().length());
+        editDescripcion1.setSelection(editDescripcion1.getText().length());
+        editDescripcion2.setSelection(editDescripcion2.getText().length());
+        editDescripcion3.setSelection(editDescripcion3.getText().length());
+
         btnSiguiente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,7 +107,16 @@ public class WebsComidaSeccion2 extends AppCompatActivity {
 
                 Intent i = new Intent(WebsComidaSeccion2.this, WebsComidaSeccion3.class);
                 startActivity(i);
+                finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(WebsComidaSeccion2.this, WebsComidaSeccion1.class);
+        startActivity(i);
+        finish();
     }
 }

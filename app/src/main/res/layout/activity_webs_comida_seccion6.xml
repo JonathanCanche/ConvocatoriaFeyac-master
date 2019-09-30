@@ -28,8 +28,22 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Por favor, ingrese los datos correspondientes a las sección de su página web."
+                android:text="Por favor, ingrese los datos correspondientes a la sección de &quot;Contacto&quot; de su página web."
                 android:layout_marginBottom="10sp"/>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/txt_web_comida_seccion6_navbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine|textCapSentences"
+                    android:imeOptions="actionDone"
+                    android:hint="Título de la sección (Ejemplo:Contacto)" />
+
+            </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -98,7 +112,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine|textCapSentences"
                     android:imeOptions="actionDone"
-                    android:hint="Facebook (opcional)" />
+                    android:hint="URL o dirección del Facebook (opcional)" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -113,16 +127,31 @@
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine|textCapSentences"
                     android:imeOptions="actionDone"
-                    android:hint="Instagram (opcional)" />
+                    android:hint="URL o dirección del Instagram (opcional)" />
 
             </android.support.design.widget.TextInputLayout>
 
-            <Button
-                android:id="@+id/btnComidaSeccion6Siguiente"
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:text="Finalizar"/>
+                android:layout_height="match_parent" >
+
+                <Button
+                    android:id="@+id/btnComidaSeccion6Finalizar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Volver al menú principal"/>
+
+                <Button
+                    android:id="@+id/btnComidaSeccion6Siguiente"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="right"
+                    android:text="Finalizar"/>
+
+            </RelativeLayout>
+
+
 
         </LinearLayout>
 

@@ -97,6 +97,16 @@ public class WebAppsFeaturesActivity extends AppCompatActivity {
         editTitulo4.setText(sharedPreferences.getString("web_apps_titulo_4_seccion_3", ""));
         editSubtitulo4.setText(sharedPreferences.getString("web_apps_subtitulo_4_seccion_3", ""));
 
+        editTitulo.setSelection(editTitulo.getText().length());
+        editTitulo1.setSelection(editTitulo1.getText().length());
+        editSubtitulo1.setSelection(editSubtitulo1.getText().length());
+        editTitulo2.setSelection(editTitulo2.getText().length());
+        editSubtitulo2.setSelection(editSubtitulo2.getText().length());
+        editTitulo3.setSelection(editTitulo3.getText().length());
+        editSubtitulo3.setSelection(editSubtitulo3.getText().length());
+        editTitulo4.setSelection(editTitulo4.getText().length());
+        editSubtitulo4.setSelection(editSubtitulo4.getText().length());
+
         if (sharedPreferences.getString("web_apps_img_seccion_3","").length() > 1){
             imgUpoloaded = true;
             Picasso.get().load(sharedPreferences.getString("web_apps_img_seccion_3","")).placeholder(R.drawable.progress_animation).into(img);
@@ -203,7 +213,16 @@ public class WebAppsFeaturesActivity extends AppCompatActivity {
 
                 Intent i = new Intent(WebAppsFeaturesActivity.this, WebsAppsSeccion4.class);
                 startActivity(i);
+                finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(WebAppsFeaturesActivity.this, WebsAppsSeccion2Activity.class);
+        startActivity(i);
+        finish();
     }
 }

@@ -14,6 +14,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +47,7 @@ import com.vansuita.pickimage.listeners.IPickResult;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class WebsComidaSeccion3 extends AppCompatActivity {
 
@@ -72,6 +75,7 @@ public class WebsComidaSeccion3 extends AppCompatActivity {
             btnEditar = (Button)itemView.findViewById(R.id.dialogItemSimpleEditar);
             btnEliminar = (Button)itemView.findViewById(R.id.dialogItemSimpleEliminar);
             //img = (ImageView)itemView.findViewById(R.id.itemFoto);
+
 
             btnEliminar.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -101,9 +105,19 @@ public class WebsComidaSeccion3 extends AppCompatActivity {
                     btnAddFoto = (Button)formElementsView.findViewById(R.id.editItemSimpleAddImagen);
                     imgPortafolio = (ImageView)formElementsView.findViewById(R.id.imgItemSimple);
 
+
+                    Random r = new Random();
+                    final int nr = r.nextInt(80 - 65) + 65;
+
                     itemTitulo.setText(especialidadesComidas.get(position).getTitulo());
                     itemDescripcion.setText(especialidadesComidas.get(position).getDescripcion());
                     itemPrecio.setText(String.valueOf(especialidadesComidas.get(position).getPrecio()));
+
+                    itemTitulo.setSelection(itemTitulo.getText().length());
+                    itemDescripcion.setSelection(itemDescripcion.getText().length());
+                    itemPrecio.setSelection(itemPrecio.getText().length());
+
+                    url_ = "";
 
                     Picasso.get().load(especialidadesComidas.get(position).getImg()).placeholder(R.drawable.progress_animation).into(imgPortafolio);
 
@@ -126,7 +140,7 @@ public class WebsComidaSeccion3 extends AppCompatActivity {
                                             r.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, outputStream);
                                             byte[] data = outputStream.toByteArray();
 
-                                            StorageReference refSubirImagen = storage.getReferenceFromUrl("gs://pyme-assistant.appspot.com/web/userid").child(nombre_web + especialidadesComidas.size() + 4);
+                                            StorageReference refSubirImagen = storage.getReferenceFromUrl("gs://pyme-assistant.appspot.com/web/userid").child(nombre_web + especialidadesComidas.size() + nr);
 
                                             UploadTask uploadTask = refSubirImagen.putBytes(data);
                                             uploadTask.addOnFailureListener(new OnFailureListener() {
@@ -171,27 +185,48 @@ public class WebsComidaSeccion3 extends AppCompatActivity {
 
                             String titulo = itemTitulo.getText().toString();
                             String descripcion = itemDescripcion.getText().toString();
+                            String img_url = especialidadesComidas.get(position).getImg();
 
-                            try {
-                                int precio = Integer.valueOf(itemPrecio.getText().toString());
+                            if (url_.length() > 0){
+                                try {
+                                    int precio = Integer.valueOf(itemPrecio.getText().toString());
 
-                                if(titulo.length() > 0 && descripcion.length() > 0 && url_.length() > 0){
-                                    especialidadesComidas.remove(position);
-                                    EspecialidadesComida especialidadesComida = new EspecialidadesComida(url_, titulo, precio, descripcion);
-                                    especialidadesComidas.add(especialidadesComida);
+                                    if(titulo.length() > 0 && descripcion.length() > 0 && url_.length() > 0){
+                                        especialidadesComidas.remove(position);
+                                        EspecialidadesComida especialidadesComida = new EspecialidadesComida(url_, titulo, precio, descripcion);
+                                        especialidadesComidas.add(especialidadesComida);
 
-                                    // *********** LLENAMOS EL RECYCLER VIEW *****************************
-                                    adapter = new WebsComidaSeccion3.DataConfigAdapter(especialidadesComidas, getApplicationContext());
-                                    recyclerView.setAdapter(adapter);
-                                }
-                                else{
+                                        // *********** LLENAMOS EL RECYCLER VIEW *****************************
+                                        adapter = new WebsComidaSeccion3.DataConfigAdapter(especialidadesComidas, getApplicationContext());
+                                        recyclerView.setAdapter(adapter);
+                                    }
+                                    else{
+                                        Toast.makeText(getApplicationContext(), "Debes introducir datos válidos", Toast.LENGTH_LONG).show();
+                                    }
+
+                                } catch (NumberFormatException e) {
                                     Toast.makeText(getApplicationContext(), "Debes introducir datos válidos", Toast.LENGTH_LONG).show();
                                 }
+                            }else {
+                                try {
+                                    int precio = Integer.valueOf(itemPrecio.getText().toString());
 
-                            } catch (NumberFormatException e) {
-                                Toast.makeText(getApplicationContext(), "Debes introducir datos válidos", Toast.LENGTH_LONG).show();
+                                    if(titulo.length() > 0 && descripcion.length() > 0 && img_url.length() > 0){
+                                        especialidadesComidas.remove(position);
+                                        EspecialidadesComida especialidadesComida = new EspecialidadesComida(img_url, titulo, precio, descripcion);
+                                        especialidadesComidas.add(especialidadesComida);
+
+                                        // *********** LLENAMOS EL RECYCLER VIEW *****************************
+                                        adapter = new WebsComidaSeccion3.DataConfigAdapter(especialidadesComidas, getApplicationContext());
+                                        recyclerView.setAdapter(adapter);
+                                    }
+                                    else{
+                                        Toast.makeText(getApplicationContext(), "Debes introducir datos válidos", Toast.LENGTH_LONG).show();
+                                    }
+                                } catch (NumberFormatException e) {
+                                    Toast.makeText(getApplicationContext(), "Debes introducir datos válidos", Toast.LENGTH_LONG).show();
+                                }
                             }
-
                         }
                     });
 
@@ -224,7 +259,6 @@ public class WebsComidaSeccion3 extends AppCompatActivity {
             final int position = getAdapterPosition();
 
         }
-
     }
 
 
@@ -265,6 +299,8 @@ public class WebsComidaSeccion3 extends AppCompatActivity {
     private Button addCaracteristica;
     private String nombre_web;
     private Button btnSiguiente;
+    private TextInputEditText txtTituloNav;
+    private String tituloNav3 = "";
     private SharedPreferences sharedPreferences;
     private List<EspecialidadesComida> especialidadesComidas = new ArrayList<>();
     FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -273,6 +309,7 @@ public class WebsComidaSeccion3 extends AppCompatActivity {
     private TextInputEditText itemPrecio;
     private Button btnAddFoto;
     private ImageView imgPortafolio;
+    private String charactersForbiden = ",";
 
     private ProgressDialog progressDialog;
     private String url_ = "";
@@ -292,8 +329,14 @@ public class WebsComidaSeccion3 extends AppCompatActivity {
         addCaracteristica = (Button)findViewById(R.id.btnComidaSeccion3AddCaracteristica);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
+        txtTituloNav = (TextInputEditText)findViewById(R.id.txt_web_comida_seccion3_titulo);
+
         sharedPreferences = getSharedPreferences("misDatos", 0);
         nombre_web = sharedPreferences.getString("nombrePagWeb","");
+
+        txtTituloNav.setText(sharedPreferences.getString("web_comida_titulo_seccion_3", ""));
+
+        txtTituloNav.setSelection(txtTituloNav.getText().length());
 
         progressDialog = new ProgressDialog(WebsComidaSeccion3.this);
 
@@ -509,6 +552,7 @@ public class WebsComidaSeccion3 extends AppCompatActivity {
                     btnAddFoto = (Button)formElementsView.findViewById(R.id.editItemSimpleAddImagen);
                     imgPortafolio = (ImageView)formElementsView.findViewById(R.id.imgItemSimple);
 
+
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
                     btnAddFoto.setOnClickListener(new View.OnClickListener() {
@@ -623,6 +667,21 @@ public class WebsComidaSeccion3 extends AppCompatActivity {
         btnSiguiente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                tituloNav3 = txtTituloNav.getText().toString();
+
+                if(tituloNav3.length()  > 0){
+                    // *********** Guardamos los principales datos de los nuevos usuarios *************
+                    sharedPreferences = getSharedPreferences("misDatos", 0);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("web_comida_titulo_seccion_3",tituloNav3);
+                    editor.commit();
+                    // ******************************************************************************
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "Para continuar debes escribir el titulo que llevará esta sección", Toast.LENGTH_LONG).show();
+                    return;
+                }
 
                 if(especialidadesComidas.size() < 3){
                     Toast.makeText(getApplicationContext(), "Debes introducir por lo menos tres de tus especialidades", Toast.LENGTH_LONG).show();
@@ -755,7 +814,16 @@ public class WebsComidaSeccion3 extends AppCompatActivity {
 
                 Intent i = new Intent(WebsComidaSeccion3.this, WebsComidaSeccion4.class);
                 startActivity(i);
+                finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(WebsComidaSeccion3.this, WebsComidaSeccion2.class);
+        startActivity(i);
+        finish();
     }
 }

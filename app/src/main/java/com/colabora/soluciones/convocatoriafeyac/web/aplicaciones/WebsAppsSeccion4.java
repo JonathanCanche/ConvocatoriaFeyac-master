@@ -50,6 +50,8 @@ public class WebsAppsSeccion4 extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("misDatos", 0);
         editTitulo.setText(sharedPreferences.getString("web_apps_titulo_seccion_4", ""));
 
+        editTitulo.setSelection(editTitulo.getText().length());
+
         btnSiguiente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,13 +66,22 @@ public class WebsAppsSeccion4 extends AppCompatActivity {
                     // ******************************************************************************
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), "Para continuar debes escribir el campo que irá en esta sección", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Para continuar debes escribir el dato que irá en esta sección", Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 Intent i = new Intent(WebsAppsSeccion4.this, WebsAppsSeccion5.class);
                 startActivity(i);
+                finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(WebsAppsSeccion4.this, WebAppsFeaturesActivity.class);
+        startActivity(i);
+        finish();
     }
 }

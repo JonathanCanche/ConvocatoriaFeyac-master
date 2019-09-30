@@ -14,6 +14,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,6 +100,9 @@ public class WebsSaludSeccion2 extends AppCompatActivity {
 
                     itemTitulo.setText(itemSimpleList.get(position).getTitulo());
                     itemDescripcion.setText(itemSimpleList.get(position).getDescripcion());
+
+                    itemTitulo.setSelection(itemTitulo.getText().length());
+                    itemDescripcion.setSelection(itemDescripcion.getText().length());
 
                     builder.setTitle("Nueva Característica");
                     builder.setMessage("Por favor, introduce un título y descripción de las características distintivas de tus servicios");
@@ -202,7 +207,7 @@ public class WebsSaludSeccion2 extends AppCompatActivity {
     private Button btnSiguiente;
     private boolean imgUpoloaded = false;
     private List<itemSimple> itemSimpleList = new ArrayList<>();
-
+    private String charactersForbiden = ",";
 
     FirebaseStorage storage = FirebaseStorage.getInstance();
     private SharedPreferences sharedPreferences;
@@ -231,6 +236,9 @@ public class WebsSaludSeccion2 extends AppCompatActivity {
 
         txtTitulo.setText(sharedPreferences.getString("web_salud_seccion_2_titulo", ""));
         txtDescripcion.setText(sharedPreferences.getString("web_salud_seccion_2_descripcion", ""));
+
+        txtTitulo.setSelection(txtTitulo.getText().length());
+        txtDescripcion.setSelection(txtDescripcion.getText().length());
 
         if(sharedPreferences.getString("web_salud_seccion_2_recycler","").equals("1")){
             imagen = "";
@@ -344,6 +352,7 @@ public class WebsSaludSeccion2 extends AppCompatActivity {
                     itemDescripcion = (TextInputEditText) formElementsView.findViewById(R.id.editItemSimpleDescripcion);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
+
                     builder.setTitle("Nuevo Servicio");
                     builder.setMessage("Por favor, introduce un título y descripción de las características distintivas de tus servicios");
                     builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
@@ -454,7 +463,16 @@ public class WebsSaludSeccion2 extends AppCompatActivity {
 
                 Intent i = new Intent(WebsSaludSeccion2.this, WebsSaludSeccion3.class);
                 startActivity(i);
+                finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(WebsSaludSeccion2.this, WebsSaludSeccion1.class);
+        startActivity(i);
+        finish();
     }
 }

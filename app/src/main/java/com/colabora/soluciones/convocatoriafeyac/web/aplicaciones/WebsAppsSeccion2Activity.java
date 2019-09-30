@@ -50,6 +50,12 @@ public class WebsAppsSeccion2Activity extends AppCompatActivity {
         editApple.setText(sharedPreferences.getString("web_apps_apple_seccion_2", ""));
         editGoogle.setText(sharedPreferences.getString("web_apps_google_seccion_2", ""));
 
+        editTitulo.setSelection(editTitulo.getText().length());
+        editSubtitulo.setSelection(editSubtitulo.getText().length());
+        editApple.setSelection(editApple.getText().length());
+        editGoogle.setSelection(editGoogle.getText().length());
+
+
         btnSiguiente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,13 +77,22 @@ public class WebsAppsSeccion2Activity extends AppCompatActivity {
                     // ******************************************************************************
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), "Para continuar debes escribir el titulo y la descripción que llevará la sección de home", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Para continuar debes escribir los datos que llevará está sección", Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 Intent i = new Intent(WebsAppsSeccion2Activity.this, WebAppsFeaturesActivity.class);
                 startActivity(i);
+                finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(WebsAppsSeccion2Activity.this, WebAppsSeccion1Activity.class);
+        startActivity(i);
+        finish();
     }
 }

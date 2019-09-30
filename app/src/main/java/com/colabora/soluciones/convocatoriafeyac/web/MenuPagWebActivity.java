@@ -57,6 +57,12 @@ import java.util.Objects;
 
 import io.github.yavski.fabspeeddial.FabSpeedDial;
 import io.github.yavski.fabspeeddial.SimpleMenuListenerAdapter;
+import com.colabora.soluciones.convocatoriafeyac.Modelos.paginaWebModa.paginaWebModa;
+import com.colabora.soluciones.convocatoriafeyac.Modelos.paginaWebServicios.paginaWebServicios;
+import com.colabora.soluciones.convocatoriafeyac.Modelos.paginaWebProductos.paginaWebProductos;
+import com.colabora.soluciones.convocatoriafeyac.Modelos.paginaWebComida.paginaWebComida;
+import com.colabora.soluciones.convocatoriafeyac.Modelos.paginaWebSalud.paginaWebSalud;
+import com.colabora.soluciones.convocatoriafeyac.Modelos.paginaWebAplicaciones.paginaWebAplicaciones;
 
 public class MenuPagWebActivity extends AppCompatActivity {
 
@@ -74,6 +80,7 @@ public class MenuPagWebActivity extends AppCompatActivity {
 
     private ProgressDialog progressDialog;
     private pagWebs miPagina;
+    private QueryDocumentSnapshot documentopagina;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,8874 +124,1593 @@ public class MenuPagWebActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 miPagina = document.toObject(pagWebs.class);
+                                documentopagina = document;
                             }
-
                             if(miPagina != null){
 
                                 Toast.makeText(getApplicationContext(),"Tu página web se ha cargado correctamente, puedes editarla o visualizarla oprimiendo el botón verde",Toast.LENGTH_LONG).show();
 
                                 if(miPagina.getTipo() == 1){
+
+                                    paginaWebComida paginaWebComida_ = documentopagina.toObject(paginaWebComida.class);
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                                    editor.clear();
+
                                     editor.putString(user.getUid()+"-tipo_mi_pag_web", "1");
-                                    editor.putString("nombrePagWeb", miPagina.getUrl());
+                                    editor.putString("nombrePagWeb", paginaWebComida_.getUrl());
 
                                     //COMIDA
 
-                                     Map<String, Object> web;
-                                     Map<String, Object> home;
-                                     Map<String, Object> specials;
-                                     Map<String, Object> yellow;
-                                     Map<String, Object> about;
-                                     Map<String, Object> menu;
-                                     Map<String, Object> contacto;
 
-                                    web = miPagina.getSecciones();
-                                    home = (Map)web.get("home");
-                                    specials = (Map)web.get("specials");
-                                    yellow = (Map)web.get("yellow");
-                                    about = (Map)web.get("about");
-                                    menu = (Map)web.get("menu");
-                                    contacto = (Map)web.get("contacto");
 
-                                    List<caracteristicas_web_dos> banners = new ArrayList<>();
-                                    List<EspecialidadesComida> items = new ArrayList<>();
-                                    List<MenuComida> items_menu = new ArrayList<>();
+                                    if(paginaWebComida_.getSecciones().getHome().getBanners().size() == 1){
 
-                                    // variables home
-                                    String home_navbar = "";
-                                    home_navbar = (String)home.get("navbar");
-
-                                    Object prueba  = home.get("banners");
-                                    List<?> datos = convertObjectToList(prueba);
-
-                                    if(datos.size() == 1){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] banerCortado = frase.split(",");
-                                        String banerTexto = banerCortado[0];
-                                        String banerImg = banerCortado[1];
-
-                                        String[] banerTextoCortado = banerTexto.split("=");
-                                        String banerTextoFinal = banerTextoCortado[1];
-
-                                        String[] banerImgCortado = banerImg.split("mg=");
-                                        String banerImgFinal = banerImgCortado[1];
-                                        banerImgFinal = banerImgFinal.substring(0, banerImgFinal.length() - 1);
-
-                                        editor.putString("web_comida_titulo_1_home", banerTextoFinal);
-                                        editor.putString("web_comida_img_1_seccion_1", banerImgFinal);
+                                        editor.putString("web_comida_titulo_1_home", paginaWebComida_.getSecciones().getHome().getBanners().get(0).getTexto());
+                                        editor.putString("web_comida_img_1_seccion_1", paginaWebComida_.getSecciones().getHome().getBanners().get(0).getImg());
                                     }
-                                    else if(datos.size() == 2){
+                                    else if(paginaWebComida_.getSecciones().getHome().getBanners().size() == 2){
 
-                                        String frase = datos.get(0).toString();
+                                        editor.putString("web_comida_titulo_1_home", paginaWebComida_.getSecciones().getHome().getBanners().get(0).getTexto());
+                                        editor.putString("web_comida_img_1_seccion_1", paginaWebComida_.getSecciones().getHome().getBanners().get(0).getImg());
 
-                                        String[] banerCortado = frase.split(",");
-                                        String banerTexto = banerCortado[0];
-                                        String banerImg = banerCortado[1];
-
-                                        String[] banerTextoCortado = banerTexto.split("=");
-                                        String banerTextoFinal;
-                                        if(banerTextoCortado.length > 1){
-                                            banerTextoFinal = banerTextoCortado[1];
-                                        }
-                                        else{
-                                            banerTextoFinal = "";
-                                        }
-
-                                        String[] banerImgCortado = banerImg.split("mg=");
-                                        String banerImgFinal;
-                                        if(banerImgCortado.length > 1){
-                                            banerImgFinal = banerImgCortado[1];
-                                            banerImgFinal = banerImgFinal.substring(0, banerImgFinal.length() - 1);
-                                        }
-                                        else{
-                                            banerImgFinal = "";
-                                        }
-
-                                        editor.putString("web_comida_titulo_1_home", banerTextoFinal);
-                                        editor.putString("web_comida_img_1_seccion_1", banerImgFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        banerCortado = frase.split(",");
-                                        banerTexto = banerCortado[0];
-                                        banerImg = banerCortado[1];
-
-                                        banerTextoCortado = banerTexto.split("=");
-                                        if(banerTextoCortado.length > 1){
-                                            banerTextoFinal = banerTextoCortado[1];
-                                        }
-                                        else{
-                                            banerTextoFinal = "";
-                                        }
-                                        banerImgCortado = banerImg.split("mg=");
-                                        if(banerImgCortado.length > 1){
-                                            banerImgFinal = banerImgCortado[1];
-                                            banerImgFinal = banerImgFinal.substring(0, banerImgFinal.length() - 1);
-                                        }
-                                        else{
-                                            banerImgFinal = "";
-                                        }
-
-                                        editor.putString("web_comida_titulo_2_home", banerTextoFinal);
-                                        editor.putString("web_comida_img_2_seccion_1", banerImgFinal);
+                                        editor.putString("web_comida_titulo_2_home", paginaWebComida_.getSecciones().getHome().getBanners().get(1).getTexto());
+                                        editor.putString("web_comida_img_2_seccion_1", paginaWebComida_.getSecciones().getHome().getBanners().get(1).getImg());
                                     }
-                                    else if(datos.size() == 3){
+                                    else if(paginaWebComida_.getSecciones().getHome().getBanners().size() == 3){
 
-                                        String frase = datos.get(0).toString();
+                                        editor.putString("web_comida_titulo_1_home", paginaWebComida_.getSecciones().getHome().getBanners().get(0).getTexto());
+                                        editor.putString("web_comida_img_1_seccion_1", paginaWebComida_.getSecciones().getHome().getBanners().get(0).getImg());
 
-                                        String[] banerCortado = frase.split(",");
-                                        String banerTexto = banerCortado[0];
-                                        String banerImg = banerCortado[1];
+                                        editor.putString("web_comida_titulo_2_home", paginaWebComida_.getSecciones().getHome().getBanners().get(1).getTexto());
+                                        editor.putString("web_comida_img_2_seccion_1", paginaWebComida_.getSecciones().getHome().getBanners().get(1).getImg());
 
-                                        String[] banerTextoCortado = banerTexto.split("=");
-                                        String banerTextoFinal;
-                                        if(banerTextoCortado.length > 1){
-                                            banerTextoFinal = banerTextoCortado[1];
-                                        }
-                                        else{
-                                            banerTextoFinal = "";
-                                        }
-
-                                        String[] banerImgCortado = banerImg.split("mg=");
-
-                                        String banerImgFinal;
-                                        if(banerImgCortado.length > 1){
-                                            banerImgFinal = banerImgCortado[1];
-                                            banerImgFinal = banerImgFinal.substring(0, banerImgFinal.length() - 1);
-                                        }
-                                        else{
-                                            banerImgFinal = "";
-                                        }
-
-                                        editor.putString("web_comida_titulo_1_home", banerTextoFinal);
-                                        editor.putString("web_comida_img_1_seccion_1", banerImgFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        banerCortado = frase.split(",");
-                                        banerTexto = banerCortado[0];
-                                        banerImg = banerCortado[1];
-
-                                        banerTextoCortado = banerTexto.split("=");
-                                        if(banerTextoCortado.length > 1){
-                                            banerTextoFinal = banerTextoCortado[1];
-                                        }
-                                        else{
-                                            banerTextoFinal = "";
-                                        }
-                                        banerImgCortado = banerImg.split("mg=");
-                                        if(banerImgCortado.length > 1){
-                                            banerImgFinal = banerImgCortado[1];
-                                            banerImgFinal = banerImgFinal.substring(0, banerImgFinal.length() - 1);
-                                        }
-                                        else{
-                                            banerImgFinal = "";
-                                        }
-
-                                        editor.putString("web_comida_titulo_2_home", banerTextoFinal);
-                                        editor.putString("web_comida_img_2_seccion_1", banerImgFinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        banerCortado = frase.split(",");
-                                        banerTexto = banerCortado[0];
-                                        banerImg = banerCortado[1];
-
-                                        banerTextoCortado = banerTexto.split("=");
-                                        if(banerTextoCortado.length > 1){
-                                            banerTextoFinal = banerTextoCortado[1];
-                                        }
-                                        else{
-                                            banerTextoFinal = "";
-                                        }
-                                        banerImgCortado = banerImg.split("mg=");
-                                        if(banerImgCortado.length > 1){
-                                            banerImgFinal = banerImgCortado[1];
-                                            banerImgFinal = banerImgFinal.substring(0, banerImgFinal.length() - 1);
-                                        }
-                                        else{
-                                            banerImgFinal = "";
-                                        }
-
-                                        editor.putString("web_comida_titulo_3_home", banerTextoFinal);
-                                        editor.putString("web_comida_img_3_seccion_1", banerImgFinal);
+                                        editor.putString("web_comida_titulo_3_home", paginaWebComida_.getSecciones().getHome().getBanners().get(2).getTexto());
+                                        editor.putString("web_comida_img_3_seccion_1", paginaWebComida_.getSecciones().getHome().getBanners().get(2).getImg());
                                     }
 
                                     // variables about
-                                    String about_navbar = "Nosotros";
-                                    String about_header = "Nosotros";
-                                    String about_descripcion = "";
-                                    String about_imagen = "";
 
-                                    about_navbar = (String)about.get("navbar");
-                                    about_header = (String)about.get("header");
-                                    about_descripcion = (String)about.get("text");
-                                    about_imagen = (String)about.get("img");
-
-                                    editor.putString("web_comida_descripcion_seccion_4", about_descripcion);
+                                    editor.putString("web_comida_descripcion_seccion_4", paginaWebComida_.getSecciones().getAbout().getText());
+                                    editor.putString("web_comida_img_seccion_4", paginaWebComida_.getSecciones().getAbout().getImg());
+                                    editor.putString("web_comida_titulo_seccion_4",paginaWebComida_.getSecciones().getAbout().getNavbar());
 
                                     // variables yellow
-                                    String yellow_titulo1 = "";
-                                    String yellow_descripcion1 = "";
-                                    String yellow_titulo2 = "";
-                                    String yellow_descripcion2 = "";
-                                    String yellow_titulo3 = "";
-                                    String yellow_descripcion3 = "";
 
-                                    yellow_titulo1 = (String)yellow.get("titulo1");
-                                    yellow_titulo2 = (String)yellow.get("titulo2");
-                                    yellow_titulo3 = (String)yellow.get("titulo3");
-                                    yellow_descripcion1 = (String)yellow.get("descripcion1");
-                                    yellow_descripcion2 = (String)yellow.get("descripcion2");
-                                    yellow_descripcion3 = (String)yellow.get("descripcion3");
-
-                                    editor.putString("web_comida_titulo_1_seccion_2", yellow_titulo1);
-                                    editor.putString("web_comida_titulo_2_seccion_2", yellow_titulo2);
-                                    editor.putString("web_comida_titulo_3_seccion_2", yellow_titulo3);
-                                    editor.putString("web_comida_descripcion_1_seccion_2", yellow_descripcion1);
-                                    editor.putString("web_comida_descripcion_2_seccion_2", yellow_descripcion2);
-                                    editor.putString("web_comida_descripcion_3_seccion_2", yellow_descripcion3);
+                                    editor.putString("web_comida_titulo_1_seccion_2", paginaWebComida_.getSecciones().getYellow().getTitulo1());
+                                    editor.putString("web_comida_titulo_2_seccion_2", paginaWebComida_.getSecciones().getYellow().getTitulo2());
+                                    editor.putString("web_comida_titulo_3_seccion_2", paginaWebComida_.getSecciones().getYellow().getTitulo3());
+                                    editor.putString("web_comida_descripcion_1_seccion_2", paginaWebComida_.getSecciones().getYellow().getDescripcion1());
+                                    editor.putString("web_comida_descripcion_2_seccion_2", paginaWebComida_.getSecciones().getYellow().getDescripcion2());
+                                    editor.putString("web_comida_descripcion_3_seccion_2", paginaWebComida_.getSecciones().getYellow().getDescripcion3());
 
                                     // variables specials
-                                    String specials_navbar = "";
-                                    String specials_header = "";
-                                    String specials_img = "";
-                                    String specials_titulo = "";
-                                    String specials_descripcion = "";
-                                    int specials_precio = 0;
 
-                                    specials_navbar = (String)specials.get("navbar");
-                                    specials_header = (String)specials.get("header");
+                                    editor.putString("web_comida_titulo_seccion_3",paginaWebComida_.getSecciones().getSpecials().getNavbar());
 
-                                    prueba  = specials.get("items");
-                                    datos = convertObjectToList(prueba);
 
-                                    String frase2 = datos.get(0).toString();
-
-                                    if (datos.size() == 1){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String espDescripcion = itemCortado[0];
-                                        String espTitulo = itemCortado[3];
-                                        String espPrecio = itemCortado[2];
-                                        String espImg = itemCortado[1];
-
-                                        String[] banerTextoCortado = espDescripcion.split("=");
-                                        String banerTextoFinal = banerTextoCortado[1];
-
-                                        String[] TextoCortado = espTitulo.split("=");
-                                        String espeTituloFinal = TextoCortado[1];
-                                        espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-
-                                        String[] extoCortado = espPrecio.split("=");
-                                        String espePrecioFinal = extoCortado[1];
-                                        int espfinal = Integer.parseInt(espePrecioFinal);
-
-                                        String[] banerImgCortado = espImg.split("mg=");
-                                        String banerImgFinal = banerImgCortado[1];
+                                    if (paginaWebComida_.getSecciones().getSpecials().getItems().size() == 1){
 
                                         editor.putString("web_comida_seccion_3_recycler", "1");
-                                        editor.putString("web_comida_seccion_3_caracteristica1_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica1_descripcion", banerTextoFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica1_url", banerImgFinal);
-                                        editor.putInt("web_comida_seccion_3_caracteristica1_precio", espfinal);
+                                        editor.putString("web_comida_seccion_3_caracteristica1_titulo", paginaWebComida_.getSecciones().getSpecials().getItems().get(0).getTitulo());
+                                        editor.putString("web_comida_seccion_3_caracteristica1_descripcion", paginaWebComida_.getSecciones().getSpecials().getItems().get(0).getDescripcion());
+                                        editor.putString("web_comida_seccion_3_caracteristica1_url", paginaWebComida_.getSecciones().getSpecials().getItems().get(0).getImg());
+                                        editor.putInt("web_comida_seccion_3_caracteristica1_precio", paginaWebComida_.getSecciones().getSpecials().getItems().get(0).getPrecio());
 
                                     }
-                                    else if (datos.size() == 2){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String espDescripcion = itemCortado[0];
-                                        String espTitulo = itemCortado[3];
-                                        String espPrecio = itemCortado[2];
-                                        String espImg = itemCortado[1];
-
-                                        String[] banerTextoCortado = espDescripcion.split("=");
-                                        String banerTextoFinal = banerTextoCortado[1];
-
-                                        String[] TextoCortado = espTitulo.split("=");
-                                        String espeTituloFinal = TextoCortado[1];
-                                        espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-
-                                        String[] extoCortado = espPrecio.split("=");
-                                        String espePrecioFinal = extoCortado[1];
-                                        int espfinal = Integer.parseInt(espePrecioFinal);
-
-                                        String[] banerImgCortado = espImg.split("mg=");
-                                        String banerImgFinal = banerImgCortado[1];
+                                    else if (paginaWebComida_.getSecciones().getSpecials().getItems().size() == 2){
 
                                         editor.putString("web_comida_seccion_3_recycler", "1");
-                                        editor.putString("web_comida_seccion_3_caracteristica1_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica1_descripcion", banerTextoFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica1_url", banerImgFinal);
-                                        editor.putInt("web_comida_seccion_3_caracteristica1_precio", espfinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        espDescripcion = itemCortado[0];
-                                        espTitulo = itemCortado[3];
-                                        espPrecio = itemCortado[2];
-                                        espImg = itemCortado[1];
-
-                                        banerTextoCortado = espDescripcion.split("=");
-                                        banerTextoFinal = banerTextoCortado[1];
-
-                                        TextoCortado = espTitulo.split("=");
-                                        espeTituloFinal = TextoCortado[1];
-                                        espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-
-                                        extoCortado = espPrecio.split("=");
-                                        espePrecioFinal = extoCortado[1];
-                                        espfinal = Integer.parseInt(espePrecioFinal);
-
-                                        banerImgCortado = espImg.split("mg=");
-                                        banerImgFinal = banerImgCortado[1];
+                                        editor.putString("web_comida_seccion_3_caracteristica1_titulo", paginaWebComida_.getSecciones().getSpecials().getItems().get(0).getTitulo());
+                                        editor.putString("web_comida_seccion_3_caracteristica1_descripcion", paginaWebComida_.getSecciones().getSpecials().getItems().get(0).getDescripcion());
+                                        editor.putString("web_comida_seccion_3_caracteristica1_url", paginaWebComida_.getSecciones().getSpecials().getItems().get(0).getImg());
+                                        editor.putInt("web_comida_seccion_3_caracteristica1_precio", paginaWebComida_.getSecciones().getSpecials().getItems().get(0).getPrecio());
 
                                         editor.putString("web_comida_seccion_3_recycler", "2");
-                                        editor.putString("web_comida_seccion_3_caracteristica2_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica2_descripcion", banerTextoFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica2_url", banerImgFinal);
-                                        editor.putInt("web_comida_seccion_3_caracteristica2_precio", espfinal);
+                                        editor.putString("web_comida_seccion_3_caracteristica2_titulo", paginaWebComida_.getSecciones().getSpecials().getItems().get(1).getTitulo());
+                                        editor.putString("web_comida_seccion_3_caracteristica2_descripcion", paginaWebComida_.getSecciones().getSpecials().getItems().get(1).getDescripcion());
+                                        editor.putString("web_comida_seccion_3_caracteristica2_url", paginaWebComida_.getSecciones().getSpecials().getItems().get(1).getImg());
+                                        editor.putInt("web_comida_seccion_3_caracteristica2_precio", paginaWebComida_.getSecciones().getSpecials().getItems().get(1).getPrecio());
 
                                     }
-                                    else if (datos.size() == 3){
+                                    else if (paginaWebComida_.getSecciones().getSpecials().getItems().size() == 3){
 
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String espDescripcion = itemCortado[0];
-                                        String espTitulo = itemCortado[3];
-                                        String espPrecio = itemCortado[2];
-                                        String espImg = itemCortado[1];
-
-                                        String[] banerTextoCortado = espDescripcion.split("=");
-                                        String banerTextoFinal = banerTextoCortado[1];
-
-                                        String[] TextoCortado = espTitulo.split("=");
-                                        String espeTituloFinal = TextoCortado[1];
-                                        espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-
-                                        String[] extoCortado = espPrecio.split("=");
-                                        String espePrecioFinal = extoCortado[1];
-                                        int espfinal = Integer.parseInt(espePrecioFinal);
-
-                                        String[] banerImgCortado = espImg.split("mg=");
-                                        String banerImgFinal = banerImgCortado[1];
 
                                         editor.putString("web_comida_seccion_3_recycler", "1");
-                                        editor.putString("web_comida_seccion_3_caracteristica1_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica1_descripcion", banerTextoFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica1_url", banerImgFinal);
-                                        editor.putInt("web_comida_seccion_3_caracteristica1_precio", espfinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        espDescripcion = itemCortado[0];
-                                        espTitulo = itemCortado[3];
-                                        espPrecio = itemCortado[2];
-                                        espImg = itemCortado[1];
-
-                                        banerTextoCortado = espDescripcion.split("=");
-                                        banerTextoFinal = banerTextoCortado[1];
-
-                                        TextoCortado = espTitulo.split("=");
-                                        espeTituloFinal = TextoCortado[1];
-                                        espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-
-                                        extoCortado = espPrecio.split("=");
-                                        espePrecioFinal = extoCortado[1];
-                                        espfinal = Integer.parseInt(espePrecioFinal);
-
-                                        banerImgCortado = espImg.split("mg=");
-                                        banerImgFinal = banerImgCortado[1];
+                                        editor.putString("web_comida_seccion_3_caracteristica1_titulo", paginaWebComida_.getSecciones().getSpecials().getItems().get(0).getTitulo());
+                                        editor.putString("web_comida_seccion_3_caracteristica1_descripcion", paginaWebComida_.getSecciones().getSpecials().getItems().get(0).getDescripcion());
+                                        editor.putString("web_comida_seccion_3_caracteristica1_url", paginaWebComida_.getSecciones().getSpecials().getItems().get(0).getImg());
+                                        editor.putInt("web_comida_seccion_3_caracteristica1_precio",  paginaWebComida_.getSecciones().getSpecials().getItems().get(0).getPrecio());
 
                                         editor.putString("web_comida_seccion_3_recycler", "2");
-                                        editor.putString("web_comida_seccion_3_caracteristica2_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica2_descripcion", banerTextoFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica2_url", banerImgFinal);
-                                        editor.putInt("web_comida_seccion_3_caracteristica2_precio", espfinal);
-
-                                        prueba  = specials.get("items");
-                                        datos = convertObjectToList(prueba);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        espDescripcion = itemCortado[0];
-                                        espTitulo = itemCortado[3];
-                                        espPrecio = itemCortado[2];
-                                        espImg = itemCortado[1];
-
-                                        banerTextoCortado = espDescripcion.split("=");
-                                        banerTextoFinal = banerTextoCortado[1];
-
-                                        TextoCortado = espTitulo.split("=");
-                                        espeTituloFinal = TextoCortado[1];
-                                        espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-
-                                        extoCortado = espPrecio.split("=");
-                                        espePrecioFinal = extoCortado[1];
-                                        espfinal = Integer.parseInt(espePrecioFinal);
-
-                                        banerImgCortado = espImg.split("mg=");
-                                        banerImgFinal = banerImgCortado[1];
+                                        editor.putString("web_comida_seccion_3_caracteristica2_titulo", paginaWebComida_.getSecciones().getSpecials().getItems().get(1).getTitulo());
+                                        editor.putString("web_comida_seccion_3_caracteristica2_descripcion", paginaWebComida_.getSecciones().getSpecials().getItems().get(1).getDescripcion());
+                                        editor.putString("web_comida_seccion_3_caracteristica2_url", paginaWebComida_.getSecciones().getSpecials().getItems().get(1).getImg());
+                                        editor.putInt("web_comida_seccion_3_caracteristica2_precio",  paginaWebComida_.getSecciones().getSpecials().getItems().get(1).getPrecio());
 
                                         editor.putString("web_comida_seccion_3_recycler", "3");
-                                        editor.putString("web_comida_seccion_3_caracteristica3_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica3_descripcion", banerTextoFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica3_url", banerImgFinal);
-                                        editor.putInt("web_comida_seccion_3_caracteristica3_precio", espfinal);
+                                        editor.putString("web_comida_seccion_3_caracteristica3_titulo", paginaWebComida_.getSecciones().getSpecials().getItems().get(2).getTitulo());
+                                        editor.putString("web_comida_seccion_3_caracteristica3_descripcion", paginaWebComida_.getSecciones().getSpecials().getItems().get(2).getDescripcion());
+                                        editor.putString("web_comida_seccion_3_caracteristica3_url", paginaWebComida_.getSecciones().getSpecials().getItems().get(2).getImg());
+                                        editor.putInt("web_comida_seccion_3_caracteristica3_precio",  paginaWebComida_.getSecciones().getSpecials().getItems().get(2).getPrecio());
 
                                     }
-                                    else if (datos.size() == 4){
+                                    else if (paginaWebComida_.getSecciones().getSpecials().getItems().size() == 4){
 
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String espDescripcion = itemCortado[0];
-                                        String espTitulo = itemCortado[3];
-                                        String espPrecio = itemCortado[2];
-                                        String espImg = itemCortado[1];
-
-                                        String[] banerTextoCortado = espDescripcion.split("=");
-                                        String banerTextoFinal;
-                                        if(banerTextoCortado.length > 1){
-                                            banerTextoFinal = banerTextoCortado[1];
-                                        }
-                                        else{
-                                            banerTextoFinal = "";
-                                        }
-
-                                        String[] TextoCortado = espTitulo.split("=");
-                                        String espeTituloFinal;
-                                        if(TextoCortado.length > 1){
-                                            espeTituloFinal = TextoCortado[1];
-                                            espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            espeTituloFinal = "";
-                                        }
-
-                                        String[] extoCortado = espPrecio.split("=");
-                                        String espePrecioFinal;
-                                        int espfinal;
-                                        if(extoCortado.length > 1){
-                                            espePrecioFinal = extoCortado[1];
-                                            espfinal = Integer.parseInt(espePrecioFinal);
-                                        }
-                                        else{
-                                            espfinal = 0;
-                                        }
-
-                                        String[] banerImgCortado = espImg.split("mg=");
-                                        String banerImgFinal;
-
-                                        if(banerImgCortado.length > 1){
-                                            banerImgFinal = banerImgCortado[1];
-                                        }
-                                        else{
-                                            banerImgFinal = "";
-                                        }
 
                                         editor.putString("web_comida_seccion_3_recycler", "1");
-                                        editor.putString("web_comida_seccion_3_caracteristica1_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica1_descripcion", banerTextoFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica1_url", banerImgFinal);
-                                        editor.putInt("web_comida_seccion_3_caracteristica1_precio", espfinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        espDescripcion = itemCortado[0];
-                                        espTitulo = itemCortado[3];
-                                        espPrecio = itemCortado[2];
-                                        espImg = itemCortado[1];
-
-                                        banerTextoCortado = espDescripcion.split("=");
-                                        if(banerTextoCortado.length > 1){
-                                            banerTextoFinal = banerTextoCortado[1];
-                                        }
-                                        else{
-                                            banerTextoFinal = "";
-                                        }
-
-                                        TextoCortado = espTitulo.split("=");
-                                        if(TextoCortado.length > 1){
-                                            espeTituloFinal = TextoCortado[1];
-                                            espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            espeTituloFinal = "";
-                                        }
-
-                                        extoCortado = espPrecio.split("=");
-                                        if(extoCortado.length > 1){
-                                            espePrecioFinal = extoCortado[1];
-                                            espfinal = Integer.parseInt(espePrecioFinal);
-                                        }
-                                        else{
-                                            espfinal = 0;
-                                        }
-
-                                        banerImgCortado = espImg.split("mg=");
-                                        if(banerImgCortado.length > 1){
-                                            banerImgFinal = banerImgCortado[1];
-                                        }
-                                        else{
-                                            banerImgFinal = "";
-                                        }
+                                        editor.putString("web_comida_seccion_3_caracteristica1_titulo", paginaWebComida_.getSecciones().getSpecials().getItems().get(0).getTitulo());
+                                        editor.putString("web_comida_seccion_3_caracteristica1_descripcion", paginaWebComida_.getSecciones().getSpecials().getItems().get(0).getDescripcion());
+                                        editor.putString("web_comida_seccion_3_caracteristica1_url", paginaWebComida_.getSecciones().getSpecials().getItems().get(0).getImg());
+                                        editor.putInt("web_comida_seccion_3_caracteristica1_precio", paginaWebComida_.getSecciones().getSpecials().getItems().get(0).getPrecio());
 
                                         editor.putString("web_comida_seccion_3_recycler", "2");
-                                        editor.putString("web_comida_seccion_3_caracteristica2_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica2_descripcion", banerTextoFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica2_url", banerImgFinal);
-                                        editor.putInt("web_comida_seccion_3_caracteristica2_precio", espfinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        espDescripcion = itemCortado[0];
-                                        espTitulo = itemCortado[3];
-                                        espPrecio = itemCortado[2];
-                                        espImg = itemCortado[1];
-
-                                        banerTextoCortado = espDescripcion.split("=");
-                                        if(banerTextoCortado.length > 1){
-                                            banerTextoFinal = banerTextoCortado[1];
-                                        }
-                                        else{
-                                            banerTextoFinal = "";
-                                        }
-
-                                        TextoCortado = espTitulo.split("=");
-                                        if(TextoCortado.length > 1){
-                                            espeTituloFinal = TextoCortado[1];
-                                            espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            espeTituloFinal = "";
-                                        }
-
-                                        extoCortado = espPrecio.split("=");
-                                        if(extoCortado.length > 1){
-                                            espePrecioFinal = extoCortado[1];
-                                            espfinal = Integer.parseInt(espePrecioFinal);
-                                        }
-                                        else{
-                                            espfinal = 0;
-                                        }
-
-                                        banerImgCortado = espImg.split("mg=");
-                                        if(banerImgCortado.length > 1){
-                                            banerImgFinal = banerImgCortado[1];
-                                        }
-                                        else{
-                                            banerImgFinal = "";
-                                        }
+                                        editor.putString("web_comida_seccion_3_caracteristica2_titulo", paginaWebComida_.getSecciones().getSpecials().getItems().get(1).getTitulo());
+                                        editor.putString("web_comida_seccion_3_caracteristica2_descripcion", paginaWebComida_.getSecciones().getSpecials().getItems().get(1).getDescripcion());
+                                        editor.putString("web_comida_seccion_3_caracteristica2_url", paginaWebComida_.getSecciones().getSpecials().getItems().get(1).getImg());
+                                        editor.putInt("web_comida_seccion_3_caracteristica2_precio", paginaWebComida_.getSecciones().getSpecials().getItems().get(1).getPrecio());
 
                                         editor.putString("web_comida_seccion_3_recycler", "3");
-                                        editor.putString("web_comida_seccion_3_caracteristica3_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica3_descripcion", banerTextoFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica3_url", banerImgFinal);
-                                        editor.putInt("web_comida_seccion_3_caracteristica3_precio", espfinal);
-
-                                        frase = datos.get(3).toString();
-
-                                        itemCortado = frase.split(",");
-                                        espDescripcion = itemCortado[0];
-                                        espTitulo = itemCortado[3];
-                                        espPrecio = itemCortado[2];
-                                        espImg = itemCortado[1];
-
-                                        banerTextoCortado = espDescripcion.split("=");
-                                        if(banerTextoCortado.length > 1){
-                                            banerTextoFinal = banerTextoCortado[1];
-                                        }
-                                        else{
-                                            banerTextoFinal = "";
-                                        }
-
-                                        TextoCortado = espTitulo.split("=");
-                                        if(TextoCortado.length > 1){
-                                            espeTituloFinal = TextoCortado[1];
-                                            espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            espeTituloFinal = "";
-                                        }
-
-                                        extoCortado = espPrecio.split("=");
-                                        if(extoCortado.length > 1){
-                                            espePrecioFinal = extoCortado[1];
-                                            espfinal = Integer.parseInt(espePrecioFinal);
-                                        }
-                                        else{
-                                            espfinal = 0;
-                                        }
-
-                                        banerImgCortado = espImg.split("mg=");
-                                        if(banerImgCortado.length > 1){
-                                            banerImgFinal = banerImgCortado[1];
-                                        }
-                                        else{
-                                            banerImgFinal = "";
-                                        }
+                                        editor.putString("web_comida_seccion_3_caracteristica3_titulo", paginaWebComida_.getSecciones().getSpecials().getItems().get(2).getTitulo());
+                                        editor.putString("web_comida_seccion_3_caracteristica3_descripcion", paginaWebComida_.getSecciones().getSpecials().getItems().get(2).getDescripcion());
+                                        editor.putString("web_comida_seccion_3_caracteristica3_url", paginaWebComida_.getSecciones().getSpecials().getItems().get(2).getImg());
+                                        editor.putInt("web_comida_seccion_3_caracteristica3_precio", paginaWebComida_.getSecciones().getSpecials().getItems().get(2).getPrecio());
 
                                         editor.putString("web_comida_seccion_3_recycler", "4");
-                                        editor.putString("web_comida_seccion_3_caracteristica4_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica4_descripcion", banerTextoFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica4_url", banerImgFinal);
-                                        editor.putInt("web_comida_seccion_3_caracteristica4_precio", espfinal);
+                                        editor.putString("web_comida_seccion_3_caracteristica4_titulo", paginaWebComida_.getSecciones().getSpecials().getItems().get(3).getTitulo());
+                                        editor.putString("web_comida_seccion_3_caracteristica4_descripcion", paginaWebComida_.getSecciones().getSpecials().getItems().get(3).getDescripcion());
+                                        editor.putString("web_comida_seccion_3_caracteristica4_url", paginaWebComida_.getSecciones().getSpecials().getItems().get(3).getImg());
+                                        editor.putInt("web_comida_seccion_3_caracteristica4_precio", paginaWebComida_.getSecciones().getSpecials().getItems().get(3).getPrecio());
 
                                     }
-                                    else if (datos.size() == 5){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String espDescripcion = itemCortado[0];
-                                        String espTitulo = itemCortado[3];
-                                        String espPrecio = itemCortado[2];
-                                        String espImg = itemCortado[1];
-
-                                        String[] banerTextoCortado = espDescripcion.split("=");
-                                        String banerTextoFinal;
-                                        if(banerTextoCortado.length > 1){
-                                            banerTextoFinal = banerTextoCortado[1];
-                                        }
-                                        else{
-                                            banerTextoFinal = "";
-                                        }
-
-                                        String[] TextoCortado = espTitulo.split("=");
-                                        String espeTituloFinal;
-                                        if(TextoCortado.length > 1){
-                                            espeTituloFinal = TextoCortado[1];
-                                            espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            espeTituloFinal = "";
-                                        }
-
-                                        String[] extoCortado = espPrecio.split("=");
-                                        String espePrecioFinal;
-                                        int espfinal;
-                                        if(extoCortado.length > 1){
-                                            espePrecioFinal = extoCortado[1];
-                                            espfinal = Integer.parseInt(espePrecioFinal);
-                                        }
-                                        else{
-                                            espfinal = 0;
-                                        }
-
-                                        String[] banerImgCortado = espImg.split("mg=");
-                                        String banerImgFinal;
-
-                                        if(banerImgCortado.length > 1){
-                                            banerImgFinal = banerImgCortado[1];
-                                        }
-                                        else{
-                                            banerImgFinal = "";
-                                        }
+                                    else if (paginaWebComida_.getSecciones().getSpecials().getItems().size() == 5){
 
                                         editor.putString("web_comida_seccion_3_recycler", "1");
-                                        editor.putString("web_comida_seccion_3_caracteristica1_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica1_descripcion", banerTextoFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica1_url", banerImgFinal);
-                                        editor.putInt("web_comida_seccion_3_caracteristica1_precio", espfinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        espDescripcion = itemCortado[0];
-                                        espTitulo = itemCortado[3];
-                                        espPrecio = itemCortado[2];
-                                        espImg = itemCortado[1];
-
-                                        banerTextoCortado = espDescripcion.split("=");
-                                        if(banerTextoCortado.length > 1){
-                                            banerTextoFinal = banerTextoCortado[1];
-                                        }
-                                        else{
-                                            banerTextoFinal = "";
-                                        }
-
-                                        TextoCortado = espTitulo.split("=");
-                                        if(TextoCortado.length > 1){
-                                            espeTituloFinal = TextoCortado[1];
-                                            espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            espeTituloFinal = "";
-                                        }
-
-                                        extoCortado = espPrecio.split("=");
-                                        if(extoCortado.length > 1){
-                                            espePrecioFinal = extoCortado[1];
-                                            espfinal = Integer.parseInt(espePrecioFinal);
-                                        }
-                                        else{
-                                            espfinal = 0;
-                                        }
-
-                                        banerImgCortado = espImg.split("mg=");
-                                        if(banerImgCortado.length > 1){
-                                            banerImgFinal = banerImgCortado[1];
-                                        }
-                                        else{
-                                            banerImgFinal = "";
-                                        }
+                                        editor.putString("web_comida_seccion_3_caracteristica1_titulo", paginaWebComida_.getSecciones().getSpecials().getItems().get(0).getTitulo());
+                                        editor.putString("web_comida_seccion_3_caracteristica1_descripcion", paginaWebComida_.getSecciones().getSpecials().getItems().get(0).getDescripcion());
+                                        editor.putString("web_comida_seccion_3_caracteristica1_url", paginaWebComida_.getSecciones().getSpecials().getItems().get(0).getImg());
+                                        editor.putInt("web_comida_seccion_3_caracteristica1_precio", paginaWebComida_.getSecciones().getSpecials().getItems().get(0).getPrecio());
 
                                         editor.putString("web_comida_seccion_3_recycler", "2");
-                                        editor.putString("web_comida_seccion_3_caracteristica2_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica2_descripcion", banerTextoFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica2_url", banerImgFinal);
-                                        editor.putInt("web_comida_seccion_3_caracteristica2_precio", espfinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        espDescripcion = itemCortado[0];
-                                        espTitulo = itemCortado[3];
-                                        espPrecio = itemCortado[2];
-                                        espImg = itemCortado[1];
-
-                                        banerTextoCortado = espDescripcion.split("=");
-                                        if(banerTextoCortado.length > 1){
-                                            banerTextoFinal = banerTextoCortado[1];
-                                        }
-                                        else{
-                                            banerTextoFinal = "";
-                                        }
-
-                                        TextoCortado = espTitulo.split("=");
-                                        if(TextoCortado.length > 1){
-                                            espeTituloFinal = TextoCortado[1];
-                                            espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            espeTituloFinal = "";
-                                        }
-
-                                        extoCortado = espPrecio.split("=");
-                                        if(extoCortado.length > 1){
-                                            espePrecioFinal = extoCortado[1];
-                                            espfinal = Integer.parseInt(espePrecioFinal);
-                                        }
-                                        else{
-                                            espfinal = 0;
-                                        }
-
-                                        banerImgCortado = espImg.split("mg=");
-                                        if(banerImgCortado.length > 1){
-                                            banerImgFinal = banerImgCortado[1];
-                                        }
-                                        else{
-                                            banerImgFinal = "";
-                                        }
+                                        editor.putString("web_comida_seccion_3_caracteristica2_titulo", paginaWebComida_.getSecciones().getSpecials().getItems().get(1).getTitulo());
+                                        editor.putString("web_comida_seccion_3_caracteristica2_descripcion", paginaWebComida_.getSecciones().getSpecials().getItems().get(1).getDescripcion());
+                                        editor.putString("web_comida_seccion_3_caracteristica2_url", paginaWebComida_.getSecciones().getSpecials().getItems().get(1).getImg());
+                                        editor.putInt("web_comida_seccion_3_caracteristica2_precio", paginaWebComida_.getSecciones().getSpecials().getItems().get(1).getPrecio());
 
                                         editor.putString("web_comida_seccion_3_recycler", "3");
-                                        editor.putString("web_comida_seccion_3_caracteristica3_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica3_descripcion", banerTextoFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica3_url", banerImgFinal);
-                                        editor.putInt("web_comida_seccion_3_caracteristica3_precio", espfinal);
-
-                                        frase = datos.get(3).toString();
-
-                                        itemCortado = frase.split(",");
-                                        espDescripcion = itemCortado[0];
-                                        espTitulo = itemCortado[3];
-                                        espPrecio = itemCortado[2];
-                                        espImg = itemCortado[1];
-
-                                        banerTextoCortado = espDescripcion.split("=");
-                                        if(banerTextoCortado.length > 1){
-                                            banerTextoFinal = banerTextoCortado[1];
-                                        }
-                                        else{
-                                            banerTextoFinal = "";
-                                        }
-
-                                        TextoCortado = espTitulo.split("=");
-                                        if(TextoCortado.length > 1){
-                                            espeTituloFinal = TextoCortado[1];
-                                            espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            espeTituloFinal = "";
-                                        }
-
-                                        extoCortado = espPrecio.split("=");
-                                        if(extoCortado.length > 1){
-                                            espePrecioFinal = extoCortado[1];
-                                            espfinal = Integer.parseInt(espePrecioFinal);
-                                        }
-                                        else{
-                                            espfinal = 0;
-                                        }
-
-                                        banerImgCortado = espImg.split("mg=");
-                                        if(banerImgCortado.length > 1){
-                                            banerImgFinal = banerImgCortado[1];
-                                        }
-                                        else{
-                                            banerImgFinal = "";
-                                        }
+                                        editor.putString("web_comida_seccion_3_caracteristica3_titulo", paginaWebComida_.getSecciones().getSpecials().getItems().get(2).getTitulo());
+                                        editor.putString("web_comida_seccion_3_caracteristica3_descripcion", paginaWebComida_.getSecciones().getSpecials().getItems().get(2).getDescripcion());
+                                        editor.putString("web_comida_seccion_3_caracteristica3_url", paginaWebComida_.getSecciones().getSpecials().getItems().get(2).getImg());
+                                        editor.putInt("web_comida_seccion_3_caracteristica3_precio", paginaWebComida_.getSecciones().getSpecials().getItems().get(2).getPrecio());
 
                                         editor.putString("web_comida_seccion_3_recycler", "4");
-                                        editor.putString("web_comida_seccion_3_caracteristica4_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica4_descripcion", banerTextoFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica4_url", banerImgFinal);
-                                        editor.putInt("web_comida_seccion_3_caracteristica4_precio", espfinal);
-
-                                        frase = datos.get(4).toString();
-
-                                        itemCortado = frase.split(",");
-                                        espDescripcion = itemCortado[0];
-                                        espTitulo = itemCortado[3];
-                                        espPrecio = itemCortado[2];
-                                        espImg = itemCortado[1];
-
-                                        banerTextoCortado = espDescripcion.split("=");
-                                        if(banerTextoCortado.length > 1){
-                                            banerTextoFinal = banerTextoCortado[1];
-                                        }
-                                        else{
-                                            banerTextoFinal = "";
-                                        }
-
-                                        TextoCortado = espTitulo.split("=");
-                                        if(TextoCortado.length > 1){
-                                            espeTituloFinal = TextoCortado[1];
-                                            espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            espeTituloFinal = "";
-                                        }
-
-                                        extoCortado = espPrecio.split("=");
-                                        if(extoCortado.length > 1){
-                                            espePrecioFinal = extoCortado[1];
-                                            espfinal = Integer.parseInt(espePrecioFinal);
-                                        }
-                                        else{
-                                            espfinal = 0;
-                                        }
-
-                                        banerImgCortado = espImg.split("mg=");
-                                        if(banerImgCortado.length > 1){
-                                            banerImgFinal = banerImgCortado[1];
-                                        }
-                                        else{
-                                            banerImgFinal = "";
-                                        }
+                                        editor.putString("web_comida_seccion_3_caracteristica4_titulo", paginaWebComida_.getSecciones().getSpecials().getItems().get(3).getTitulo());
+                                        editor.putString("web_comida_seccion_3_caracteristica4_descripcion", paginaWebComida_.getSecciones().getSpecials().getItems().get(3).getDescripcion());
+                                        editor.putString("web_comida_seccion_3_caracteristica4_url", paginaWebComida_.getSecciones().getSpecials().getItems().get(3).getImg());
+                                        editor.putInt("web_comida_seccion_3_caracteristica4_precio", paginaWebComida_.getSecciones().getSpecials().getItems().get(3).getPrecio());
 
                                         editor.putString("web_comida_seccion_3_recycler", "5");
-                                        editor.putString("web_comida_seccion_3_caracteristica5_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica5_descripcion", banerTextoFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica5_url", banerImgFinal);
-                                        editor.putInt("web_comida_seccion_3_caracteristica5_precio", espfinal);
+                                        editor.putString("web_comida_seccion_3_caracteristica5_titulo", paginaWebComida_.getSecciones().getSpecials().getItems().get(4).getTitulo());
+                                        editor.putString("web_comida_seccion_3_caracteristica5_descripcion", paginaWebComida_.getSecciones().getSpecials().getItems().get(4).getDescripcion());
+                                        editor.putString("web_comida_seccion_3_caracteristica5_url", paginaWebComida_.getSecciones().getSpecials().getItems().get(4).getImg());
+                                        editor.putInt("web_comida_seccion_3_caracteristica5_precio", paginaWebComida_.getSecciones().getSpecials().getItems().get(4).getPrecio());
 
                                     }
-                                    else if (datos.size() == 6){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String espDescripcion = itemCortado[0];
-                                        String espTitulo = itemCortado[3];
-                                        String espPrecio = itemCortado[2];
-                                        String espImg = itemCortado[1];
-
-                                        String[] banerTextoCortado = espDescripcion.split("=");
-                                        String banerTextoFinal;
-                                        if(banerTextoCortado.length > 1){
-                                            banerTextoFinal = banerTextoCortado[1];
-                                        }
-                                        else{
-                                            banerTextoFinal = "";
-                                        }
-
-                                        String[] TextoCortado = espTitulo.split("=");
-                                        String espeTituloFinal;
-                                        if(TextoCortado.length > 1){
-                                            espeTituloFinal = TextoCortado[1];
-                                            espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            espeTituloFinal = "";
-                                        }
-
-                                        String[] extoCortado = espPrecio.split("=");
-                                        String espePrecioFinal;
-                                        int espfinal;
-                                        if(extoCortado.length > 1){
-                                            espePrecioFinal = extoCortado[1];
-                                            espfinal = Integer.parseInt(espePrecioFinal);
-                                        }
-                                        else{
-                                            espfinal = 0;
-                                        }
-
-                                        String[] banerImgCortado = espImg.split("mg=");
-                                        String banerImgFinal;
-
-                                        if(banerImgCortado.length > 1){
-                                            banerImgFinal = banerImgCortado[1];
-                                        }
-                                        else{
-                                            banerImgFinal = "";
-                                        }
+                                    else if (paginaWebComida_.getSecciones().getSpecials().getItems().size() == 6){
 
                                         editor.putString("web_comida_seccion_3_recycler", "1");
-                                        editor.putString("web_comida_seccion_3_caracteristica1_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica1_descripcion", banerTextoFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica1_url", banerImgFinal);
-                                        editor.putInt("web_comida_seccion_3_caracteristica1_precio", espfinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        espDescripcion = itemCortado[0];
-                                        espTitulo = itemCortado[3];
-                                        espPrecio = itemCortado[2];
-                                        espImg = itemCortado[1];
-
-                                        banerTextoCortado = espDescripcion.split("=");
-                                        if(banerTextoCortado.length > 1){
-                                            banerTextoFinal = banerTextoCortado[1];
-                                        }
-                                        else{
-                                            banerTextoFinal = "";
-                                        }
-
-                                        TextoCortado = espTitulo.split("=");
-                                        if(TextoCortado.length > 1){
-                                            espeTituloFinal = TextoCortado[1];
-                                            espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            espeTituloFinal = "";
-                                        }
-
-                                        extoCortado = espPrecio.split("=");
-                                        if(extoCortado.length > 1){
-                                            espePrecioFinal = extoCortado[1];
-                                            espfinal = Integer.parseInt(espePrecioFinal);
-                                        }
-                                        else{
-                                            espfinal = 0;
-                                        }
-
-                                        banerImgCortado = espImg.split("mg=");
-                                        if(banerImgCortado.length > 1){
-                                            banerImgFinal = banerImgCortado[1];
-                                        }
-                                        else{
-                                            banerImgFinal = "";
-                                        }
+                                        editor.putString("web_comida_seccion_3_caracteristica1_titulo", paginaWebComida_.getSecciones().getSpecials().getItems().get(0).getTitulo());
+                                        editor.putString("web_comida_seccion_3_caracteristica1_descripcion", paginaWebComida_.getSecciones().getSpecials().getItems().get(0).getDescripcion());
+                                        editor.putString("web_comida_seccion_3_caracteristica1_url", paginaWebComida_.getSecciones().getSpecials().getItems().get(0).getImg());
+                                        editor.putInt("web_comida_seccion_3_caracteristica1_precio", paginaWebComida_.getSecciones().getSpecials().getItems().get(0).getPrecio());
 
                                         editor.putString("web_comida_seccion_3_recycler", "2");
-                                        editor.putString("web_comida_seccion_3_caracteristica2_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica2_descripcion", banerTextoFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica2_url", banerImgFinal);
-                                        editor.putInt("web_comida_seccion_3_caracteristica2_precio", espfinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        espDescripcion = itemCortado[0];
-                                        espTitulo = itemCortado[3];
-                                        espPrecio = itemCortado[2];
-                                        espImg = itemCortado[1];
-
-                                        banerTextoCortado = espDescripcion.split("=");
-                                        if(banerTextoCortado.length > 1){
-                                            banerTextoFinal = banerTextoCortado[1];
-                                        }
-                                        else{
-                                            banerTextoFinal = "";
-                                        }
-
-                                        TextoCortado = espTitulo.split("=");
-                                        if(TextoCortado.length > 1){
-                                            espeTituloFinal = TextoCortado[1];
-                                            espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            espeTituloFinal = "";
-                                        }
-
-                                        extoCortado = espPrecio.split("=");
-                                        if(extoCortado.length > 1){
-                                            espePrecioFinal = extoCortado[1];
-                                            espfinal = Integer.parseInt(espePrecioFinal);
-                                        }
-                                        else{
-                                            espfinal = 0;
-                                        }
-
-                                        banerImgCortado = espImg.split("mg=");
-                                        if(banerImgCortado.length > 1){
-                                            banerImgFinal = banerImgCortado[1];
-                                        }
-                                        else{
-                                            banerImgFinal = "";
-                                        }
+                                        editor.putString("web_comida_seccion_3_caracteristica2_titulo", paginaWebComida_.getSecciones().getSpecials().getItems().get(1).getTitulo());
+                                        editor.putString("web_comida_seccion_3_caracteristica2_descripcion", paginaWebComida_.getSecciones().getSpecials().getItems().get(1).getDescripcion());
+                                        editor.putString("web_comida_seccion_3_caracteristica2_url", paginaWebComida_.getSecciones().getSpecials().getItems().get(1).getImg());
+                                        editor.putInt("web_comida_seccion_3_caracteristica2_precio", paginaWebComida_.getSecciones().getSpecials().getItems().get(1).getPrecio());
 
                                         editor.putString("web_comida_seccion_3_recycler", "3");
-                                        editor.putString("web_comida_seccion_3_caracteristica3_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica3_descripcion", banerTextoFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica3_url", banerImgFinal);
-                                        editor.putInt("web_comida_seccion_3_caracteristica3_precio", espfinal);
-
-                                        frase = datos.get(3).toString();
-
-                                        itemCortado = frase.split(",");
-                                        espDescripcion = itemCortado[0];
-                                        espTitulo = itemCortado[3];
-                                        espPrecio = itemCortado[2];
-                                        espImg = itemCortado[1];
-
-                                        banerTextoCortado = espDescripcion.split("=");
-                                        if(banerTextoCortado.length > 1){
-                                            banerTextoFinal = banerTextoCortado[1];
-                                        }
-                                        else{
-                                            banerTextoFinal = "";
-                                        }
-
-                                        TextoCortado = espTitulo.split("=");
-                                        if(TextoCortado.length > 1){
-                                            espeTituloFinal = TextoCortado[1];
-                                            espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            espeTituloFinal = "";
-                                        }
-
-                                        extoCortado = espPrecio.split("=");
-                                        if(extoCortado.length > 1){
-                                            espePrecioFinal = extoCortado[1];
-                                            espfinal = Integer.parseInt(espePrecioFinal);
-                                        }
-                                        else{
-                                            espfinal = 0;
-                                        }
-
-                                        banerImgCortado = espImg.split("mg=");
-                                        if(banerImgCortado.length > 1){
-                                            banerImgFinal = banerImgCortado[1];
-                                        }
-                                        else{
-                                            banerImgFinal = "";
-                                        }
+                                        editor.putString("web_comida_seccion_3_caracteristica3_titulo", paginaWebComida_.getSecciones().getSpecials().getItems().get(2).getTitulo());
+                                        editor.putString("web_comida_seccion_3_caracteristica3_descripcion", paginaWebComida_.getSecciones().getSpecials().getItems().get(2).getDescripcion());
+                                        editor.putString("web_comida_seccion_3_caracteristica3_url", paginaWebComida_.getSecciones().getSpecials().getItems().get(2).getImg());
+                                        editor.putInt("web_comida_seccion_3_caracteristica3_precio", paginaWebComida_.getSecciones().getSpecials().getItems().get(2).getPrecio());
 
                                         editor.putString("web_comida_seccion_3_recycler", "4");
-                                        editor.putString("web_comida_seccion_3_caracteristica4_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica4_descripcion", banerTextoFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica4_url", banerImgFinal);
-                                        editor.putInt("web_comida_seccion_3_caracteristica4_precio", espfinal);
-
-                                        frase = datos.get(4).toString();
-
-                                        itemCortado = frase.split(",");
-                                        espDescripcion = itemCortado[0];
-                                        espTitulo = itemCortado[3];
-                                        espPrecio = itemCortado[2];
-                                        espImg = itemCortado[1];
-
-                                        banerTextoCortado = espDescripcion.split("=");
-                                        if(banerTextoCortado.length > 1){
-                                            banerTextoFinal = banerTextoCortado[1];
-                                        }
-                                        else{
-                                            banerTextoFinal = "";
-                                        }
-
-                                        TextoCortado = espTitulo.split("=");
-                                        if(TextoCortado.length > 1){
-                                            espeTituloFinal = TextoCortado[1];
-                                            espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            espeTituloFinal = "";
-                                        }
-
-                                        extoCortado = espPrecio.split("=");
-                                        if(extoCortado.length > 1){
-                                            espePrecioFinal = extoCortado[1];
-                                            espfinal = Integer.parseInt(espePrecioFinal);
-                                        }
-                                        else{
-                                            espfinal = 0;
-                                        }
-
-                                        banerImgCortado = espImg.split("mg=");
-                                        if(banerImgCortado.length > 1){
-                                            banerImgFinal = banerImgCortado[1];
-                                        }
-                                        else{
-                                            banerImgFinal = "";
-                                        }
+                                        editor.putString("web_comida_seccion_3_caracteristica4_titulo", paginaWebComida_.getSecciones().getSpecials().getItems().get(3).getTitulo());
+                                        editor.putString("web_comida_seccion_3_caracteristica4_descripcion", paginaWebComida_.getSecciones().getSpecials().getItems().get(3).getDescripcion());
+                                        editor.putString("web_comida_seccion_3_caracteristica4_url", paginaWebComida_.getSecciones().getSpecials().getItems().get(3).getImg());
+                                        editor.putInt("web_comida_seccion_3_caracteristica4_precio", paginaWebComida_.getSecciones().getSpecials().getItems().get(3).getPrecio());
 
                                         editor.putString("web_comida_seccion_3_recycler", "5");
-                                        editor.putString("web_comida_seccion_3_caracteristica5_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica5_descripcion", banerTextoFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica5_url", banerImgFinal);
-                                        editor.putInt("web_comida_seccion_3_caracteristica5_precio", espfinal);
-
-                                        frase = datos.get(5).toString();
-
-                                        itemCortado = frase.split(",");
-                                        espDescripcion = itemCortado[0];
-                                        espTitulo = itemCortado[3];
-                                        espPrecio = itemCortado[2];
-                                        espImg = itemCortado[1];
-
-                                        banerTextoCortado = espDescripcion.split("=");
-                                        if(banerTextoCortado.length > 1){
-                                            banerTextoFinal = banerTextoCortado[1];
-                                        }
-                                        else{
-                                            banerTextoFinal = "";
-                                        }
-
-                                        TextoCortado = espTitulo.split("=");
-                                        if(TextoCortado.length > 1){
-                                            espeTituloFinal = TextoCortado[1];
-                                            espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            espeTituloFinal = "";
-                                        }
-
-                                        extoCortado = espPrecio.split("=");
-                                        if(extoCortado.length > 1){
-                                            espePrecioFinal = extoCortado[1];
-                                            espfinal = Integer.parseInt(espePrecioFinal);
-                                        }
-                                        else{
-                                            espfinal = 0;
-                                        }
-
-                                        banerImgCortado = espImg.split("mg=");
-                                        if(banerImgCortado.length > 1){
-                                            banerImgFinal = banerImgCortado[1];
-                                        }
-                                        else{
-                                            banerImgFinal = "";
-                                        }
+                                        editor.putString("web_comida_seccion_3_caracteristica5_titulo", paginaWebComida_.getSecciones().getSpecials().getItems().get(4).getTitulo());
+                                        editor.putString("web_comida_seccion_3_caracteristica5_descripcion", paginaWebComida_.getSecciones().getSpecials().getItems().get(4).getDescripcion());
+                                        editor.putString("web_comida_seccion_3_caracteristica5_url", paginaWebComida_.getSecciones().getSpecials().getItems().get(4).getImg());
+                                        editor.putInt("web_comida_seccion_3_caracteristica5_precio", paginaWebComida_.getSecciones().getSpecials().getItems().get(4).getPrecio());
 
                                         editor.putString("web_comida_seccion_3_recycler", "6");
-                                        editor.putString("web_comida_seccion_3_caracteristica6_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica6_descripcion", banerTextoFinal);
-                                        editor.putString("web_comida_seccion_3_caracteristica6_url", banerImgFinal);
-                                        editor.putInt("web_comida_seccion_3_caracteristica6_precio", espfinal);
+                                        editor.putString("web_comida_seccion_3_caracteristica6_titulo", paginaWebComida_.getSecciones().getSpecials().getItems().get(5).getTitulo());
+                                        editor.putString("web_comida_seccion_3_caracteristica6_descripcion", paginaWebComida_.getSecciones().getSpecials().getItems().get(5).getDescripcion());
+                                        editor.putString("web_comida_seccion_3_caracteristica6_url", paginaWebComida_.getSecciones().getSpecials().getItems().get(5).getImg());
+                                        editor.putInt("web_comida_seccion_3_caracteristica6_precio", paginaWebComida_.getSecciones().getSpecials().getItems().get(5).getPrecio());
 
                                     }
 
                                     // variables menu
-                                    String menu_navbar = "";
-                                    String menu_header = "";
+                                    editor.putString("web_comida_titulo_seccion5",paginaWebComida_.getSecciones().getMenu().getNavbar());
 
-                                    menu_navbar = (String)menu.get("navbar");
-                                    menu_header = (String)menu.get("header");
 
-                                    prueba  = menu.get("items");
-                                    datos = convertObjectToList(prueba);
-
-                                    String frase3 = datos.get(0).toString();
-
-                                    if (datos.size() == 1){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String espDescripcion = itemCortado[0];
-                                        String espTitulo = itemCortado[2];
-                                        String espPrecio = itemCortado[1];
-
-                                        String[] banerTextoCortado = espDescripcion.split("=");
-                                        String banerTextoFinal = banerTextoCortado[1];
-
-                                        String[] TextoCortado = espTitulo.split("=");
-                                        String espeTituloFinal = TextoCortado[1];
-                                        espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-
-                                        String[] extoCortado = espPrecio.split("=");
-                                        String espePrecioFinal = extoCortado[1];
-                                        int espfinal = Integer.parseInt(espePrecioFinal);
+                                    if (paginaWebComida_.getSecciones().getMenu().getItems().size() == 1){
 
                                         editor.putString("web_comida_seccion_5_recycler", "1");
-                                        editor.putString("web_comida_seccion_5_caracteristica1_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_5_caracteristica1_descripcion", banerTextoFinal);
-                                        editor.putInt("web_comida_seccion_5_caracteristica1_precio", espfinal);
+                                        editor.putString("web_comida_seccion_5_caracteristica1_titulo", paginaWebComida_.getSecciones().getMenu().getItems().get(0).getTitulo());
+                                        editor.putString("web_comida_seccion_5_caracteristica1_descripcion", paginaWebComida_.getSecciones().getMenu().getItems().get(0).getDescripcion());
+                                        editor.putInt("web_comida_seccion_5_caracteristica1_precio", paginaWebComida_.getSecciones().getMenu().getItems().get(0).getPrecio());
 
                                     }
-                                    else if (datos.size() == 2){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String espDescripcion = itemCortado[0];
-                                        String espTitulo = itemCortado[2];
-                                        String espPrecio = itemCortado[1];
-
-                                        String[] banerTextoCortado = espDescripcion.split("=");
-                                        String banerTextoFinal = banerTextoCortado[1];
-
-                                        String[] TextoCortado = espTitulo.split("=");
-                                        String espeTituloFinal = TextoCortado[1];
-                                        espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-
-                                        String[] extoCortado = espPrecio.split("=");
-                                        String espePrecioFinal = extoCortado[1];
-                                        int espfinal = Integer.parseInt(espePrecioFinal);
+                                    else if (paginaWebComida_.getSecciones().getMenu().getItems().size() == 2){
 
                                         editor.putString("web_comida_seccion_5_recycler", "1");
-                                        editor.putString("web_comida_seccion_5_caracteristica1_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_5_caracteristica1_descripcion", banerTextoFinal);
-                                        editor.putInt("web_comida_seccion_5_caracteristica1_precio", espfinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        espDescripcion = itemCortado[0];
-                                        espTitulo = itemCortado[2];
-                                        espPrecio = itemCortado[1];
-
-                                        banerTextoCortado = espDescripcion.split("=");
-                                        banerTextoFinal = banerTextoCortado[1];
-
-                                        TextoCortado = espTitulo.split("=");
-                                        espeTituloFinal = TextoCortado[1];
-                                        espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-
-                                        extoCortado = espPrecio.split("=");
-                                        espePrecioFinal = extoCortado[1];
-                                        espfinal = Integer.parseInt(espePrecioFinal);
+                                        editor.putString("web_comida_seccion_5_caracteristica1_titulo", paginaWebComida_.getSecciones().getMenu().getItems().get(0).getTitulo());
+                                        editor.putString("web_comida_seccion_5_caracteristica1_descripcion", paginaWebComida_.getSecciones().getMenu().getItems().get(0).getDescripcion());
+                                        editor.putInt("web_comida_seccion_5_caracteristica1_precio", paginaWebComida_.getSecciones().getMenu().getItems().get(0).getPrecio());
 
                                         editor.putString("web_comida_seccion_5_recycler", "2");
-                                        editor.putString("web_comida_seccion_5_caracteristica2_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_5_caracteristica2_descripcion", banerTextoFinal);
-                                        editor.putInt("web_comida_seccion_5_caracteristica2_precio", espfinal);
+                                        editor.putString("web_comida_seccion_5_caracteristica2_titulo", paginaWebComida_.getSecciones().getMenu().getItems().get(1).getTitulo());
+                                        editor.putString("web_comida_seccion_5_caracteristica2_descripcion", paginaWebComida_.getSecciones().getMenu().getItems().get(1).getDescripcion());
+                                        editor.putInt("web_comida_seccion_5_caracteristica2_precio", paginaWebComida_.getSecciones().getMenu().getItems().get(1).getPrecio());
 
                                     }
-                                    else if (datos.size() == 3){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String espDescripcion = itemCortado[0];
-                                        String espTitulo = itemCortado[2];
-                                        String espPrecio = itemCortado[1];
-
-                                        String[] banerTextoCortado = espDescripcion.split("=");
-                                        String banerTextoFinal;
-                                        if(banerTextoCortado.length > 1){
-                                            banerTextoFinal = banerTextoCortado[1];
-                                        }
-                                        else{
-                                            banerTextoFinal = "";
-                                        }
-
-                                        String[] TextoCortado = espTitulo.split("=");
-                                        String espeTituloFinal;
-                                        if(TextoCortado.length > 1){
-                                            espeTituloFinal = TextoCortado[1];
-                                            espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            espeTituloFinal = "";
-                                        }
-
-                                        String[] extoCortado = espPrecio.split("=");
-                                        String espePrecioFinal;
-                                        int espfinal;
-                                        if(extoCortado.length > 1){
-                                            espePrecioFinal = extoCortado[1];
-                                            espfinal = Integer.parseInt(espePrecioFinal);
-                                        }
-                                        else{
-                                            espfinal = 0;
-                                        }
+                                    else if (paginaWebComida_.getSecciones().getMenu().getItems().size() == 3){
 
                                         editor.putString("web_comida_seccion_5_recycler", "1");
-                                        editor.putString("web_comida_seccion_5_caracteristica1_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_5_caracteristica1_descripcion", banerTextoFinal);
-                                        editor.putInt("web_comida_seccion_5_caracteristica1_precio", espfinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        espDescripcion = itemCortado[0];
-                                        espTitulo = itemCortado[2];
-                                        espPrecio = itemCortado[1];
-
-                                        banerTextoCortado = espDescripcion.split("=");
-                                        if(banerTextoCortado.length > 1){
-                                            banerTextoFinal = banerTextoCortado[1];
-                                        }
-                                        else{
-                                            banerTextoFinal = "";
-                                        }
-
-                                        TextoCortado = espTitulo.split("=");
-                                        if(TextoCortado.length > 1){
-                                            espeTituloFinal = TextoCortado[1];
-                                            espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            espeTituloFinal = "";
-                                        }
-
-                                        extoCortado = espPrecio.split("=");
-                                        if(extoCortado.length > 1){
-                                            espePrecioFinal = extoCortado[1];
-                                            espfinal = Integer.parseInt(espePrecioFinal);
-                                        }
-                                        else{
-                                            espfinal = 0;
-                                        }
+                                        editor.putString("web_comida_seccion_5_caracteristica1_titulo", paginaWebComida_.getSecciones().getMenu().getItems().get(0).getTitulo());
+                                        editor.putString("web_comida_seccion_5_caracteristica1_descripcion", paginaWebComida_.getSecciones().getMenu().getItems().get(0).getDescripcion());
+                                        editor.putInt("web_comida_seccion_5_caracteristica1_precio", paginaWebComida_.getSecciones().getMenu().getItems().get(0).getPrecio());
 
                                         editor.putString("web_comida_seccion_5_recycler", "2");
-                                        editor.putString("web_comida_seccion_5_caracteristica2_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_5_caracteristica2_descripcion", banerTextoFinal);
-                                        editor.putInt("web_comida_seccion_5_caracteristica2_precio", espfinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        espDescripcion = itemCortado[0];
-                                        espTitulo = itemCortado[2];
-                                        espPrecio = itemCortado[1];
-
-                                        banerTextoCortado = espDescripcion.split("=");
-                                        if(banerTextoCortado.length > 1){
-                                            banerTextoFinal = banerTextoCortado[1];
-                                        }
-                                        else{
-                                            banerTextoFinal = "";
-                                        }
-
-                                        TextoCortado = espTitulo.split("=");
-                                        if(TextoCortado.length > 1){
-                                            espeTituloFinal = TextoCortado[1];
-                                            espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            espeTituloFinal = "";
-                                        }
-
-                                        extoCortado = espPrecio.split("=");
-                                        if(extoCortado.length > 1){
-                                            espePrecioFinal = extoCortado[1];
-                                            espfinal = Integer.parseInt(espePrecioFinal);
-                                        }
-                                        else{
-                                            espfinal = 0;
-                                        }
+                                        editor.putString("web_comida_seccion_5_caracteristica2_titulo", paginaWebComida_.getSecciones().getMenu().getItems().get(1).getTitulo());
+                                        editor.putString("web_comida_seccion_5_caracteristica2_descripcion", paginaWebComida_.getSecciones().getMenu().getItems().get(1).getDescripcion());
+                                        editor.putInt("web_comida_seccion_5_caracteristica2_precio", paginaWebComida_.getSecciones().getMenu().getItems().get(1).getPrecio());
 
                                         editor.putString("web_comida_seccion_5_recycler", "3");
-                                        editor.putString("web_comida_seccion_5_caracteristica3_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_5_caracteristica3_descripcion", banerTextoFinal);
-                                        editor.putInt("web_comida_seccion_5_caracteristica3_precio", espfinal);
+                                        editor.putString("web_comida_seccion_5_caracteristica3_titulo", paginaWebComida_.getSecciones().getMenu().getItems().get(2).getTitulo());
+                                        editor.putString("web_comida_seccion_5_caracteristica3_descripcion", paginaWebComida_.getSecciones().getMenu().getItems().get(2).getDescripcion());
+                                        editor.putInt("web_comida_seccion_5_caracteristica3_precio", paginaWebComida_.getSecciones().getMenu().getItems().get(2).getPrecio());
 
                                     }
-                                    else if (datos.size() == 4){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String espDescripcion = itemCortado[0];
-                                        String espTitulo = itemCortado[2];
-                                        String espPrecio = itemCortado[1];
-
-                                        String[] banerTextoCortado = espDescripcion.split("=");
-                                        String banerTextoFinal;
-                                        if(banerTextoCortado.length > 1){
-                                            banerTextoFinal = banerTextoCortado[1];
-                                        }
-                                        else{
-                                            banerTextoFinal = "";
-                                        }
-
-                                        String[] TextoCortado = espTitulo.split("=");
-                                        String espeTituloFinal;
-                                        if(TextoCortado.length > 1){
-                                            espeTituloFinal = TextoCortado[1];
-                                            espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            espeTituloFinal = "";
-                                        }
-
-                                        String[] extoCortado = espPrecio.split("=");
-                                        String espePrecioFinal;
-                                        int espfinal;
-                                        if(extoCortado.length > 1){
-                                            espePrecioFinal = extoCortado[1];
-                                            espfinal = Integer.parseInt(espePrecioFinal);
-                                        }
-                                        else{
-                                            espfinal = 0;
-                                        }
+                                    else if (paginaWebComida_.getSecciones().getMenu().getItems().size() == 4){
 
                                         editor.putString("web_comida_seccion_5_recycler", "1");
-                                        editor.putString("web_comida_seccion_5_caracteristica1_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_5_caracteristica1_descripcion", banerTextoFinal);
-                                        editor.putInt("web_comida_seccion_5_caracteristica1_precio", espfinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        espDescripcion = itemCortado[0];
-                                        espTitulo = itemCortado[2];
-                                        espPrecio = itemCortado[1];
-
-                                        banerTextoCortado = espDescripcion.split("=");
-                                        if(banerTextoCortado.length > 1){
-                                            banerTextoFinal = banerTextoCortado[1];
-                                        }
-                                        else{
-                                            banerTextoFinal = "";
-                                        }
-
-                                        TextoCortado = espTitulo.split("=");
-                                        if(TextoCortado.length > 1){
-                                            espeTituloFinal = TextoCortado[1];
-                                            espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            espeTituloFinal = "";
-                                        }
-
-                                        extoCortado = espPrecio.split("=");
-                                        if(extoCortado.length > 1){
-                                            espePrecioFinal = extoCortado[1];
-                                            espfinal = Integer.parseInt(espePrecioFinal);
-                                        }
-                                        else{
-                                            espfinal = 0;
-                                        }
+                                        editor.putString("web_comida_seccion_5_caracteristica1_titulo",  paginaWebComida_.getSecciones().getMenu().getItems().get(0).getTitulo());
+                                        editor.putString("web_comida_seccion_5_caracteristica1_descripcion", paginaWebComida_.getSecciones().getMenu().getItems().get(0).getDescripcion());
+                                        editor.putInt("web_comida_seccion_5_caracteristica1_precio", paginaWebComida_.getSecciones().getMenu().getItems().get(2).getPrecio());
 
                                         editor.putString("web_comida_seccion_5_recycler", "2");
-                                        editor.putString("web_comida_seccion_5_caracteristica2_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_5_caracteristica2_descripcion", banerTextoFinal);
-                                        editor.putInt("web_comida_seccion_5_caracteristica2_precio", espfinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        espDescripcion = itemCortado[0];
-                                        espTitulo = itemCortado[2];
-                                        espPrecio = itemCortado[1];
-
-                                        banerTextoCortado = espDescripcion.split("=");
-                                        if(banerTextoCortado.length > 1){
-                                            banerTextoFinal = banerTextoCortado[1];
-                                        }
-                                        else{
-                                            banerTextoFinal = "";
-                                        }
-
-                                        TextoCortado = espTitulo.split("=");
-                                        if(TextoCortado.length > 1){
-                                            espeTituloFinal = TextoCortado[1];
-                                            espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            espeTituloFinal = "";
-                                        }
-
-                                        extoCortado = espPrecio.split("=");
-                                        if(extoCortado.length > 1){
-                                            espePrecioFinal = extoCortado[1];
-                                            espfinal = Integer.parseInt(espePrecioFinal);
-                                        }
-                                        else{
-                                            espfinal = 0;
-                                        }
+                                        editor.putString("web_comida_seccion_5_caracteristica2_titulo",  paginaWebComida_.getSecciones().getMenu().getItems().get(1).getTitulo());
+                                        editor.putString("web_comida_seccion_5_caracteristica2_descripcion", paginaWebComida_.getSecciones().getMenu().getItems().get(1).getDescripcion());
+                                        editor.putInt("web_comida_seccion_5_caracteristica2_precio", paginaWebComida_.getSecciones().getMenu().getItems().get(1).getPrecio());
 
                                         editor.putString("web_comida_seccion_5_recycler", "3");
-                                        editor.putString("web_comida_seccion_5_caracteristica3_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_5_caracteristica3_descripcion", banerTextoFinal);
-                                        editor.putInt("web_comida_seccion_5_caracteristica3_precio", espfinal);
-
-                                        frase = datos.get(3).toString();
-
-                                        itemCortado = frase.split(",");
-                                        espDescripcion = itemCortado[0];
-                                        espTitulo = itemCortado[2];
-                                        espPrecio = itemCortado[1];
-
-                                        banerTextoCortado = espDescripcion.split("=");
-                                        if(banerTextoCortado.length > 1){
-                                            banerTextoFinal = banerTextoCortado[1];
-                                        }
-                                        else{
-                                            banerTextoFinal = "";
-                                        }
-
-                                        TextoCortado = espTitulo.split("=");
-                                        if(TextoCortado.length > 1){
-                                            espeTituloFinal = TextoCortado[1];
-                                            espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            espeTituloFinal = "";
-                                        }
-
-                                        extoCortado = espPrecio.split("=");
-                                        if(extoCortado.length > 1){
-                                            espePrecioFinal = extoCortado[1];
-                                            espfinal = Integer.parseInt(espePrecioFinal);
-                                        }
-                                        else{
-                                            espfinal = 0;
-                                        }
+                                        editor.putString("web_comida_seccion_5_caracteristica3_titulo",  paginaWebComida_.getSecciones().getMenu().getItems().get(2).getTitulo());
+                                        editor.putString("web_comida_seccion_5_caracteristica3_descripcion", paginaWebComida_.getSecciones().getMenu().getItems().get(2).getDescripcion());
+                                        editor.putInt("web_comida_seccion_5_caracteristica3_precio", paginaWebComida_.getSecciones().getMenu().getItems().get(2).getPrecio());
 
                                         editor.putString("web_comida_seccion_5_recycler", "4");
-                                        editor.putString("web_comida_seccion_5_caracteristica4_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_5_caracteristica4_descripcion", banerTextoFinal);
-                                        editor.putInt("web_comida_seccion_5_caracteristica4_precio", espfinal);
+                                        editor.putString("web_comida_seccion_5_caracteristica4_titulo",  paginaWebComida_.getSecciones().getMenu().getItems().get(3).getTitulo());
+                                        editor.putString("web_comida_seccion_5_caracteristica4_descripcion", paginaWebComida_.getSecciones().getMenu().getItems().get(3).getDescripcion());
+                                        editor.putInt("web_comida_seccion_5_caracteristica4_precio", paginaWebComida_.getSecciones().getMenu().getItems().get(3).getPrecio());
 
                                     }
-                                    else if (datos.size() == 5){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String espDescripcion = itemCortado[0];
-                                        String espTitulo = itemCortado[2];
-                                        String espPrecio = itemCortado[1];
-
-                                        String[] banerTextoCortado = espDescripcion.split("=");
-                                        String banerTextoFinal;
-                                        if(banerTextoCortado.length > 1){
-                                            banerTextoFinal = banerTextoCortado[1];
-                                        }
-                                        else{
-                                            banerTextoFinal = "";
-                                        }
-
-                                        String[] TextoCortado = espTitulo.split("=");
-                                        String espeTituloFinal;
-                                        if(TextoCortado.length > 1){
-                                            espeTituloFinal = TextoCortado[1];
-                                            espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            espeTituloFinal = "";
-                                        }
-
-                                        String[] extoCortado = espPrecio.split("=");
-                                        String espePrecioFinal;
-                                        int espfinal;
-                                        if(extoCortado.length > 1){
-                                            espePrecioFinal = extoCortado[1];
-                                            espfinal = Integer.parseInt(espePrecioFinal);
-                                        }
-                                        else{
-                                            espfinal = 0;
-                                        }
+                                    else if (paginaWebComida_.getSecciones().getMenu().getItems().size() == 5){
 
                                         editor.putString("web_comida_seccion_5_recycler", "1");
-                                        editor.putString("web_comida_seccion_5_caracteristica1_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_5_caracteristica1_descripcion", banerTextoFinal);
-                                        editor.putInt("web_comida_seccion_5_caracteristica1_precio", espfinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        espDescripcion = itemCortado[0];
-                                        espTitulo = itemCortado[2];
-                                        espPrecio = itemCortado[1];
-
-                                        banerTextoCortado = espDescripcion.split("=");
-                                        if(banerTextoCortado.length > 1){
-                                            banerTextoFinal = banerTextoCortado[1];
-                                        }
-                                        else{
-                                            banerTextoFinal = "";
-                                        }
-
-                                        TextoCortado = espTitulo.split("=");
-                                        if(TextoCortado.length > 1){
-                                            espeTituloFinal = TextoCortado[1];
-                                            espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            espeTituloFinal = "";
-                                        }
-
-                                        extoCortado = espPrecio.split("=");
-                                        if(extoCortado.length > 1){
-                                            espePrecioFinal = extoCortado[1];
-                                            espfinal = Integer.parseInt(espePrecioFinal);
-                                        }
-                                        else{
-                                            espfinal = 0;
-                                        }
+                                        editor.putString("web_comida_seccion_5_caracteristica1_titulo", paginaWebComida_.getSecciones().getMenu().getItems().get(0).getTitulo());
+                                        editor.putString("web_comida_seccion_5_caracteristica1_descripcion", paginaWebComida_.getSecciones().getMenu().getItems().get(0).getDescripcion());
+                                        editor.putInt("web_comida_seccion_5_caracteristica1_precio", paginaWebComida_.getSecciones().getMenu().getItems().get(0).getPrecio());
 
                                         editor.putString("web_comida_seccion_5_recycler", "2");
-                                        editor.putString("web_comida_seccion_5_caracteristica2_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_5_caracteristica2_descripcion", banerTextoFinal);
-                                        editor.putInt("web_comida_seccion_5_caracteristica2_precio", espfinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        espDescripcion = itemCortado[0];
-                                        espTitulo = itemCortado[2];
-                                        espPrecio = itemCortado[1];
-
-                                        banerTextoCortado = espDescripcion.split("=");
-                                        if(banerTextoCortado.length > 1){
-                                            banerTextoFinal = banerTextoCortado[1];
-                                        }
-                                        else{
-                                            banerTextoFinal = "";
-                                        }
-
-                                        TextoCortado = espTitulo.split("=");
-                                        if(TextoCortado.length > 1){
-                                            espeTituloFinal = TextoCortado[1];
-                                            espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            espeTituloFinal = "";
-                                        }
-
-                                        extoCortado = espPrecio.split("=");
-                                        if(extoCortado.length > 1){
-                                            espePrecioFinal = extoCortado[1];
-                                            espfinal = Integer.parseInt(espePrecioFinal);
-                                        }
-                                        else{
-                                            espfinal = 0;
-                                        }
+                                        editor.putString("web_comida_seccion_5_caracteristica2_titulo", paginaWebComida_.getSecciones().getMenu().getItems().get(1).getTitulo());
+                                        editor.putString("web_comida_seccion_5_caracteristica2_descripcion", paginaWebComida_.getSecciones().getMenu().getItems().get(1).getDescripcion());
+                                        editor.putInt("web_comida_seccion_5_caracteristica2_precio", paginaWebComida_.getSecciones().getMenu().getItems().get(1).getPrecio());
 
                                         editor.putString("web_comida_seccion_5_recycler", "3");
-                                        editor.putString("web_comida_seccion_5_caracteristica3_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_5_caracteristica3_descripcion", banerTextoFinal);
-                                        editor.putInt("web_comida_seccion_5_caracteristica3_precio", espfinal);
-
-                                        frase = datos.get(3).toString();
-
-                                        itemCortado = frase.split(",");
-                                        espDescripcion = itemCortado[0];
-                                        espTitulo = itemCortado[2];
-                                        espPrecio = itemCortado[1];
-
-                                        banerTextoCortado = espDescripcion.split("=");
-                                        if(banerTextoCortado.length > 1){
-                                            banerTextoFinal = banerTextoCortado[1];
-                                        }
-                                        else{
-                                            banerTextoFinal = "";
-                                        }
-
-                                        TextoCortado = espTitulo.split("=");
-                                        if(TextoCortado.length > 1){
-                                            espeTituloFinal = TextoCortado[1];
-                                            espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            espeTituloFinal = "";
-                                        }
-
-                                        extoCortado = espPrecio.split("=");
-                                        if(extoCortado.length > 1){
-                                            espePrecioFinal = extoCortado[1];
-                                            espfinal = Integer.parseInt(espePrecioFinal);
-                                        }
-                                        else{
-                                            espfinal = 0;
-                                        }
+                                        editor.putString("web_comida_seccion_5_caracteristica3_titulo", paginaWebComida_.getSecciones().getMenu().getItems().get(2).getTitulo());
+                                        editor.putString("web_comida_seccion_5_caracteristica3_descripcion", paginaWebComida_.getSecciones().getMenu().getItems().get(2).getDescripcion());
+                                        editor.putInt("web_comida_seccion_5_caracteristica3_precio", paginaWebComida_.getSecciones().getMenu().getItems().get(2).getPrecio());
 
                                         editor.putString("web_comida_seccion_5_recycler", "4");
-                                        editor.putString("web_comida_seccion_5_caracteristica4_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_5_caracteristica4_descripcion", banerTextoFinal);
-                                        editor.putInt("web_comida_seccion_5_caracteristica4_precio", espfinal);
-
-                                        frase = datos.get(4).toString();
-
-                                        itemCortado = frase.split(",");
-                                        espDescripcion = itemCortado[0];
-                                        espTitulo = itemCortado[2];
-                                        espPrecio = itemCortado[1];
-
-                                        banerTextoCortado = espDescripcion.split("=");
-                                        if(banerTextoCortado.length > 1){
-                                            banerTextoFinal = banerTextoCortado[1];
-                                        }
-                                        else{
-                                            banerTextoFinal = "";
-                                        }
-
-                                        TextoCortado = espTitulo.split("=");
-                                        if(TextoCortado.length > 1){
-                                            espeTituloFinal = TextoCortado[1];
-                                            espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            espeTituloFinal = "";
-                                        }
-
-                                        extoCortado = espPrecio.split("=");
-                                        if(extoCortado.length > 1){
-                                            espePrecioFinal = extoCortado[1];
-                                            espfinal = Integer.parseInt(espePrecioFinal);
-                                        }
-                                        else{
-                                            espfinal = 0;
-                                        }
+                                        editor.putString("web_comida_seccion_5_caracteristica4_titulo", paginaWebComida_.getSecciones().getMenu().getItems().get(3).getTitulo());
+                                        editor.putString("web_comida_seccion_5_caracteristica4_descripcion", paginaWebComida_.getSecciones().getMenu().getItems().get(3).getDescripcion());
+                                        editor.putInt("web_comida_seccion_5_caracteristica4_precio", paginaWebComida_.getSecciones().getMenu().getItems().get(3).getPrecio());
 
                                         editor.putString("web_comida_seccion_5_recycler", "5");
-                                        editor.putString("web_comida_seccion_5_caracteristica5_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_5_caracteristica5_descripcion", banerTextoFinal);
-                                        editor.putInt("web_comida_seccion_5_caracteristica5_precio", espfinal);
+                                        editor.putString("web_comida_seccion_5_caracteristica5_titulo", paginaWebComida_.getSecciones().getMenu().getItems().get(4).getTitulo());
+                                        editor.putString("web_comida_seccion_5_caracteristica5_descripcion", paginaWebComida_.getSecciones().getMenu().getItems().get(4).getDescripcion());
+                                        editor.putInt("web_comida_seccion_5_caracteristica5_precio", paginaWebComida_.getSecciones().getMenu().getItems().get(4).getPrecio());
 
                                     }
-                                    else if (datos.size() == 6){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String espDescripcion = itemCortado[0];
-                                        String espTitulo = itemCortado[2];
-                                        String espPrecio = itemCortado[1];
-
-                                        String[] banerTextoCortado = espDescripcion.split("=");
-                                        String banerTextoFinal;
-                                        if(banerTextoCortado.length > 1){
-                                            banerTextoFinal = banerTextoCortado[1];
-                                        }
-                                        else{
-                                            banerTextoFinal = "";
-                                        }
-
-                                        String[] TextoCortado = espTitulo.split("=");
-                                        String espeTituloFinal;
-                                        if(TextoCortado.length > 1){
-                                            espeTituloFinal = TextoCortado[1];
-                                            espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            espeTituloFinal = "";
-                                        }
-
-                                        String[] extoCortado = espPrecio.split("=");
-                                        String espePrecioFinal;
-                                        int espfinal;
-                                        if(extoCortado.length > 1){
-                                            espePrecioFinal = extoCortado[1];
-                                            espfinal = Integer.parseInt(espePrecioFinal);
-                                        }
-                                        else{
-                                            espfinal = 0;
-                                        }
+                                    else if (paginaWebComida_.getSecciones().getMenu().getItems().size() == 6){
 
                                         editor.putString("web_comida_seccion_5_recycler", "1");
-                                        editor.putString("web_comida_seccion_5_caracteristica1_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_5_caracteristica1_descripcion", banerTextoFinal);
-                                        editor.putInt("web_comida_seccion_5_caracteristica1_precio", espfinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        espDescripcion = itemCortado[0];
-                                        espTitulo = itemCortado[2];
-                                        espPrecio = itemCortado[1];
-
-                                        banerTextoCortado = espDescripcion.split("=");
-                                        if(banerTextoCortado.length > 1){
-                                            banerTextoFinal = banerTextoCortado[1];
-                                        }
-                                        else{
-                                            banerTextoFinal = "";
-                                        }
-
-                                        TextoCortado = espTitulo.split("=");
-                                        if(TextoCortado.length > 1){
-                                            espeTituloFinal = TextoCortado[1];
-                                            espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            espeTituloFinal = "";
-                                        }
-
-                                        extoCortado = espPrecio.split("=");
-                                        if(extoCortado.length > 1){
-                                            espePrecioFinal = extoCortado[1];
-                                            espfinal = Integer.parseInt(espePrecioFinal);
-                                        }
-                                        else{
-                                            espfinal = 0;
-                                        }
+                                        editor.putString("web_comida_seccion_5_caracteristica1_titulo", paginaWebComida_.getSecciones().getMenu().getItems().get(0).getTitulo());
+                                        editor.putString("web_comida_seccion_5_caracteristica1_descripcion", paginaWebComida_.getSecciones().getMenu().getItems().get(0).getDescripcion());
+                                        editor.putInt("web_comida_seccion_5_caracteristica1_precio", paginaWebComida_.getSecciones().getMenu().getItems().get(0).getPrecio());
 
                                         editor.putString("web_comida_seccion_5_recycler", "2");
-                                        editor.putString("web_comida_seccion_5_caracteristica2_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_5_caracteristica2_descripcion", banerTextoFinal);
-                                        editor.putInt("web_comida_seccion_5_caracteristica2_precio", espfinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        espDescripcion = itemCortado[0];
-                                        espTitulo = itemCortado[2];
-                                        espPrecio = itemCortado[1];
-
-                                        banerTextoCortado = espDescripcion.split("=");
-                                        if(banerTextoCortado.length > 1){
-                                            banerTextoFinal = banerTextoCortado[1];
-                                        }
-                                        else{
-                                            banerTextoFinal = "";
-                                        }
-
-                                        TextoCortado = espTitulo.split("=");
-                                        if(TextoCortado.length > 1){
-                                            espeTituloFinal = TextoCortado[1];
-                                            espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            espeTituloFinal = "";
-                                        }
-
-                                        extoCortado = espPrecio.split("=");
-                                        if(extoCortado.length > 1){
-                                            espePrecioFinal = extoCortado[1];
-                                            espfinal = Integer.parseInt(espePrecioFinal);
-                                        }
-                                        else{
-                                            espfinal = 0;
-                                        }
+                                        editor.putString("web_comida_seccion_5_caracteristica2_titulo", paginaWebComida_.getSecciones().getMenu().getItems().get(1).getTitulo());
+                                        editor.putString("web_comida_seccion_5_caracteristica2_descripcion", paginaWebComida_.getSecciones().getMenu().getItems().get(1).getDescripcion());
+                                        editor.putInt("web_comida_seccion_5_caracteristica2_precio", paginaWebComida_.getSecciones().getMenu().getItems().get(1).getPrecio());
 
                                         editor.putString("web_comida_seccion_5_recycler", "3");
-                                        editor.putString("web_comida_seccion_5_caracteristica3_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_5_caracteristica3_descripcion", banerTextoFinal);
-                                        editor.putInt("web_comida_seccion_5_caracteristica3_precio", espfinal);
-
-                                        frase = datos.get(3).toString();
-
-                                        itemCortado = frase.split(",");
-                                        espDescripcion = itemCortado[0];
-                                        espTitulo = itemCortado[2];
-                                        espPrecio = itemCortado[1];
-
-                                        banerTextoCortado = espDescripcion.split("=");
-                                        if(banerTextoCortado.length > 1){
-                                            banerTextoFinal = banerTextoCortado[1];
-                                        }
-                                        else{
-                                            banerTextoFinal = "";
-                                        }
-
-                                        TextoCortado = espTitulo.split("=");
-                                        if(TextoCortado.length > 1){
-                                            espeTituloFinal = TextoCortado[1];
-                                            espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            espeTituloFinal = "";
-                                        }
-
-                                        extoCortado = espPrecio.split("=");
-                                        if(extoCortado.length > 1){
-                                            espePrecioFinal = extoCortado[1];
-                                            espfinal = Integer.parseInt(espePrecioFinal);
-                                        }
-                                        else{
-                                            espfinal = 0;
-                                        }
+                                        editor.putString("web_comida_seccion_5_caracteristica3_titulo", paginaWebComida_.getSecciones().getMenu().getItems().get(2).getTitulo());
+                                        editor.putString("web_comida_seccion_5_caracteristica3_descripcion", paginaWebComida_.getSecciones().getMenu().getItems().get(2).getDescripcion());
+                                        editor.putInt("web_comida_seccion_5_caracteristica3_precio", paginaWebComida_.getSecciones().getMenu().getItems().get(2).getPrecio());
 
                                         editor.putString("web_comida_seccion_5_recycler", "4");
-                                        editor.putString("web_comida_seccion_5_caracteristica4_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_5_caracteristica4_descripcion", banerTextoFinal);
-                                        editor.putInt("web_comida_seccion_5_caracteristica4_precio", espfinal);
-
-                                        frase = datos.get(4).toString();
-
-                                        itemCortado = frase.split(",");
-                                        espDescripcion = itemCortado[0];
-                                        espTitulo = itemCortado[2];
-                                        espPrecio = itemCortado[1];
-
-                                        banerTextoCortado = espDescripcion.split("=");
-                                        if(banerTextoCortado.length > 1){
-                                            banerTextoFinal = banerTextoCortado[1];
-                                        }
-                                        else{
-                                            banerTextoFinal = "";
-                                        }
-
-                                        TextoCortado = espTitulo.split("=");
-                                        if(TextoCortado.length > 1){
-                                            espeTituloFinal = TextoCortado[1];
-                                            espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            espeTituloFinal = "";
-                                        }
-
-                                        extoCortado = espPrecio.split("=");
-                                        if(extoCortado.length > 1){
-                                            espePrecioFinal = extoCortado[1];
-                                            espfinal = Integer.parseInt(espePrecioFinal);
-                                        }
-                                        else{
-                                            espfinal = 0;
-                                        }
+                                        editor.putString("web_comida_seccion_5_caracteristica4_titulo", paginaWebComida_.getSecciones().getMenu().getItems().get(3).getTitulo());
+                                        editor.putString("web_comida_seccion_5_caracteristica4_descripcion", paginaWebComida_.getSecciones().getMenu().getItems().get(3).getDescripcion());
+                                        editor.putInt("web_comida_seccion_5_caracteristica4_precio", paginaWebComida_.getSecciones().getMenu().getItems().get(3).getPrecio());
 
                                         editor.putString("web_comida_seccion_5_recycler", "5");
-                                        editor.putString("web_comida_seccion_5_caracteristica5_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_5_caracteristica5_descripcion", banerTextoFinal);
-                                        editor.putInt("web_comida_seccion_5_caracteristica5_precio", espfinal);
-
-                                        frase = datos.get(5).toString();
-
-                                        itemCortado = frase.split(",");
-                                        espDescripcion = itemCortado[0];
-                                        espTitulo = itemCortado[2];
-                                        espPrecio = itemCortado[1];
-
-                                        banerTextoCortado = espDescripcion.split("=");
-                                        if(banerTextoCortado.length > 1){
-                                            banerTextoFinal = banerTextoCortado[1];
-                                        }
-                                        else{
-                                            banerTextoFinal = "";
-                                        }
-
-                                        TextoCortado = espTitulo.split("=");
-                                        if(TextoCortado.length > 1){
-                                            espeTituloFinal = TextoCortado[1];
-                                            espeTituloFinal = espeTituloFinal.substring(0, espeTituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            espeTituloFinal = "";
-                                        }
-
-                                        extoCortado = espPrecio.split("=");
-                                        if(extoCortado.length > 1){
-                                            espePrecioFinal = extoCortado[1];
-                                            espfinal = Integer.parseInt(espePrecioFinal);
-                                        }
-                                        else{
-                                            espfinal = 0;
-                                        }
+                                        editor.putString("web_comida_seccion_5_caracteristica5_titulo", paginaWebComida_.getSecciones().getMenu().getItems().get(4).getTitulo());
+                                        editor.putString("web_comida_seccion_5_caracteristica5_descripcion", paginaWebComida_.getSecciones().getMenu().getItems().get(4).getDescripcion());
+                                        editor.putInt("web_comida_seccion_5_caracteristica5_precio", paginaWebComida_.getSecciones().getMenu().getItems().get(4).getPrecio());
 
                                         editor.putString("web_comida_seccion_5_recycler", "6");
-                                        editor.putString("web_comida_seccion_5_caracteristica6_titulo", espeTituloFinal);
-                                        editor.putString("web_comida_seccion_5_caracteristica6_descripcion", banerTextoFinal);
-                                        editor.putInt("web_comida_seccion_5_caracteristica6_precio", espfinal);
+                                        editor.putString("web_comida_seccion_5_caracteristica6_titulo", paginaWebComida_.getSecciones().getMenu().getItems().get(5).getTitulo());
+                                        editor.putString("web_comida_seccion_5_caracteristica6_descripcion", paginaWebComida_.getSecciones().getMenu().getItems().get(5).getDescripcion());
+                                        editor.putInt("web_comida_seccion_5_caracteristica6_precio", paginaWebComida_.getSecciones().getMenu().getItems().get(5).getPrecio());
 
                                     }
 
                                     // variables contacto
-                                    String contacto_navbar = "";
-                                    String contacto_header = "";
-                                    String contacto_nombre_restaurante = "";
-                                    String contacto_adress = "";
-                                    String contacto_nombre_reservaciones = "";
-                                    String contacto_email = "";
-                                    String contacto_phone = "";
-                                    String contacto_facebook = "";
-                                    String contacto_instagram = "";
 
-                                    contacto_navbar = (String)contacto.get("navbar");
-                                    contacto_header = (String)contacto.get("header");
-                                    contacto_nombre_restaurante = (String)contacto.get("nombre_restaurante");
-                                    contacto_adress = (String)contacto.get("adress");
-                                    contacto_nombre_reservaciones = (String)contacto.get("nombre_reservaciones");
-                                    contacto_email = (String)contacto.get("email");
-                                    contacto_phone = (String)contacto.get("phone");
-                                    contacto_facebook = (String)contacto.get("facebook_url");
-                                    contacto_instagram = (String)contacto.get("instagram_url");
+                                    editor.putString("web_comida_nombre_seccion_6", paginaWebComida_.getSecciones().getContacto().getNombre_restaurante());
+                                    editor.putString("web_comida_direccion_seccion_6", paginaWebComida_.getSecciones().getContacto().getAdress());
+                                    editor.putString("web_comida_correo_seccion_6", paginaWebComida_.getSecciones().getContacto().getEmail());
+                                    editor.putString("web_comida_titulo_seccion_6",paginaWebComida_.getSecciones().getContacto().getNavbar());
 
-                                    editor.putString("web_comida_nombre_seccion_6", contacto_nombre_restaurante);
-                                    editor.putString("web_comida_direccion_seccion_6", contacto_adress);
-                                    editor.putString("web_comida_correo_seccion_6", contacto_email);
-
-                                    editor.putString("web_comida_telefono_seccion_6", contacto_phone);
-                                    editor.putString("web_comida_facebook_seccion_6", contacto_facebook);
-                                    editor.putString("web_comida_instagram_seccion_6", contacto_instagram);
+                                    editor.putString("web_comida_telefono_seccion_6", paginaWebComida_.getSecciones().getContacto().getPhone());
+                                    editor.putString("web_comida_facebook_seccion_6", paginaWebComida_.getSecciones().getContacto().getFacebook_url());
+                                    editor.putString("web_comida_instagram_seccion_6", paginaWebComida_.getSecciones().getContacto().getInstagram_url());
 
                                     editor.commit();
 
                                 }
                                 else if(miPagina.getTipo() == 2){
 
+                                    paginaWebProductos paginaWebProductos_ = documentopagina.toObject(paginaWebProductos.class);
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
 
+                                    editor.clear();
+
                                     editor.putString(user.getUid()+"-tipo_mi_pag_web", "2");
-                                    editor.putString("nombrePagWeb", miPagina.getUrl());
+                                    editor.putString("nombrePagWeb", paginaWebProductos_.getUrl());
 
                                     //PRODUCTOS
 
-                                    Map<String, Object> web;
-                                    Map<String, Object> home;
-                                    Map<String, Object> about;
-                                    Map<String, Object> servicios;
-                                    Map<String, Object> imagencontacto;
-                                    Map<String, Object> galeria;
-                                    Map<String, Object> contacto;
+                                    editor.putString("web_productos_titulo_home",paginaWebProductos_.getSecciones().getHome().getTitulo());
+                                    editor.putString("web_productos_subtitulo_home", paginaWebProductos_.getSecciones().getHome().getSubtitulo());
 
-                                    web = miPagina.getSecciones();
-                                    home = (Map)web.get("home");
-                                    about = (Map)web.get("about");
-                                    servicios = (Map)web.get("servicios");
-                                    imagencontacto = (Map)web.get("imagencontacto");
-                                    galeria = (Map)web.get("galeria");
-                                    contacto = (Map)web.get("contacto");
 
-                                    List<caracteristicas_web> servicio = new ArrayList<>();
-                                    List<caracteristicas_web> imagenes = new ArrayList<>();
-                                    List<WebImagen> imagen = new ArrayList<>();
+                                    if (paginaWebProductos_.getSecciones().getHome().getImagen().size() == 1){
 
-                                    // variables home
-
-                                    String home_titulo = "";
-                                    String home_subtitulo = "";
-
-                                    home_titulo = (String)home.get("titulo");
-                                    home_subtitulo = (String)home.get("subtitulo");
-
-                                    editor.putString("web_productos_titulo_home", home_titulo);
-                                    editor.putString("web_productos_subtitulo_home", home_subtitulo);
-
-                                    Object prueba  = home.get("imagen");
-                                    List<?> datos = convertObjectToList(prueba);
-
-                                    if (datos.size() == 1){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] ImgCortado = frase.split("gen=");
-                                        String ImgFinal = ImgCortado[1];
-                                        ImgFinal = ImgFinal.substring(0, ImgFinal.length() - 1);
-
-                                        editor.putString("web_productos_img_1_seccion_1", ImgFinal);
+                                        editor.putString("web_productos_img_1_seccion_1", paginaWebProductos_.getSecciones().getHome().getImagen().get(0).getImagen());
 
                                     }
-                                    else if (datos.size() == 2){
+                                    else if (paginaWebProductos_.getSecciones().getHome().getImagen().size() == 2){
 
-                                        String frase = datos.get(0).toString();
+                                        editor.putString("web_productos_img_1_seccion_1", paginaWebProductos_.getSecciones().getHome().getImagen().get(0).getImagen());
 
-                                        String[] ImgCortado = frase.split("gen=");
-                                        String ImgFinal = ImgCortado[1];
-                                        ImgFinal = ImgFinal.substring(0, ImgFinal.length() - 1);
-
-                                        editor.putString("web_productos_img_1_seccion_1", ImgFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        ImgCortado = frase.split("gen=");
-                                        ImgFinal = ImgCortado[1];
-                                        ImgFinal = ImgFinal.substring(0, ImgFinal.length() - 1);
-
-                                        editor.putString("web_productos_img_2_seccion_1", ImgFinal);
+                                        editor.putString("web_productos_img_2_seccion_1", paginaWebProductos_.getSecciones().getHome().getImagen().get(1).getImagen());
                                     }
-                                    else if (datos.size() == 3){
+                                    else if (paginaWebProductos_.getSecciones().getHome().getImagen().size() == 3){
 
-                                        String frase = datos.get(0).toString();
+                                        editor.putString("web_productos_img_1_seccion_1", paginaWebProductos_.getSecciones().getHome().getImagen().get(0).getImagen());
 
-                                        String[] ImgCortado = frase.split("gen=");
-                                        String ImgFinal = ImgCortado[1];
-                                        ImgFinal = ImgFinal.substring(0, ImgFinal.length() - 1);
+                                        editor.putString("web_productos_img_2_seccion_1", paginaWebProductos_.getSecciones().getHome().getImagen().get(1).getImagen());
 
-                                        editor.putString("web_productos_img_1_seccion_1", ImgFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        ImgCortado = frase.split("gen=");
-                                        ImgFinal = ImgCortado[1];
-                                        ImgFinal = ImgFinal.substring(0, ImgFinal.length() - 1);
-
-                                        editor.putString("web_productos_img_2_seccion_1", ImgFinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        ImgCortado = frase.split("gen=");
-                                        ImgFinal = ImgCortado[1];
-                                        ImgFinal = ImgFinal.substring(0, ImgFinal.length() - 1);
-
-                                        editor.putString("web_productos_img_3_seccion_1", ImgFinal);
+                                        editor.putString("web_productos_img_3_seccion_1", paginaWebProductos_.getSecciones().getHome().getImagen().get(2).getImagen());
 
                                     }
 
                                     // variables about
-                                    String about_navbar = "";
-                                    String about_titulo = "";
-                                    String about_descripcion = "";
-                                    String about_imagen = "";
-                                    String about_subtitulo = "";
 
-                                    about_navbar = (String)about.get("navbar");
-                                    about_titulo = (String)about.get("titulo");
-                                    about_descripcion = (String)about.get("descripcion");
-                                    about_imagen = (String)about.get("imagen");
-                                    about_subtitulo = (String)about.get("subtitulo");
-
-                                    editor.putString("web_productos_img_seccion_2", about_imagen);
-                                    editor.putString("web_productos_titulo_seccion_2", about_titulo);
-                                    editor.putString("web_productos_subtitulo_seccion_2", about_subtitulo);
-                                    editor.putString("web_productos_descripcion_seccion_2", about_descripcion);
+                                    editor.putString("web_productos_img_seccion_2", paginaWebProductos_.getSecciones().getAbout().getImagen());
+                                    editor.putString("web_productos_titulo_seccion_2", paginaWebProductos_.getSecciones().getAbout().getTitulo());
+                                    editor.putString("web_productos_subtitulo_seccion_2", paginaWebProductos_.getSecciones().getAbout().getSubtitulo());
+                                    editor.putString("web_productos_descripcion_seccion_2", paginaWebProductos_.getSecciones().getAbout().getDescripcion());
 
                                     // variables servicios
 
-                                    String servicios_titulo = "";
-                                    String imagen_ = "";
-                                    String titulo = "";
-                                    String descripcion = "";
-
-                                    servicios_titulo = (String)servicios.get("titulo");
-
-                                    editor.putString("web_productos_seccion_3_titulo", servicios_titulo);
-
-                                    prueba  = servicios.get("servicio");
-                                    datos = convertObjectToList(prueba);
+                                    editor.putString("web_productos_seccion_3_titulo", paginaWebProductos_.getSecciones().getServicios().getTitulo());
 
 
-                                    if (datos.size() == 1){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String descripcionTexto = itemCortado[0];
-                                        String ImgTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal = descripcionCortado[1];
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal = tituloCortado[1];
-                                        tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-
+                                    if (paginaWebProductos_.getSecciones().getServicios().getServicio().size() == 1){
 
                                         editor.putString("web_productos_seccion_3_recycler", "1");
-                                        editor.putString("web_productos_seccion_3_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_3_caracteristica1_descripcion", descripTextoFinal);
+                                        editor.putString("web_productos_seccion_3_caracteristica1_titulo", paginaWebProductos_.getSecciones().getServicios().getServicio().get(0).getTitulo());
+                                        editor.putString("web_productos_seccion_3_caracteristica1_descripcion", paginaWebProductos_.getSecciones().getServicios().getServicio().get(0).getDescripcion());
 
                                     }
-                                    else if (datos.size() == 2){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String descripcionTexto = itemCortado[0];
-                                        String ImgTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal = descripcionCortado[1];
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal = tituloCortado[1];
-                                        tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
+                                    else if (paginaWebProductos_.getSecciones().getServicios().getServicio().size() == 2){
 
                                         editor.putString("web_productos_seccion_3_recycler", "1");
-                                        editor.putString("web_productos_seccion_3_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_3_caracteristica1_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        ImgTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        descripTextoFinal = descripcionCortado[1];
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        tituloFinal = tituloCortado[1];
-                                        tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
+                                        editor.putString("web_productos_seccion_3_caracteristica1_titulo", paginaWebProductos_.getSecciones().getServicios().getServicio().get(0).getTitulo());
+                                        editor.putString("web_productos_seccion_3_caracteristica1_descripcion", paginaWebProductos_.getSecciones().getServicios().getServicio().get(0).getDescripcion());
 
                                         editor.putString("web_productos_seccion_3_recycler", "2");
-                                        editor.putString("web_productos_seccion_3_caracteristica2_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_3_caracteristica2_descripcion", descripTextoFinal);
+                                        editor.putString("web_productos_seccion_3_caracteristica2_titulo", paginaWebProductos_.getSecciones().getServicios().getServicio().get(1).getTitulo());
+                                        editor.putString("web_productos_seccion_3_caracteristica2_descripcion", paginaWebProductos_.getSecciones().getServicios().getServicio().get(1).getDescripcion());
 
                                     }
-                                    else if (datos.size() == 3){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String descripcionTexto = itemCortado[0];
-                                        String ImgTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if(descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else{
-                                            descripTextoFinal = "";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if(tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            tituloFinal = "";
-                                        }
+                                    else if (paginaWebProductos_.getSecciones().getServicios().getServicio().size() == 3){
 
                                         editor.putString("web_productos_seccion_3_recycler", "1");
-                                        editor.putString("web_productos_seccion_3_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_3_caracteristica1_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        ImgTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if(descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else{
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if(tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            tituloFinal = "";
-                                        }
+                                        editor.putString("web_productos_seccion_3_caracteristica1_titulo", paginaWebProductos_.getSecciones().getServicios().getServicio().get(0).getTitulo());
+                                        editor.putString("web_productos_seccion_3_caracteristica1_descripcion", paginaWebProductos_.getSecciones().getServicios().getServicio().get(0).getDescripcion());
 
                                         editor.putString("web_productos_seccion_3_recycler", "2");
-                                        editor.putString("web_productos_seccion_3_caracteristica2_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_3_caracteristica2_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        ImgTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if(descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else{
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if(tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            tituloFinal = "";
-                                        }
+                                        editor.putString("web_productos_seccion_3_caracteristica2_titulo", paginaWebProductos_.getSecciones().getServicios().getServicio().get(1).getTitulo());
+                                        editor.putString("web_productos_seccion_3_caracteristica2_descripcion", paginaWebProductos_.getSecciones().getServicios().getServicio().get(1).getDescripcion());
 
                                         editor.putString("web_productos_seccion_3_recycler", "3");
-                                        editor.putString("web_productos_seccion_3_caracteristica3_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_3_caracteristica3_descripcion", descripTextoFinal);
+                                        editor.putString("web_productos_seccion_3_caracteristica3_titulo", paginaWebProductos_.getSecciones().getServicios().getServicio().get(2).getTitulo());
+                                        editor.putString("web_productos_seccion_3_caracteristica3_descripcion", paginaWebProductos_.getSecciones().getServicios().getServicio().get(2).getDescripcion());
 
                                     }
-                                    else if (datos.size() == 4){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String descripcionTexto = itemCortado[0];
-                                        String ImgTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if(descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else{
-                                            descripTextoFinal = "";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if(tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            tituloFinal = "";
-                                        }
+                                    else if (paginaWebProductos_.getSecciones().getServicios().getServicio().size() == 4){
 
                                         editor.putString("web_productos_seccion_3_recycler", "1");
-                                        editor.putString("web_productos_seccion_3_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_3_caracteristica1_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        ImgTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if(descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else{
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if(tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            tituloFinal = "";
-                                        }
+                                        editor.putString("web_productos_seccion_3_caracteristica1_titulo", paginaWebProductos_.getSecciones().getServicios().getServicio().get(0).getTitulo());
+                                        editor.putString("web_productos_seccion_3_caracteristica1_descripcion", paginaWebProductos_.getSecciones().getServicios().getServicio().get(0).getDescripcion());
 
                                         editor.putString("web_productos_seccion_3_recycler", "2");
-                                        editor.putString("web_productos_seccion_3_caracteristica2_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_3_caracteristica2_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        ImgTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if(descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else{
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if(tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            tituloFinal = "";
-                                        }
+                                        editor.putString("web_productos_seccion_3_caracteristica2_titulo", paginaWebProductos_.getSecciones().getServicios().getServicio().get(1).getTitulo());
+                                        editor.putString("web_productos_seccion_3_caracteristica2_descripcion", paginaWebProductos_.getSecciones().getServicios().getServicio().get(1).getDescripcion());
 
                                         editor.putString("web_productos_seccion_3_recycler", "3");
-                                        editor.putString("web_productos_seccion_3_caracteristica3_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_3_caracteristica3_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(3).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        ImgTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if(descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else{
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if(tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            tituloFinal = "";
-                                        }
+                                        editor.putString("web_productos_seccion_3_caracteristica3_titulo", paginaWebProductos_.getSecciones().getServicios().getServicio().get(2).getTitulo());
+                                        editor.putString("web_productos_seccion_3_caracteristica3_descripcion", paginaWebProductos_.getSecciones().getServicios().getServicio().get(2).getDescripcion());
 
                                         editor.putString("web_productos_seccion_3_recycler", "4");
-                                        editor.putString("web_productos_seccion_3_caracteristica4_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_3_caracteristica4_descripcion", descripTextoFinal);
+                                        editor.putString("web_productos_seccion_3_caracteristica4_titulo", paginaWebProductos_.getSecciones().getServicios().getServicio().get(3).getTitulo());
+                                        editor.putString("web_productos_seccion_3_caracteristica4_descripcion", paginaWebProductos_.getSecciones().getServicios().getServicio().get(3).getDescripcion());
 
                                     }
-                                    else if (datos.size() == 5){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String descripcionTexto = itemCortado[0];
-                                        String ImgTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if(descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else{
-                                            descripTextoFinal = "";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if(tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            tituloFinal = "";
-                                        }
+                                    else if (paginaWebProductos_.getSecciones().getServicios().getServicio().size() == 5){
 
                                         editor.putString("web_productos_seccion_3_recycler", "1");
-                                        editor.putString("web_productos_seccion_3_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_3_caracteristica1_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        ImgTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if(descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else{
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if(tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            tituloFinal = "";
-                                        }
+                                        editor.putString("web_productos_seccion_3_caracteristica1_titulo", paginaWebProductos_.getSecciones().getServicios().getServicio().get(0).getTitulo());
+                                        editor.putString("web_productos_seccion_3_caracteristica1_descripcion", paginaWebProductos_.getSecciones().getServicios().getServicio().get(0).getDescripcion());
 
                                         editor.putString("web_productos_seccion_3_recycler", "2");
-                                        editor.putString("web_productos_seccion_3_caracteristica2_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_3_caracteristica2_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        ImgTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if(descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else{
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if(tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            tituloFinal = "";
-                                        }
+                                        editor.putString("web_productos_seccion_3_caracteristica2_titulo", paginaWebProductos_.getSecciones().getServicios().getServicio().get(1).getTitulo());
+                                        editor.putString("web_productos_seccion_3_caracteristica2_descripcion", paginaWebProductos_.getSecciones().getServicios().getServicio().get(1).getDescripcion());
 
                                         editor.putString("web_productos_seccion_3_recycler", "3");
-                                        editor.putString("web_productos_seccion_3_caracteristica3_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_3_caracteristica3_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(3).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        ImgTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if(descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else{
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if(tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            tituloFinal = "";
-                                        }
+                                        editor.putString("web_productos_seccion_3_caracteristica3_titulo", paginaWebProductos_.getSecciones().getServicios().getServicio().get(2).getTitulo());
+                                        editor.putString("web_productos_seccion_3_caracteristica3_descripcion", paginaWebProductos_.getSecciones().getServicios().getServicio().get(2).getDescripcion());
 
                                         editor.putString("web_productos_seccion_3_recycler", "4");
-                                        editor.putString("web_productos_seccion_3_caracteristica4_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_3_caracteristica4_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(4).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        ImgTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if(descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else{
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if(tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            tituloFinal = "";
-                                        }
+                                        editor.putString("web_productos_seccion_3_caracteristica4_titulo", paginaWebProductos_.getSecciones().getServicios().getServicio().get(3).getTitulo());
+                                        editor.putString("web_productos_seccion_3_caracteristica4_descripcion", paginaWebProductos_.getSecciones().getServicios().getServicio().get(3).getDescripcion());
 
                                         editor.putString("web_productos_seccion_3_recycler", "5");
-                                        editor.putString("web_productos_seccion_3_caracteristica5_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_3_caracteristica5_descripcion", descripTextoFinal);
+                                        editor.putString("web_productos_seccion_3_caracteristica5_titulo", paginaWebProductos_.getSecciones().getServicios().getServicio().get(4).getTitulo());
+                                        editor.putString("web_productos_seccion_3_caracteristica5_descripcion", paginaWebProductos_.getSecciones().getServicios().getServicio().get(4).getDescripcion());
 
                                     }
-                                    else if (datos.size() == 6){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String descripcionTexto = itemCortado[0];
-                                        String ImgTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if(descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else{
-                                            descripTextoFinal = "";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if(tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            tituloFinal = "";
-                                        }
+                                    else if (paginaWebProductos_.getSecciones().getServicios().getServicio().size() == 6){
 
                                         editor.putString("web_productos_seccion_3_recycler", "1");
-                                        editor.putString("web_productos_seccion_3_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_3_caracteristica1_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        ImgTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if(descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else{
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if(tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            tituloFinal = "";
-                                        }
+                                        editor.putString("web_productos_seccion_3_caracteristica1_titulo", paginaWebProductos_.getSecciones().getServicios().getServicio().get(0).getTitulo());
+                                        editor.putString("web_productos_seccion_3_caracteristica1_descripcion", paginaWebProductos_.getSecciones().getServicios().getServicio().get(0).getDescripcion());
 
                                         editor.putString("web_productos_seccion_3_recycler", "2");
-                                        editor.putString("web_productos_seccion_3_caracteristica2_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_3_caracteristica2_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        ImgTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if(descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else{
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if(tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            tituloFinal = "";
-                                        }
+                                        editor.putString("web_productos_seccion_3_caracteristica2_titulo", paginaWebProductos_.getSecciones().getServicios().getServicio().get(1).getTitulo());
+                                        editor.putString("web_productos_seccion_3_caracteristica2_descripcion", paginaWebProductos_.getSecciones().getServicios().getServicio().get(1).getDescripcion());
 
                                         editor.putString("web_productos_seccion_3_recycler", "3");
-                                        editor.putString("web_productos_seccion_3_caracteristica3_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_3_caracteristica3_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(3).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        ImgTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if(descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else{
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if(tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            tituloFinal = "";
-                                        }
+                                        editor.putString("web_productos_seccion_3_caracteristica3_titulo", paginaWebProductos_.getSecciones().getServicios().getServicio().get(2).getTitulo());
+                                        editor.putString("web_productos_seccion_3_caracteristica3_descripcion", paginaWebProductos_.getSecciones().getServicios().getServicio().get(2).getDescripcion());
 
                                         editor.putString("web_productos_seccion_3_recycler", "4");
-                                        editor.putString("web_productos_seccion_3_caracteristica4_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_3_caracteristica4_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(4).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        ImgTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if(descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else{
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if(tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            tituloFinal = "";
-                                        }
+                                        editor.putString("web_productos_seccion_3_caracteristica4_titulo", paginaWebProductos_.getSecciones().getServicios().getServicio().get(3).getTitulo());
+                                        editor.putString("web_productos_seccion_3_caracteristica4_descripcion", paginaWebProductos_.getSecciones().getServicios().getServicio().get(3).getDescripcion());
 
                                         editor.putString("web_productos_seccion_3_recycler", "5");
-                                        editor.putString("web_productos_seccion_3_caracteristica5_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_3_caracteristica5_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(5).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        ImgTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if(descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else{
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if(tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else{
-                                            tituloFinal = "";
-                                        }
+                                        editor.putString("web_productos_seccion_3_caracteristica5_titulo", paginaWebProductos_.getSecciones().getServicios().getServicio().get(4).getTitulo());
+                                        editor.putString("web_productos_seccion_3_caracteristica5_descripcion", paginaWebProductos_.getSecciones().getServicios().getServicio().get(4).getDescripcion());
 
                                         editor.putString("web_productos_seccion_3_recycler", "6");
-                                        editor.putString("web_productos_seccion_3_caracteristica6_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_3_caracteristica6_descripcion", descripTextoFinal);
+                                        editor.putString("web_productos_seccion_3_caracteristica6_titulo", paginaWebProductos_.getSecciones().getServicios().getServicio().get(5).getTitulo());
+                                        editor.putString("web_productos_seccion_3_caracteristica6_descripcion", paginaWebProductos_.getSecciones().getServicios().getServicio().get(5).getDescripcion());
 
                                     }
 
                                     // variables imagencontacto
-                                    String imagencontacto_titulo = "";
-                                    String imagencontacto_subtitulo = "";
-                                    String imagencontacto_imagen = "";
 
-                                    imagencontacto_titulo = (String)imagencontacto.get("titulo");
-                                    imagencontacto_subtitulo = (String)imagencontacto.get("subtitulo");
-                                    imagencontacto_imagen = (String)imagencontacto.get("imagen");
-
-                                    editor.putString("web_productos_img_seccion_4", imagencontacto_imagen);
-                                    editor.putString("web_productos_titulo_seccion_4", imagencontacto_titulo);
-                                    editor.putString("web_productos_subtitulo_seccion_4", imagencontacto_subtitulo);
+                                    editor.putString("web_productos_titulo_seccion_4", paginaWebProductos_.getSecciones().getImagencontacto().getTitulo());
+                                    editor.putString("web_productos_subtitulo_seccion_4", paginaWebProductos_.getSecciones().getImagencontacto().getSubtitulo());
+                                    editor.putString("web_productos_img_seccion_4", paginaWebProductos_.getSecciones().getImagencontacto().getImagen());
+                                    editor.putString("web_productos_img_2_seccion_4",paginaWebProductos_.getSecciones().getImagencontacto().getImagendos());
 
                                     // variables galeria
-                                    String galeria_titulo = "";
-                                    String galeria_navbar = "";
 
-                                    galeria_navbar = (String)galeria.get("navbar");
-                                    galeria_titulo = (String)galeria.get("titulo");
+                                    editor.putString("web_productos_titulo_nav_seccion5",paginaWebProductos_.getSecciones().getGaleria().getNavbar());
 
-                                    prueba  = galeria.get("imagenes");
-                                    datos = convertObjectToList(prueba);
 
-                                    if (datos.size() == 1){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[1];
-                                        String descripcionTexto = itemCortado[0];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal = descripcionCortado[1];
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal = tituloCortado[1];
-                                        tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal = imagenCortado[1];
+                                    if (paginaWebProductos_.getSecciones().getGaleria().getImagenes().size() == 1){
 
                                         editor.putString("web_productos_seccion_5_recycler", "1");
-                                        editor.putString("web_productos_seccion_5_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica1_descripcion", descripTextoFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica1_url", imagenFinal);
+                                        editor.putString("web_productos_seccion_5_caracteristica1_titulo", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(0).getTitulo());
+                                        editor.putString("web_productos_seccion_5_caracteristica1_descripcion", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(0).getDescripcion());
+                                        editor.putString("web_productos_seccion_5_caracteristica1_url", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(0).getImagen());
 
                                     }
-                                    else if (datos.size() == 2){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[1];
-                                        String descripcionTexto = itemCortado[0];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal = descripcionCortado[1];
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal = tituloCortado[1];
-                                        tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal = imagenCortado[1];
+                                    else if (paginaWebProductos_.getSecciones().getGaleria().getImagenes().size() == 2){
 
                                         editor.putString("web_productos_seccion_5_recycler", "1");
-                                        editor.putString("web_productos_seccion_5_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica1_descripcion", descripTextoFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica1_url", imagenFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        descripTextoFinal = descripcionCortado[1];
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        tituloFinal = tituloCortado[1];
-                                        tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        imagenFinal = imagenCortado[1];
+                                        editor.putString("web_productos_seccion_5_caracteristica1_titulo", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(0).getTitulo());
+                                        editor.putString("web_productos_seccion_5_caracteristica1_descripcion", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(0).getDescripcion());
+                                        editor.putString("web_productos_seccion_5_caracteristica1_url", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(0).getImagen());
 
                                         editor.putString("web_productos_seccion_5_recycler", "2");
-                                        editor.putString("web_productos_seccion_5_caracteristica2_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica2_descripcion", descripTextoFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica2_url", imagenFinal);
+                                        editor.putString("web_productos_seccion_5_caracteristica2_titulo", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(1).getTitulo());
+                                        editor.putString("web_productos_seccion_5_caracteristica2_descripcion", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(1).getDescripcion());
+                                        editor.putString("web_productos_seccion_5_caracteristica2_url", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(1).getImagen());
 
                                     }
-                                    else if (datos.size() == 3){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[1];
-                                        String descripcionTexto = itemCortado[0];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal ="";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal ="";
-                                        }
-
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal ="";
-                                        }
+                                    else if (paginaWebProductos_.getSecciones().getGaleria().getImagenes().size() == 3){
 
                                         editor.putString("web_productos_seccion_5_recycler", "1");
-                                        editor.putString("web_productos_seccion_5_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica1_descripcion", descripTextoFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica1_url", imagenFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal ="";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal ="";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal ="";
-                                        }
+                                        editor.putString("web_productos_seccion_5_caracteristica1_titulo", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(0).getTitulo());
+                                        editor.putString("web_productos_seccion_5_caracteristica1_descripcion", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(0).getDescripcion());
+                                        editor.putString("web_productos_seccion_5_caracteristica1_url", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(0).getImagen());
 
                                         editor.putString("web_productos_seccion_5_recycler", "2");
-                                        editor.putString("web_productos_seccion_5_caracteristica2_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica2_descripcion", descripTextoFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica2_url", imagenFinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal ="";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal ="";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal ="";
-                                        }
+                                        editor.putString("web_productos_seccion_5_caracteristica2_titulo", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(1).getTitulo());
+                                        editor.putString("web_productos_seccion_5_caracteristica2_descripcion", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(1).getDescripcion());
+                                        editor.putString("web_productos_seccion_5_caracteristica2_url", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(1).getImagen());
 
                                         editor.putString("web_productos_seccion_5_recycler", "3");
-                                        editor.putString("web_productos_seccion_5_caracteristica3_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica3_descripcion", descripTextoFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica3_url", imagenFinal);
+                                        editor.putString("web_productos_seccion_5_caracteristica3_titulo", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(2).getTitulo());
+                                        editor.putString("web_productos_seccion_5_caracteristica3_descripcion", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(2).getDescripcion());
+                                        editor.putString("web_productos_seccion_5_caracteristica3_url", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(2).getImagen());
 
                                     }
-                                    else if (datos.size() == 4){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[1];
-                                        String descripcionTexto = itemCortado[0];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal ="";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal ="";
-                                        }
-
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal ="";
-                                        }
+                                    else if (paginaWebProductos_.getSecciones().getGaleria().getImagenes().size() == 4){
 
                                         editor.putString("web_productos_seccion_5_recycler", "1");
-                                        editor.putString("web_productos_seccion_5_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica1_descripcion", descripTextoFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica1_url", imagenFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal ="";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal ="";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal ="";
-                                        }
+                                        editor.putString("web_productos_seccion_5_caracteristica1_titulo", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(0).getTitulo());
+                                        editor.putString("web_productos_seccion_5_caracteristica1_descripcion", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(0).getDescripcion());
+                                        editor.putString("web_productos_seccion_5_caracteristica1_url", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(0).getImagen());
 
                                         editor.putString("web_productos_seccion_5_recycler", "2");
-                                        editor.putString("web_productos_seccion_5_caracteristica2_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica2_descripcion", descripTextoFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica2_url", imagenFinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal ="";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal ="";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal ="";
-                                        }
+                                        editor.putString("web_productos_seccion_5_caracteristica2_titulo", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(1).getTitulo());
+                                        editor.putString("web_productos_seccion_5_caracteristica2_descripcion", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(1).getDescripcion());
+                                        editor.putString("web_productos_seccion_5_caracteristica2_url", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(1).getImagen());
 
                                         editor.putString("web_productos_seccion_5_recycler", "3");
-                                        editor.putString("web_productos_seccion_5_caracteristica3_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica3_descripcion", descripTextoFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica3_url", imagenFinal);
-
-                                        frase = datos.get(3).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal ="";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal ="";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal ="";
-                                        }
+                                        editor.putString("web_productos_seccion_5_caracteristica3_titulo", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(2).getTitulo());
+                                        editor.putString("web_productos_seccion_5_caracteristica3_descripcion", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(2).getDescripcion());
+                                        editor.putString("web_productos_seccion_5_caracteristica3_url", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(2).getImagen());
 
                                         editor.putString("web_productos_seccion_5_recycler", "4");
-                                        editor.putString("web_productos_seccion_5_caracteristica4_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica4_descripcion", descripTextoFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica4_url", imagenFinal);
+                                        editor.putString("web_productos_seccion_5_caracteristica4_titulo", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(3).getTitulo());
+                                        editor.putString("web_productos_seccion_5_caracteristica4_descripcion", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(3).getDescripcion());
+                                        editor.putString("web_productos_seccion_5_caracteristica4_url", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(3).getImagen());
 
                                     }
-                                    else if (datos.size() == 5){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[1];
-                                        String descripcionTexto = itemCortado[0];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal ="";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal ="";
-                                        }
-
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal ="";
-                                        }
+                                    else if (paginaWebProductos_.getSecciones().getGaleria().getImagenes().size() == 5){
 
                                         editor.putString("web_productos_seccion_5_recycler", "1");
-                                        editor.putString("web_productos_seccion_5_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica1_descripcion", descripTextoFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica1_url", imagenFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal ="";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal ="";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal ="";
-                                        }
+                                        editor.putString("web_productos_seccion_5_caracteristica1_titulo", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(0).getTitulo());
+                                        editor.putString("web_productos_seccion_5_caracteristica1_descripcion", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(0).getDescripcion());
+                                        editor.putString("web_productos_seccion_5_caracteristica1_url", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(0).getImagen());
 
                                         editor.putString("web_productos_seccion_5_recycler", "2");
-                                        editor.putString("web_productos_seccion_5_caracteristica2_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica2_descripcion", descripTextoFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica2_url", imagenFinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal ="";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal ="";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal ="";
-                                        }
+                                        editor.putString("web_productos_seccion_5_caracteristica2_titulo", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(1).getTitulo());
+                                        editor.putString("web_productos_seccion_5_caracteristica2_descripcion", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(1).getDescripcion());
+                                        editor.putString("web_productos_seccion_5_caracteristica2_url", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(1).getImagen());
 
                                         editor.putString("web_productos_seccion_5_recycler", "3");
-                                        editor.putString("web_productos_seccion_5_caracteristica3_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica3_descripcion", descripTextoFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica3_url", imagenFinal);
-
-                                        frase = datos.get(3).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal ="";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal ="";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal ="";
-                                        }
+                                        editor.putString("web_productos_seccion_5_caracteristica3_titulo", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(2).getTitulo());
+                                        editor.putString("web_productos_seccion_5_caracteristica3_descripcion", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(2).getDescripcion());
+                                        editor.putString("web_productos_seccion_5_caracteristica3_url", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(2).getImagen());
 
                                         editor.putString("web_productos_seccion_5_recycler", "4");
-                                        editor.putString("web_productos_seccion_5_caracteristica4_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica4_descripcion", descripTextoFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica4_url", imagenFinal);
-
-                                        frase = datos.get(4).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal ="";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal ="";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal ="";
-                                        }
+                                        editor.putString("web_productos_seccion_5_caracteristica4_titulo", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(3).getTitulo());
+                                        editor.putString("web_productos_seccion_5_caracteristica4_descripcion", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(3).getDescripcion());
+                                        editor.putString("web_productos_seccion_5_caracteristica4_url", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(3).getImagen());
 
                                         editor.putString("web_productos_seccion_5_recycler", "5");
-                                        editor.putString("web_productos_seccion_5_caracteristica5_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica5_descripcion", descripTextoFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica5_url", imagenFinal);
+                                        editor.putString("web_productos_seccion_5_caracteristica5_titulo", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(4).getTitulo());
+                                        editor.putString("web_productos_seccion_5_caracteristica5_descripcion", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(4).getDescripcion());
+                                        editor.putString("web_productos_seccion_5_caracteristica5_url", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(4).getImagen());
 
                                     }
-                                    else if (datos.size() == 6){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[1];
-                                        String descripcionTexto = itemCortado[0];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal ="";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal ="";
-                                        }
-
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal ="";
-                                        }
+                                    else if (paginaWebProductos_.getSecciones().getGaleria().getImagenes().size() == 6){
 
                                         editor.putString("web_productos_seccion_5_recycler", "1");
-                                        editor.putString("web_productos_seccion_5_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica1_descripcion", descripTextoFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica1_url", imagenFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal ="";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal ="";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal ="";
-                                        }
+                                        editor.putString("web_productos_seccion_5_caracteristica1_titulo", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(0).getTitulo());
+                                        editor.putString("web_productos_seccion_5_caracteristica1_descripcion", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(0).getDescripcion());
+                                        editor.putString("web_productos_seccion_5_caracteristica1_url", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(0).getImagen());
 
                                         editor.putString("web_productos_seccion_5_recycler", "2");
-                                        editor.putString("web_productos_seccion_5_caracteristica2_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica2_descripcion", descripTextoFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica2_url", imagenFinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal ="";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal ="";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal ="";
-                                        }
+                                        editor.putString("web_productos_seccion_5_caracteristica2_titulo", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(1).getTitulo());
+                                        editor.putString("web_productos_seccion_5_caracteristica2_descripcion", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(1).getDescripcion());
+                                        editor.putString("web_productos_seccion_5_caracteristica2_url", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(1).getImagen());
 
                                         editor.putString("web_productos_seccion_5_recycler", "3");
-                                        editor.putString("web_productos_seccion_5_caracteristica3_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica3_descripcion", descripTextoFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica3_url", imagenFinal);
-
-                                        frase = datos.get(3).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal ="";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal ="";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal ="";
-                                        }
+                                        editor.putString("web_productos_seccion_5_caracteristica3_titulo", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(2).getTitulo());
+                                        editor.putString("web_productos_seccion_5_caracteristica3_descripcion", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(2).getDescripcion());
+                                        editor.putString("web_productos_seccion_5_caracteristica3_url", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(2).getImagen());
 
                                         editor.putString("web_productos_seccion_5_recycler", "4");
-                                        editor.putString("web_productos_seccion_5_caracteristica4_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica4_descripcion", descripTextoFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica4_url", imagenFinal);
-
-                                        frase = datos.get(4).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal ="";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal ="";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal ="";
-                                        }
+                                        editor.putString("web_productos_seccion_5_caracteristica4_titulo", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(3).getTitulo());
+                                        editor.putString("web_productos_seccion_5_caracteristica4_descripcion", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(3).getDescripcion());
+                                        editor.putString("web_productos_seccion_5_caracteristica4_url", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(3).getImagen());
 
                                         editor.putString("web_productos_seccion_5_recycler", "5");
-                                        editor.putString("web_productos_seccion_5_caracteristica5_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica5_descripcion", descripTextoFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica5_url", imagenFinal);
-
-                                        frase = datos.get(5).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal ="";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal ="";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal ="";
-                                        }
+                                        editor.putString("web_productos_seccion_5_caracteristica5_titulo", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(4).getTitulo());
+                                        editor.putString("web_productos_seccion_5_caracteristica5_descripcion", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(4).getDescripcion());
+                                        editor.putString("web_productos_seccion_5_caracteristica5_url", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(4).getImagen());
 
                                         editor.putString("web_productos_seccion_5_recycler", "6");
-                                        editor.putString("web_productos_seccion_5_caracteristica6_titulo", tituloFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica6_descripcion", descripTextoFinal);
-                                        editor.putString("web_productos_seccion_5_caracteristica6_url", imagenFinal);
+                                        editor.putString("web_productos_seccion_5_caracteristica6_titulo", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(5).getTitulo());
+                                        editor.putString("web_productos_seccion_5_caracteristica6_descripcion", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(5).getDescripcion());
+                                        editor.putString("web_productos_seccion_5_caracteristica6_url", paginaWebProductos_.getSecciones().getGaleria().getImagenes().get(5).getImagen());
 
                                     }
 
                                     // variables contacto
-                                    String contacto_navbar = "";
-                                    String contacto_titulo = "";
-                                    String contacto_telefono = "";
-                                    String contacto_email = "";
-                                    String contacto_ubicacion = "";
-
-                                    contacto_navbar = (String)contacto.get("navbar");
-                                    contacto_titulo = (String)contacto.get("titulo");
-                                    contacto_telefono = (String)contacto.get("telefono");
-                                    contacto_email = (String)contacto.get("email");
-                                    contacto_ubicacion = (String)contacto.get("lugar");
-
-                                    editor.putString("web_productos_ubicacion_contacto", contacto_ubicacion);
-                                    editor.putString("web_productos_email_contacto", contacto_email);
-                                    editor.putString("web_productos_telefono_contacto", contacto_telefono);
+                                    editor.putString("web_productos_ubicacion_contacto", paginaWebProductos_.getSecciones().getContacto().getLugar());
+                                    editor.putString("web_productos_email_contacto", paginaWebProductos_.getSecciones().getContacto().getEmail());
+                                    editor.putString("web_productos_telefono_contacto", paginaWebProductos_.getSecciones().getContacto().getTelefono());
+                                    editor.putString("web_productos_titulo_nav_seccion6",paginaWebProductos_.getSecciones().getContacto().getNavbar());
+                                    editor.putString("web_productos_facebook_seccion6",paginaWebProductos_.getSecciones().getContacto().getFacebook());
+                                    editor.putString("web_productos_twitter_seccion6",paginaWebProductos_.getSecciones().getContacto().getTwitter());
+                                    editor.putString("web_productos_instagram_seccion6",paginaWebProductos_.getSecciones().getContacto().getInstagram());
 
                                     editor.commit();
                                 }
                                 else if(miPagina.getTipo() == 3){
 
+                                    paginaWebServicios paginaWebServicios_ = documentopagina.toObject(paginaWebServicios.class);
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                                    editor.clear();
+
                                     editor.putString(user.getUid()+"-tipo_mi_pag_web", "3");
-                                    editor.putString("nombrePagWeb", miPagina.getUrl());
+                                    editor.putString("nombrePagWeb", paginaWebServicios_.getUrl());
 
                                     //SERVICIOS
 
-                                    Map<String, Object> web;
-                                    Map<String, Object> home;
-                                    Map<String, Object> about;
-                                    Map<String, Object> servicios;
-                                    Map<String, Object> banner;
-                                    Map<String, Object> portafolio;
-                                    Map<String, Object> contacto;
-
-                                    web = miPagina.getSecciones();
-                                    home = (Map)web.get("home");
-                                    about = (Map)web.get("about");
-                                    servicios = (Map)web.get("servicios");
-                                    banner = (Map)web.get("banner");
-                                    portafolio = (Map)web.get("portafolio");
-                                    contacto = (Map)web.get("contacto");
-
-                                    List<caracteristicas_web> caracteristicas = new ArrayList<>();
-                                    List<caracteristicas_web> nosotros = new ArrayList<>();
-                                    List<caracteristicas_web> servicio = new ArrayList<>();
-                                    List<caracteristicas_web> cuadroInfo = new ArrayList<>();
-                                    List<caracteristicas_web> imagenes = new ArrayList<>();
 
                                     // variables home
-                                    String home_navbar = "";
-                                    String home_logo = "";
-                                    String home_imagen = "";
-                                    String home_titulo = "";
 
-                                    home_navbar = (String)home.get("navbar");
-                                    home_logo = (String)home.get("logo");
-                                    home_imagen = (String)home.get("imagen");
-                                    home_titulo = (String)home.get("titulo");
-
-                                    editor.putString("web_servicios_img_seccion_1", home_imagen);
-                                    editor.putString("web_servicios_logo_seccion_1",home_logo);
-                                    editor.putString("web_servicios_titulo_home", home_titulo);
+                                    editor.putString("web_servicios_img_seccion_1", paginaWebServicios_.getSecciones().getHome().getImagen());
+                                    editor.putString("web_servicios_logo_seccion_1",paginaWebServicios_.getSecciones().getHome().getLogo());
+                                    editor.putString("web_servicios_titulo_home", paginaWebServicios_.getSecciones().getHome().getTitulo());
+                                    editor.putString("web_servicios_titulo_navbar_home", paginaWebServicios_.getSecciones().getHome().getNavbar());
 
                                     // variables about
-                                    String about_navbar = "";
-                                    String about_titulo = "";
-                                    String about_descripcion = "";
-                                    String about_imagen = "";
-                                    String about_Sdescripcion = "";
 
-                                    // variables caracteristicas
-                                    String caracteristicas_imagen = "";
-                                    String caracteristicas_titulo = "";
-                                    String caracteristicas_descripcion = "";
-
-                                    about_navbar = (String)about.get("navbar");
-                                    about_titulo = (String)about.get("titulo");
-                                    about_descripcion = (String)about.get("descripcion");
-                                    about_imagen = (String)about.get("imagen");
-                                    about_Sdescripcion = (String)about.get("Sdescripcion");
-
-                                    editor.putString("web_servicios_img_seccion_2", about_imagen);
-                                    editor.putString("web_servicios_seccion_2_titulo", about_titulo);
-                                    editor.putString("web_servicios_seccion_2_descripcion", about_descripcion);
-                                    editor.putString("web_servicios_seccion_2_descripcion_2", about_Sdescripcion);
-
-                                    Object prueba  = about.get("nosotros");
-                                    List<?> datos = convertObjectToList(prueba);
+                                    editor.putString("web_servicios_img_seccion_2", paginaWebServicios_.getSecciones().getAbout().getImagen());
+                                    editor.putString("web_servicios_seccion_2_titulo", paginaWebServicios_.getSecciones().getAbout().getTitulo());
+                                    editor.putString("web_servicios_seccion_2_descripcion", paginaWebServicios_.getSecciones().getAbout().getDescripcion());
+                                    editor.putString("web_servicios_seccion_2_descripcion_2", paginaWebServicios_.getSecciones().getAbout().getSdescripcion());
 
 
-                                    if (datos.size() == 1){
 
-                                        String frase = datos.get(0).toString();
+                                    if (paginaWebServicios_.getSecciones().getAbout().getNosotros().size() == 1){
 
-                                        String[] itemCortado = frase.split(",");
-                                        String descripcionTexto = itemCortado[0];
-                                        String imagenTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
-
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal = descripcionCortado[1];
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal = tituloCortado[1];
-                                        tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal = imagenCortado[1];
-
-                                        editor.putString("web_servicios_img1_seccion_3",imagenFinal);
-                                        editor.putString("web_servicios_seccion_3_titulo1", tituloFinal);
-                                        editor.putString("web_servicios_seccion_3_descripcion1", descripTextoFinal);
+                                        editor.putString("web_servicios_img1_seccion_3",paginaWebServicios_.getSecciones().getAbout().getNosotros().get(0).getImagen());
+                                        editor.putString("web_servicios_seccion_3_titulo1", paginaWebServicios_.getSecciones().getAbout().getNosotros().get(0).getTitulo());
+                                        editor.putString("web_servicios_seccion_3_descripcion1", paginaWebServicios_.getSecciones().getAbout().getNosotros().get(0).getDescripcion());
 
                                     }
-                                    else if (datos.size() == 2){
+                                    else if (paginaWebServicios_.getSecciones().getAbout().getNosotros().size() == 2){
 
-                                        String frase = datos.get(0).toString();
+                                        editor.putString("web_servicios_img1_seccion_3",paginaWebServicios_.getSecciones().getAbout().getNosotros().get(0).getImagen());
+                                        editor.putString("web_servicios_seccion_3_titulo1", paginaWebServicios_.getSecciones().getAbout().getNosotros().get(0).getTitulo());
+                                        editor.putString("web_servicios_seccion_3_descripcion1", paginaWebServicios_.getSecciones().getAbout().getNosotros().get(0).getDescripcion());
 
-                                        String[] itemCortado = frase.split(",");
-                                        String descripcionTexto = itemCortado[0];
-                                        String imagenTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
-
-                                        editor.putString("web_servicios_img1_seccion_3",imagenFinal);
-                                        editor.putString("web_servicios_seccion_3_titulo1", tituloFinal);
-                                        editor.putString("web_servicios_seccion_3_descripcion1", descripTextoFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
-
-                                        editor.putString("web_servicios_img2_seccion_3",imagenFinal);
-                                        editor.putString("web_servicios_seccion_3_titulo2", tituloFinal);
-                                        editor.putString("web_servicios_seccion_3_descripcion2", descripTextoFinal);
+                                        editor.putString("web_servicios_img2_seccion_3",paginaWebServicios_.getSecciones().getAbout().getNosotros().get(1).getImagen());
+                                        editor.putString("web_servicios_seccion_3_titulo2", paginaWebServicios_.getSecciones().getAbout().getNosotros().get(1).getTitulo());
+                                        editor.putString("web_servicios_seccion_3_descripcion2", paginaWebServicios_.getSecciones().getAbout().getNosotros().get(1).getDescripcion());
 
                                     }
 
-                                    prueba  = about.get("caracteristicas");
-                                    datos = convertObjectToList(prueba);
 
 
-                                    if (datos.size() == 1){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String descripcionTexto = itemCortado[0];
-                                        String imagenTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                    if (paginaWebServicios_.getSecciones().getAbout().getCaracteristicas().size() == 1){
 
                                         editor.putString("web_servicios_seccion_2_recycler", "1");
-                                        editor.putString("web_servicios_seccion_2_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_2_caracteristica1_descripcion", descripTextoFinal);
+                                        editor.putString("web_servicios_seccion_2_caracteristica1_titulo", paginaWebServicios_.getSecciones().getAbout().getCaracteristicas().get(0).getTitulo());
+                                        editor.putString("web_servicios_seccion_2_caracteristica1_descripcion", paginaWebServicios_.getSecciones().getAbout().getCaracteristicas().get(0).getDescripcion());
 
                                     }
-                                    else if (datos.size() == 2){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String descripcionTexto = itemCortado[0];
-                                        String imagenTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                    else if (paginaWebServicios_.getSecciones().getAbout().getCaracteristicas().size() == 2){
 
                                         editor.putString("web_servicios_seccion_2_recycler", "1");
-                                        editor.putString("web_servicios_seccion_2_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_2_caracteristica1_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_2_caracteristica1_titulo", paginaWebServicios_.getSecciones().getAbout().getCaracteristicas().get(0).getTitulo());
+                                        editor.putString("web_servicios_seccion_2_caracteristica1_descripcion", paginaWebServicios_.getSecciones().getAbout().getCaracteristicas().get(0).getDescripcion());
 
                                         editor.putString("web_servicios_seccion_2_recycler", "2");
-                                        editor.putString("web_servicios_seccion_2_caracteristica2_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_2_caracteristica2_descripcion", descripTextoFinal);
+                                        editor.putString("web_servicios_seccion_2_caracteristica2_titulo", paginaWebServicios_.getSecciones().getAbout().getCaracteristicas().get(1).getTitulo());
+                                        editor.putString("web_servicios_seccion_2_caracteristica2_descripcion", paginaWebServicios_.getSecciones().getAbout().getCaracteristicas().get(1).getDescripcion());
 
                                     }
-                                    else if (datos.size() == 3){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String descripcionTexto = itemCortado[0];
-                                        String imagenTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                    else if (paginaWebServicios_.getSecciones().getAbout().getCaracteristicas().size() == 3){
 
                                         editor.putString("web_servicios_seccion_2_recycler", "1");
-                                        editor.putString("web_servicios_seccion_2_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_2_caracteristica1_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_2_caracteristica1_titulo", paginaWebServicios_.getSecciones().getAbout().getCaracteristicas().get(0).getTitulo());
+                                        editor.putString("web_servicios_seccion_2_caracteristica1_descripcion", paginaWebServicios_.getSecciones().getAbout().getCaracteristicas().get(0).getDescripcion());
 
                                         editor.putString("web_servicios_seccion_2_recycler", "2");
-                                        editor.putString("web_servicios_seccion_2_caracteristica2_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_2_caracteristica2_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_2_caracteristica2_titulo", paginaWebServicios_.getSecciones().getAbout().getCaracteristicas().get(1).getTitulo());
+                                        editor.putString("web_servicios_seccion_2_caracteristica2_descripcion", paginaWebServicios_.getSecciones().getAbout().getCaracteristicas().get(1).getDescripcion());
 
                                         editor.putString("web_servicios_seccion_2_recycler", "3");
-                                        editor.putString("web_servicios_seccion_2_caracteristica3_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_2_caracteristica3_descripcion", descripTextoFinal);
+                                        editor.putString("web_servicios_seccion_2_caracteristica3_titulo", paginaWebServicios_.getSecciones().getAbout().getCaracteristicas().get(2).getTitulo());
+                                        editor.putString("web_servicios_seccion_2_caracteristica3_descripcion", paginaWebServicios_.getSecciones().getAbout().getCaracteristicas().get(2).getDescripcion());
 
                                     }
 
                                     // variables servicios
-                                    String servicios_navbar = "";
-                                    String servicios_titulo = "";
-                                    String servicios_descripcion = "";
-                                    String servicios_descripcion_ = "";
-
-                                    // variables servicio
-                                    String servicio_imagen = "";
-                                    String servicio_titulo = "";
-                                    String servicio_descripcion = "";
-
-                                    servicios_navbar = (String)servicios.get("navbar");
-                                    servicio_titulo = (String)servicios.get("titulo");
-                                    servicios_descripcion_ = (String)servicios.get("descripcion");
-
-                                    editor.putString("web_servicios_seccion_4_titulo", servicio_titulo);
-                                    editor.putString("web_servicios_seccion_4_descripcion", servicios_descripcion_);
-
-                                    prueba  = servicios.get("servicio");
-                                    datos = convertObjectToList(prueba);
 
 
-                                    if (datos.size() == 1){
+                                    editor.putString("web_servicios_seccion_4_titulo", paginaWebServicios_.getSecciones().getServicios().getTitulo());
+                                    editor.putString("web_servicios_seccion_4_descripcion", paginaWebServicios_.getSecciones().getServicios().getDescripcion());
 
-                                        String frase = datos.get(0).toString();
 
-                                        String[] itemCortado = frase.split(",");
-                                        String descripcionTexto = itemCortado[0];
-                                        String imagenTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
 
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                    if (paginaWebServicios_.getSecciones().getServicios().getServicio().size() == 1){
 
                                         editor.putString("web_servicios_seccion_4_recycler", "1");
-                                        editor.putString("web_servicios_seccion_4_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica1_descripcion", descripTextoFinal);
+                                        editor.putString("web_servicios_seccion_4_caracteristica1_titulo", paginaWebServicios_.getSecciones().getServicios().getServicio().get(0).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica1_descripcion", paginaWebServicios_.getSecciones().getServicios().getServicio().get(0).getDescripcion());
 
                                     }
-                                    else if (datos.size() == 2){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String descripcionTexto = itemCortado[0];
-                                        String imagenTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                    else if (paginaWebServicios_.getSecciones().getServicios().getServicio().size() == 2){
 
                                         editor.putString("web_servicios_seccion_4_recycler", "1");
-                                        editor.putString("web_servicios_seccion_4_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica1_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_4_caracteristica1_titulo", paginaWebServicios_.getSecciones().getServicios().getServicio().get(0).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica1_descripcion", paginaWebServicios_.getSecciones().getServicios().getServicio().get(0).getDescripcion());
 
                                         editor.putString("web_servicios_seccion_4_recycler", "2");
-                                        editor.putString("web_servicios_seccion_4_caracteristica2_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica2_descripcion", descripTextoFinal);
+                                        editor.putString("web_servicios_seccion_4_caracteristica2_titulo", paginaWebServicios_.getSecciones().getServicios().getServicio().get(1).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica2_descripcion", paginaWebServicios_.getSecciones().getServicios().getServicio().get(1).getDescripcion());
 
                                     }
-                                    else if (datos.size() == 3){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String descripcionTexto = itemCortado[0];
-                                        String imagenTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                    else if (paginaWebServicios_.getSecciones().getServicios().getServicio().size() == 3){
 
                                         editor.putString("web_servicios_seccion_4_recycler", "1");
-                                        editor.putString("web_servicios_seccion_4_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica1_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_4_caracteristica1_titulo", paginaWebServicios_.getSecciones().getServicios().getServicio().get(0).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica1_descripcion", paginaWebServicios_.getSecciones().getServicios().getServicio().get(0).getDescripcion());
 
                                         editor.putString("web_servicios_seccion_4_recycler", "2");
-                                        editor.putString("web_servicios_seccion_4_caracteristica2_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica2_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[2];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_4_caracteristica2_titulo", paginaWebServicios_.getSecciones().getServicios().getServicio().get(1).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica2_descripcion", paginaWebServicios_.getSecciones().getServicios().getServicio().get(1).getDescripcion());
 
                                         editor.putString("web_servicios_seccion_4_recycler", "3");
-                                        editor.putString("web_servicios_seccion_4_caracteristica3_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica3_descripcion", descripTextoFinal);
+                                        editor.putString("web_servicios_seccion_4_caracteristica3_titulo", paginaWebServicios_.getSecciones().getServicios().getServicio().get(2).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica3_descripcion", paginaWebServicios_.getSecciones().getServicios().getServicio().get(2).getDescripcion());
 
                                     }
-                                    else if (datos.size() == 4){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String descripcionTexto = itemCortado[0];
-                                        String imagenTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                    else if (paginaWebServicios_.getSecciones().getServicios().getServicio().size() == 4){
 
                                         editor.putString("web_servicios_seccion_4_recycler", "1");
-                                        editor.putString("web_servicios_seccion_4_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica1_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_4_caracteristica1_titulo", paginaWebServicios_.getSecciones().getServicios().getServicio().get(0).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica1_descripcion", paginaWebServicios_.getSecciones().getServicios().getServicio().get(0).getDescripcion());
 
                                         editor.putString("web_servicios_seccion_4_recycler", "2");
-                                        editor.putString("web_servicios_seccion_4_caracteristica2_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica2_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_4_caracteristica2_titulo", paginaWebServicios_.getSecciones().getServicios().getServicio().get(1).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica2_descripcion", paginaWebServicios_.getSecciones().getServicios().getServicio().get(1).getDescripcion());
 
                                         editor.putString("web_servicios_seccion_4_recycler", "3");
-                                        editor.putString("web_servicios_seccion_4_caracteristica3_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica3_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(3).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_4_caracteristica3_titulo", paginaWebServicios_.getSecciones().getServicios().getServicio().get(2).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica3_descripcion", paginaWebServicios_.getSecciones().getServicios().getServicio().get(2).getDescripcion());
 
                                         editor.putString("web_servicios_seccion_4_recycler", "4");
-                                        editor.putString("web_servicios_seccion_4_caracteristica4_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica4_descripcion", descripTextoFinal);
+                                        editor.putString("web_servicios_seccion_4_caracteristica4_titulo", paginaWebServicios_.getSecciones().getServicios().getServicio().get(3).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica4_descripcion", paginaWebServicios_.getSecciones().getServicios().getServicio().get(3).getDescripcion());
 
                                     }
-                                    else if (datos.size() == 5){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String descripcionTexto = itemCortado[0];
-                                        String imagenTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                    else if (paginaWebServicios_.getSecciones().getServicios().getServicio().size() == 5){
 
                                         editor.putString("web_servicios_seccion_4_recycler", "1");
-                                        editor.putString("web_servicios_seccion_4_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica1_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_4_caracteristica1_titulo", paginaWebServicios_.getSecciones().getServicios().getServicio().get(0).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica1_descripcion", paginaWebServicios_.getSecciones().getServicios().getServicio().get(0).getDescripcion());
 
                                         editor.putString("web_servicios_seccion_4_recycler", "2");
-                                        editor.putString("web_servicios_seccion_4_caracteristica2_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica2_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_4_caracteristica2_titulo", paginaWebServicios_.getSecciones().getServicios().getServicio().get(1).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica2_descripcion", paginaWebServicios_.getSecciones().getServicios().getServicio().get(1).getDescripcion());
 
                                         editor.putString("web_servicios_seccion_4_recycler", "3");
-                                        editor.putString("web_servicios_seccion_4_caracteristica3_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica3_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(3).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_4_caracteristica3_titulo", paginaWebServicios_.getSecciones().getServicios().getServicio().get(2).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica3_descripcion", paginaWebServicios_.getSecciones().getServicios().getServicio().get(2).getDescripcion());
 
                                         editor.putString("web_servicios_seccion_4_recycler", "4");
-                                        editor.putString("web_servicios_seccion_4_caracteristica4_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica4_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(4).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_4_caracteristica4_titulo", paginaWebServicios_.getSecciones().getServicios().getServicio().get(3).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica4_descripcion", paginaWebServicios_.getSecciones().getServicios().getServicio().get(3).getDescripcion());
 
                                         editor.putString("web_servicios_seccion_4_recycler", "5");
-                                        editor.putString("web_servicios_seccion_4_caracteristica5_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica5_descripcion", descripTextoFinal);
+                                        editor.putString("web_servicios_seccion_4_caracteristica5_titulo", paginaWebServicios_.getSecciones().getServicios().getServicio().get(4).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica5_descripcion", paginaWebServicios_.getSecciones().getServicios().getServicio().get(4).getDescripcion());
 
                                     }
-                                    else if (datos.size() == 6){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String descripcionTexto = itemCortado[0];
-                                        String imagenTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                    else if (paginaWebServicios_.getSecciones().getServicios().getServicio().size() == 6){
 
                                         editor.putString("web_servicios_seccion_4_recycler", "1");
-                                        editor.putString("web_servicios_seccion_4_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica1_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_4_caracteristica1_titulo", paginaWebServicios_.getSecciones().getServicios().getServicio().get(0).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica1_descripcion", paginaWebServicios_.getSecciones().getServicios().getServicio().get(0).getDescripcion());
 
                                         editor.putString("web_servicios_seccion_4_recycler", "2");
-                                        editor.putString("web_servicios_seccion_4_caracteristica2_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica2_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_4_caracteristica2_titulo", paginaWebServicios_.getSecciones().getServicios().getServicio().get(1).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica2_descripcion", paginaWebServicios_.getSecciones().getServicios().getServicio().get(1).getDescripcion());
 
                                         editor.putString("web_servicios_seccion_4_recycler", "3");
-                                        editor.putString("web_servicios_seccion_4_caracteristica3_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica3_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(3).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_4_caracteristica3_titulo", paginaWebServicios_.getSecciones().getServicios().getServicio().get(2).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica3_descripcion", paginaWebServicios_.getSecciones().getServicios().getServicio().get(2).getDescripcion());
 
                                         editor.putString("web_servicios_seccion_4_recycler", "4");
-                                        editor.putString("web_servicios_seccion_4_caracteristica4_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica4_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(4).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_4_caracteristica4_titulo", paginaWebServicios_.getSecciones().getServicios().getServicio().get(3).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica4_descripcion", paginaWebServicios_.getSecciones().getServicios().getServicio().get(3).getDescripcion());
 
                                         editor.putString("web_servicios_seccion_4_recycler", "5");
-                                        editor.putString("web_servicios_seccion_4_caracteristica5_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica5_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(5).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_4_caracteristica5_titulo", paginaWebServicios_.getSecciones().getServicios().getServicio().get(4).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica5_descripcion", paginaWebServicios_.getSecciones().getServicios().getServicio().get(4).getDescripcion());
 
                                         editor.putString("web_servicios_seccion_4_recycler", "6");
-                                        editor.putString("web_servicios_seccion_4_caracteristica6_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica6_descripcion", descripTextoFinal);
+                                        editor.putString("web_servicios_seccion_4_caracteristica6_titulo", paginaWebServicios_.getSecciones().getServicios().getServicio().get(5).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica6_descripcion", paginaWebServicios_.getSecciones().getServicios().getServicio().get(5).getDescripcion());
 
                                     }
 
                                     // variables baner
-                                    String baner_titulo = "";
-                                    String baner_descripcion = "";
 
-                                    baner_titulo = (String)banner.get("titulo");
-                                    baner_descripcion = (String)banner.get("descripcion");
-
-                                    editor.putString("web_servicios_seccion_5_titulo", baner_titulo);
-                                    editor.putString("web_servicios_seccion_5_descripcion", baner_descripcion);
-
-                                    prueba  = banner.get("cuadroInfo");
-                                    datos = convertObjectToList(prueba);
+                                    editor.putString("web_servicios_seccion_5_titulo", paginaWebServicios_.getSecciones().getBanner().getTitulo());
+                                    editor.putString("web_servicios_seccion_5_descripcion", paginaWebServicios_.getSecciones().getBanner().getDescripcion());
 
 
-                                    if (datos.size() == 1){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String descripcionTexto = itemCortado[0];
-                                        String imagenTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                    if (paginaWebServicios_.getSecciones().getBanner().getCuadroInfo().size() == 1){
 
                                         editor.putString("web_servicios_seccion_5_recycler", "1");
-                                        editor.putString("web_servicios_seccion_5_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_5_caracteristica1_descripcion", descripTextoFinal);
+                                        editor.putString("web_servicios_seccion_5_caracteristica1_titulo", paginaWebServicios_.getSecciones().getBanner().getCuadroInfo().get(0).getTitulo());
+                                        editor.putString("web_servicios_seccion_5_caracteristica1_descripcion", paginaWebServicios_.getSecciones().getBanner().getCuadroInfo().get(0).getDescripcion());
 
                                     }
-                                    else if (datos.size() == 2){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String descripcionTexto = itemCortado[0];
-                                        String imagenTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                    else if (paginaWebServicios_.getSecciones().getBanner().getCuadroInfo().size() == 2){
 
                                         editor.putString("web_servicios_seccion_5_recycler", "1");
-                                        editor.putString("web_servicios_seccion_5_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_5_caracteristica1_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_5_caracteristica1_titulo", paginaWebServicios_.getSecciones().getBanner().getCuadroInfo().get(0).getTitulo());
+                                        editor.putString("web_servicios_seccion_5_caracteristica1_descripcion", paginaWebServicios_.getSecciones().getBanner().getCuadroInfo().get(0).getDescripcion());
 
                                         editor.putString("web_servicios_seccion_5_recycler", "2");
-                                        editor.putString("web_servicios_seccion_5_caracteristica2_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_5_caracteristica2_descripcion", descripTextoFinal);
+                                        editor.putString("web_servicios_seccion_5_caracteristica2_titulo", paginaWebServicios_.getSecciones().getBanner().getCuadroInfo().get(1).getTitulo());
+                                        editor.putString("web_servicios_seccion_5_caracteristica2_descripcion", paginaWebServicios_.getSecciones().getBanner().getCuadroInfo().get(1).getDescripcion());
 
                                     }
-                                    else if (datos.size() == 3){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String descripcionTexto = itemCortado[0];
-                                        String imagenTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                    else if (paginaWebServicios_.getSecciones().getBanner().getCuadroInfo().size() == 3){
 
                                         editor.putString("web_servicios_seccion_5_recycler", "1");
-                                        editor.putString("web_servicios_seccion_5_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_5_caracteristica1_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_5_caracteristica1_titulo", paginaWebServicios_.getSecciones().getBanner().getCuadroInfo().get(0).getTitulo());
+                                        editor.putString("web_servicios_seccion_5_caracteristica1_descripcion", paginaWebServicios_.getSecciones().getBanner().getCuadroInfo().get(0).getDescripcion());
 
                                         editor.putString("web_servicios_seccion_5_recycler", "2");
-                                        editor.putString("web_servicios_seccion_5_caracteristica2_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_5_caracteristica2_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_5_caracteristica2_titulo", paginaWebServicios_.getSecciones().getBanner().getCuadroInfo().get(1).getTitulo());
+                                        editor.putString("web_servicios_seccion_5_caracteristica2_descripcion", paginaWebServicios_.getSecciones().getBanner().getCuadroInfo().get(1).getDescripcion());
 
                                         editor.putString("web_servicios_seccion_5_recycler", "3");
-                                        editor.putString("web_servicios_seccion_5_caracteristica3_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_5_caracteristica3_descripcion", descripTextoFinal);
+                                        editor.putString("web_servicios_seccion_5_caracteristica3_titulo", paginaWebServicios_.getSecciones().getBanner().getCuadroInfo().get(2).getTitulo());
+                                        editor.putString("web_servicios_seccion_5_caracteristica3_descripcion", paginaWebServicios_.getSecciones().getBanner().getCuadroInfo().get(2).getDescripcion());
 
                                     }
 
                                     // variables portafolio
-                                    String portafolio_navbar = "";
-                                    String portafolio_titulo = "";
 
-                                    portafolio_navbar = (String)portafolio.get("navbar");
-                                    portafolio_titulo = (String)portafolio.get("titulo");
+                                    editor.putString("web_servicios_seccion6_tituloNav",paginaWebServicios_.getSecciones().getPortafolio().getNavbar());
 
-                                    prueba  = portafolio.get("imagenes");
-                                    datos = convertObjectToList(prueba);
 
-                                    String frase1 = datos.get(0).toString();
-
-                                    if (datos.size() == 1){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split( ",");
-                                        String descripcionTexto = itemCortado[0];
-                                        String imagenTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                    if (paginaWebServicios_.getSecciones().getPortafolio().getImagenes().size() == 1){
 
                                         editor.putString("web_servicios_seccion_6_recycler", "1");
-                                        editor.putString("web_servicios_seccion_6_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica1_descripcion", descripTextoFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica1_url", imagenFinal);
+                                        editor.putString("web_servicios_seccion_6_caracteristica1_titulo", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(0).getTitulo());
+                                        editor.putString("web_servicios_seccion_6_caracteristica1_descripcion", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(0).getDescripcion());
+                                        editor.putString("web_servicios_seccion_6_caracteristica1_url", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(0).getImagen());
 
                                     }
-                                    else if (datos.size() == 2){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String descripcionTexto = itemCortado[0];
-                                        String imagenTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                    else if (paginaWebServicios_.getSecciones().getPortafolio().getImagenes().size() == 2){
 
                                         editor.putString("web_servicios_seccion_6_recycler", "1");
-                                        editor.putString("web_servicios_seccion_6_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica1_descripcion", descripTextoFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica1_url", imagenFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_6_caracteristica1_titulo", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(0).getTitulo());
+                                        editor.putString("web_servicios_seccion_6_caracteristica1_descripcion", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(0).getDescripcion());
+                                        editor.putString("web_servicios_seccion_6_caracteristica1_url", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(0).getImagen());
 
                                         editor.putString("web_servicios_seccion_6_recycler", "2");
-                                        editor.putString("web_servicios_seccion_6_caracteristica2_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica2_descripcion", descripTextoFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica2_url", imagenFinal);
+                                        editor.putString("web_servicios_seccion_6_caracteristica2_titulo", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(1).getTitulo());
+                                        editor.putString("web_servicios_seccion_6_caracteristica2_descripcion", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(1).getDescripcion());
+                                        editor.putString("web_servicios_seccion_6_caracteristica2_url", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(1).getImagen());
 
                                     }
-                                    else if (datos.size() == 3){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String descripcionTexto = itemCortado[0];
-                                        String imagenTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                    else if (paginaWebServicios_.getSecciones().getPortafolio().getImagenes().size() == 3){
 
                                         editor.putString("web_servicios_seccion_6_recycler", "1");
-                                        editor.putString("web_servicios_seccion_6_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica1_descripcion", descripTextoFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica1_url", imagenFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_6_caracteristica1_titulo", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(0).getTitulo());
+                                        editor.putString("web_servicios_seccion_6_caracteristica1_descripcion", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(0).getDescripcion());
+                                        editor.putString("web_servicios_seccion_6_caracteristica1_url", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(0).getImagen());
 
                                         editor.putString("web_servicios_seccion_6_recycler", "2");
-                                        editor.putString("web_servicios_seccion_6_caracteristica2_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica2_descripcion", descripTextoFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica2_url", imagenFinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_6_caracteristica2_titulo", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(1).getTitulo());
+                                        editor.putString("web_servicios_seccion_6_caracteristica2_descripcion", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(1).getDescripcion());
+                                        editor.putString("web_servicios_seccion_6_caracteristica2_url", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(1).getImagen());
 
                                         editor.putString("web_servicios_seccion_6_recycler", "3");
-                                        editor.putString("web_servicios_seccion_6_caracteristica3_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica3_descripcion", descripTextoFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica3_url", imagenFinal);
+                                        editor.putString("web_servicios_seccion_6_caracteristica3_titulo", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(2).getTitulo());
+                                        editor.putString("web_servicios_seccion_6_caracteristica3_descripcion", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(2).getDescripcion());
+                                        editor.putString("web_servicios_seccion_6_caracteristica3_url", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(2).getImagen());
 
                                     }
-                                    else if (datos.size() == 4){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String descripcionTexto = itemCortado[0];
-                                        String imagenTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                    else if (paginaWebServicios_.getSecciones().getPortafolio().getImagenes().size() == 4){
 
                                         editor.putString("web_servicios_seccion_6_recycler", "1");
-                                        editor.putString("web_servicios_seccion_6_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica1_descripcion", descripTextoFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica1_url", imagenFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_6_caracteristica1_titulo", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(0).getTitulo());
+                                        editor.putString("web_servicios_seccion_6_caracteristica1_descripcion", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(0).getDescripcion());
+                                        editor.putString("web_servicios_seccion_6_caracteristica1_url", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(0).getImagen());
 
                                         editor.putString("web_servicios_seccion_6_recycler", "2");
-                                        editor.putString("web_servicios_seccion_6_caracteristica2_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica2_descripcion", descripTextoFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica2_url", imagenFinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_6_caracteristica2_titulo", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(1).getTitulo());
+                                        editor.putString("web_servicios_seccion_6_caracteristica2_descripcion", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(1).getDescripcion());
+                                        editor.putString("web_servicios_seccion_6_caracteristica2_url", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(1).getImagen());
 
                                         editor.putString("web_servicios_seccion_6_recycler", "3");
-                                        editor.putString("web_servicios_seccion_6_caracteristica3_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica3_descripcion", descripTextoFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica3_url", imagenFinal);
-
-                                        frase = datos.get(3).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_6_caracteristica3_titulo", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(2).getTitulo());
+                                        editor.putString("web_servicios_seccion_6_caracteristica3_descripcion", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(2).getDescripcion());
+                                        editor.putString("web_servicios_seccion_6_caracteristica3_url", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(2).getImagen());
 
                                         editor.putString("web_servicios_seccion_6_recycler", "4");
-                                        editor.putString("web_servicios_seccion_6_caracteristica4_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica4_descripcion", descripTextoFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica4_url", imagenFinal);
+                                        editor.putString("web_servicios_seccion_6_caracteristica4_titulo", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(3).getTitulo());
+                                        editor.putString("web_servicios_seccion_6_caracteristica4_descripcion", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(3).getDescripcion());
+                                        editor.putString("web_servicios_seccion_6_caracteristica4_url", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(3).getImagen());
 
                                     }
-                                    else if (datos.size() == 5){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String descripcionTexto = itemCortado[0];
-                                        String imagenTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                    else if (paginaWebServicios_.getSecciones().getPortafolio().getImagenes().size() == 5){
 
                                         editor.putString("web_servicios_seccion_6_recycler", "1");
-                                        editor.putString("web_servicios_seccion_6_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica1_descripcion", descripTextoFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica1_url", imagenFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_6_caracteristica1_titulo", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(0).getTitulo());
+                                        editor.putString("web_servicios_seccion_6_caracteristica1_descripcion", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(0).getDescripcion());
+                                        editor.putString("web_servicios_seccion_6_caracteristica1_url", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(0).getImagen());
 
                                         editor.putString("web_servicios_seccion_6_recycler", "2");
-                                        editor.putString("web_servicios_seccion_6_caracteristica2_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica2_descripcion", descripTextoFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica2_url", imagenFinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_6_caracteristica2_titulo", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(1).getTitulo());
+                                        editor.putString("web_servicios_seccion_6_caracteristica2_descripcion", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(1).getDescripcion());
+                                        editor.putString("web_servicios_seccion_6_caracteristica2_url", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(1).getImagen());
 
                                         editor.putString("web_servicios_seccion_6_recycler", "3");
-                                        editor.putString("web_servicios_seccion_6_caracteristica3_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica3_descripcion", descripTextoFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica3_url", imagenFinal);
-
-                                        frase = datos.get(3).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_6_caracteristica3_titulo", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(2).getTitulo());
+                                        editor.putString("web_servicios_seccion_6_caracteristica3_descripcion", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(2).getDescripcion());
+                                        editor.putString("web_servicios_seccion_6_caracteristica3_url", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(2).getImagen());
 
                                         editor.putString("web_servicios_seccion_6_recycler", "4");
-                                        editor.putString("web_servicios_seccion_6_caracteristica4_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica4_descripcion", descripTextoFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica4_url", imagenFinal);
-
-                                        frase = datos.get(4).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_6_caracteristica4_titulo", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(3).getTitulo());
+                                        editor.putString("web_servicios_seccion_6_caracteristica4_descripcion", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(3).getDescripcion());
+                                        editor.putString("web_servicios_seccion_6_caracteristica4_url", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(3).getImagen());
 
                                         editor.putString("web_servicios_seccion_6_recycler", "5");
-                                        editor.putString("web_servicios_seccion_6_caracteristica5_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica5_descripcion", descripTextoFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica5_url", imagenFinal);
+                                        editor.putString("web_servicios_seccion_6_caracteristica5_titulo", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(4).getTitulo());
+                                        editor.putString("web_servicios_seccion_6_caracteristica5_descripcion", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(4).getDescripcion());
+                                        editor.putString("web_servicios_seccion_6_caracteristica5_url", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(4).getImagen());
 
                                     }
-                                    else if (datos.size() == 6){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String descripcionTexto = itemCortado[0];
-                                        String imagenTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                    else if (paginaWebServicios_.getSecciones().getPortafolio().getImagenes().size() == 6){
 
                                         editor.putString("web_servicios_seccion_6_recycler", "1");
-                                        editor.putString("web_servicios_seccion_6_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica1_descripcion", descripTextoFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica1_url", imagenFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_6_caracteristica1_titulo", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(0).getTitulo());
+                                        editor.putString("web_servicios_seccion_6_caracteristica1_descripcion", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(0).getDescripcion());
+                                        editor.putString("web_servicios_seccion_6_caracteristica1_url", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(0).getImagen());
 
                                         editor.putString("web_servicios_seccion_6_recycler", "2");
-                                        editor.putString("web_servicios_seccion_6_caracteristica2_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica2_descripcion", descripTextoFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica2_url", imagenFinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_6_caracteristica2_titulo", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(1).getTitulo());
+                                        editor.putString("web_servicios_seccion_6_caracteristica2_descripcion", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(1).getDescripcion());
+                                        editor.putString("web_servicios_seccion_6_caracteristica2_url", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(1).getImagen());
 
                                         editor.putString("web_servicios_seccion_6_recycler", "3");
-                                        editor.putString("web_servicios_seccion_6_caracteristica3_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica3_descripcion", descripTextoFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica3_url", imagenFinal);
-
-                                        frase = datos.get(3).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_6_caracteristica3_titulo", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(2).getTitulo());
+                                        editor.putString("web_servicios_seccion_6_caracteristica3_descripcion", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(2).getDescripcion());
+                                        editor.putString("web_servicios_seccion_6_caracteristica3_url", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(2).getImagen());
 
                                         editor.putString("web_servicios_seccion_6_recycler", "4");
-                                        editor.putString("web_servicios_seccion_6_caracteristica4_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica4_descripcion", descripTextoFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica4_url", imagenFinal);
-
-                                        frase = datos.get(4).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_6_caracteristica4_titulo", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(3).getTitulo());
+                                        editor.putString("web_servicios_seccion_6_caracteristica4_descripcion", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(3).getDescripcion());
+                                        editor.putString("web_servicios_seccion_6_caracteristica4_url", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(3).getImagen());
 
                                         editor.putString("web_servicios_seccion_6_recycler", "5");
-                                        editor.putString("web_servicios_seccion_6_caracteristica5_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica5_descripcion", descripTextoFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica5_url", imagenFinal);
-
-                                        frase = datos.get(5).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_6_caracteristica5_titulo", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(4).getTitulo());
+                                        editor.putString("web_servicios_seccion_6_caracteristica5_descripcion", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(4).getDescripcion());
+                                        editor.putString("web_servicios_seccion_6_caracteristica5_url", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(4).getImagen());
 
                                         editor.putString("web_servicios_seccion_6_recycler", "6");
-                                        editor.putString("web_servicios_seccion_6_caracteristica6_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica6_descripcion", descripTextoFinal);
-                                        editor.putString("web_servicios_seccion_6_caracteristica6_url", imagenFinal);
+                                        editor.putString("web_servicios_seccion_6_caracteristica6_titulo", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(5).getTitulo());
+                                        editor.putString("web_servicios_seccion_6_caracteristica6_descripcion", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(5).getDescripcion());
+                                        editor.putString("web_servicios_seccion_6_caracteristica6_url", paginaWebServicios_.getSecciones().getPortafolio().getImagenes().get(5).getImagen());
 
                                     }
 
                                     // variables contacto
-                                    String contacto_navbar = "";
-                                    String contacto_titulo = "";
-                                    String contacto_telefono = "";
-                                    String contacto_email = "";
-                                    String contacto_lugar = "";
-
-                                    contacto_navbar = (String)contacto.get("navbar");
-                                    contacto_titulo = (String)contacto.get("titulo");
-                                    contacto_telefono = (String)contacto.get("telefono");
-                                    contacto_email = (String)contacto.get("email");
-                                    contacto_lugar = (String)contacto.get("lugar");
-
-                                    editor.putString("web_servicios_ubicacion_contacto", contacto_lugar);
-                                    editor.putString("web_servicios_email_contacto", contacto_email);
-                                    editor.putString("web_servicios_telefono_contacto", contacto_telefono);
+                                    editor.putString("web_servicios_ubicacion_contacto", paginaWebServicios_.getSecciones().getContacto().getLugar());
+                                    editor.putString("web_servicios_email_contacto", paginaWebServicios_.getSecciones().getContacto().getEmail());
+                                    editor.putString("web_servicios_telefono_contacto", paginaWebServicios_.getSecciones().getContacto().getTelefono());
+                                    editor.putString("web_servicios_titulo_nav_contacto",paginaWebServicios_.getSecciones().getContacto().getNavbar());
+                                    editor.putString("web_servicios_facebook_contacto",paginaWebServicios_.getSecciones().getContacto().getFacebook());
+                                    editor.putString("web_servicios_twitter_contacto",paginaWebServicios_.getSecciones().getContacto().getTwitter());
+                                    editor.putString("web_servicios_instagram_contacto",paginaWebServicios_.getSecciones().getContacto().getInstagram());
 
                                     editor.commit();
 
                                 }
                                 else if(miPagina.getTipo() == 4){
 
+                                    paginaWebModa paginaWebModa_ = documentopagina.toObject(paginaWebModa.class);
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                                    editor.clear();
+
                                     editor.putString(user.getUid()+"-tipo_mi_pag_web", "4");
-                                    editor.putString("nombrePagWeb", miPagina.getUrl());
+                                    editor.putString("nombrePagWeb", paginaWebModa_.getUrl());
                                     //MODA
 
-                                    List<caracteristicas_web> work = new ArrayList<>();
-                                    List<caracteristicas_web> list = new ArrayList<>();
-                                    List<caracteristicas_web> imagen = new ArrayList<>();
-
-                                    Map<String, Object> web;
-                                    Map<String, Object> home;
-                                    Map<String, Object> about;
-                                    Map<String, Object> services;
-                                    Map<String, Object> gallery;
-                                    Map<String, Object> contact;
-                                    Map<String, Object> social;
-
-                                    web = miPagina.getSecciones();
-                                    home = (Map)web.get("home");
-                                    about = (Map)web.get("about");
-
-                                    services = (Map)web.get("services");
-                                    gallery = (Map)web.get("gallery");
-                                    contact = (Map)web.get("contact");
-                                    social = (Map)web.get("social");
-
-                                    // variables home
-                                    String home_navbar = "";
-                                    String home_subtitulo = "";
-                                    String home_imagen = "";
-                                    String home_titulo = "";
-                                    String home_text = "";
-
-                                    home_navbar = (String)home.get("navbar");
-                                    home_subtitulo = (String)home.get("subtitle");
-                                    home_imagen = (String)home.get("background");
-                                    home_titulo = (String)home.get("title");
-                                    home_text = (String)home.get("text");
-
-                                    editor.putString("web_moda_img_seccion_1", home_imagen);
-                                    editor.putString("web_moda_titulo_home", home_titulo);
-                                    editor.putString("web_moda_subtitulo_home", home_subtitulo);
-                                    editor.putString("web_moda_descripcion_home", home_text);
-
-                                    // variables about
-                                    String about_navbar = "";
-                                    String about_titulo = "";
-                                    String about_subtitulo = "";
-                                    String about_descripcion = "";
-                                    String about_imagen = "";
-
-                                    about_navbar = (String)about.get("navbar");
-                                    about_titulo = (String)about.get("title");
-                                    about_subtitulo = (String)about.get("subtitle");
-                                    about_descripcion = (String)about.get("text");
-                                    about_imagen = (String)about.get("img");
-
-                                    editor.putString("web_moda_img_seccion_2",about_imagen);
-                                    editor.putString("web_moda_titulo_seccion_2", about_titulo);
-                                    editor.putString("web_moda_subtitulo_seccion_2", about_subtitulo);
-                                    editor.putString("web_moda_descripcion_seccion_2", about_descripcion);
-
-                                    // variables servicios
-                                    String servicios_navbar = "";
-                                    String servicios_imagen = "";
-
-                                    String img = "";
-                                    String titulo = "";
-                                    String descripcion = "";
-
-                                    servicios_navbar = (String)services.get("navbar");
-                                    servicios_imagen = (String)services.get("img");
-
-                                    editor.putString("web_moda_img_seccion_4", servicios_imagen);
-
-                                    Object prueba  = services.get("list");
-                                    List<?> datos = convertObjectToList(prueba);
 
 
-                                    if (datos.size() == 1){
+                                    editor.putString("web_moda_img_seccion_1", paginaWebModa_.getSecciones().getHome().getBackground());
+                                    editor.putString("web_moda_titulo_home", paginaWebModa_.getSecciones().getHome().getTitle());
+                                    editor.putString("web_moda_subtitulo_home", paginaWebModa_.getSecciones().getHome().getSubtitle());
+                                    editor.putString("web_moda_descripcion_home", paginaWebModa_.getSecciones().getHome().getText());
 
-                                        String frase = datos.get(0).toString();
 
-                                        String[] itemCortado = frase.split(",");
-                                        String descripcionTexto = itemCortado[0];
-                                        String imagenTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
 
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
+                                    editor.putString("web_moda_img_seccion_2",paginaWebModa_.getSecciones().getAbout().getImg());
+                                    editor.putString("web_moda_titulo_seccion_2", paginaWebModa_.getSecciones().getAbout().getTitle());
+                                    editor.putString("web_moda_subtitulo_seccion_2", paginaWebModa_.getSecciones().getAbout().getSubtitle());
+                                    editor.putString("web_moda_descripcion_seccion_2", paginaWebModa_.getSecciones().getAbout().getText());
 
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
 
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+
+                                    editor.putString("web_moda_img_seccion_4",paginaWebModa_.getSecciones().getServices().getImg());
+                                    editor.putString("web_moda_titulo_nav_seccion4",paginaWebModa_.getSecciones().getServices().getNavbar());
+
+
+
+
+                                    if (paginaWebModa_.getSecciones().getServices().getList().size() == 1){
 
                                         editor.putString("web_servicios_seccion_4_recycler", "1");
-                                        editor.putString("web_servicios_seccion_4_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica1_descripcion", descripTextoFinal);
+                                        editor.putString("web_servicios_seccion_4_caracteristica1_titulo", paginaWebModa_.getSecciones().getServices().getList().get(0).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica1_descripcion", paginaWebModa_.getSecciones().getServices().getList().get(0).getDescripcion());
 
                                     }
-                                    else if (datos.size() == 2){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[1];
-                                        String descripcionTexto = itemCortado[0];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                    else if (paginaWebModa_.getSecciones().getServices().getList().size() == 2){
 
                                         editor.putString("web_servicios_seccion_4_recycler", "1");
-                                        editor.putString("web_servicios_seccion_4_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica1_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_4_caracteristica1_titulo", paginaWebModa_.getSecciones().getServices().getList().get(0).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica1_descripcion", paginaWebModa_.getSecciones().getServices().getList().get(0).getDescripcion());
 
                                         editor.putString("web_servicios_seccion_4_recycler", "2");
-                                        editor.putString("web_servicios_seccion_4_caracteristica2_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica2_descripcion", descripTextoFinal);
+                                        editor.putString("web_servicios_seccion_4_caracteristica2_titulo", paginaWebModa_.getSecciones().getServices().getList().get(1).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica2_descripcion", paginaWebModa_.getSecciones().getServices().getList().get(1).getDescripcion());
 
                                     }
-                                    else if (datos.size() == 3){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[1];
-                                        String descripcionTexto = itemCortado[0];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                    else if (paginaWebModa_.getSecciones().getServices().getList().size() == 3){
 
                                         editor.putString("web_servicios_seccion_4_recycler", "1");
-                                        editor.putString("web_servicios_seccion_4_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica1_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_4_caracteristica1_titulo",paginaWebModa_.getSecciones().getServices().getList().get(0).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica1_descripcion", paginaWebModa_.getSecciones().getServices().getList().get(0).getDescripcion());
 
                                         editor.putString("web_servicios_seccion_4_recycler", "2");
-                                        editor.putString("web_servicios_seccion_4_caracteristica2_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica2_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_4_caracteristica2_titulo", paginaWebModa_.getSecciones().getServices().getList().get(1).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica2_descripcion", paginaWebModa_.getSecciones().getServices().getList().get(1).getDescripcion());
 
                                         editor.putString("web_servicios_seccion_4_recycler", "3");
-                                        editor.putString("web_servicios_seccion_4_caracteristica3_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica3_descripcion", descripTextoFinal);
+                                        editor.putString("web_servicios_seccion_4_caracteristica3_titulo", paginaWebModa_.getSecciones().getServices().getList().get(2).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica3_descripcion", paginaWebModa_.getSecciones().getServices().getList().get(2).getDescripcion());
 
                                     }
-                                    else if (datos.size() == 4){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[1];
-                                        String descripcionTexto = itemCortado[0];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                    else if (paginaWebModa_.getSecciones().getServices().getList().size() == 4){
 
                                         editor.putString("web_servicios_seccion_4_recycler", "1");
-                                        editor.putString("web_servicios_seccion_4_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica1_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_4_caracteristica1_titulo", paginaWebModa_.getSecciones().getServices().getList().get(0).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica1_descripcion", paginaWebModa_.getSecciones().getServices().getList().get(0).getDescripcion());
 
                                         editor.putString("web_servicios_seccion_4_recycler", "2");
-                                        editor.putString("web_servicios_seccion_4_caracteristica2_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica2_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_4_caracteristica2_titulo", paginaWebModa_.getSecciones().getServices().getList().get(1).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica2_descripcion", paginaWebModa_.getSecciones().getServices().getList().get(1).getDescripcion());
 
                                         editor.putString("web_servicios_seccion_4_recycler", "3");
-                                        editor.putString("web_servicios_seccion_4_caracteristica3_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica3_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(3).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_4_caracteristica3_titulo", paginaWebModa_.getSecciones().getServices().getList().get(2).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica3_descripcion", paginaWebModa_.getSecciones().getServices().getList().get(2).getDescripcion());
 
                                         editor.putString("web_servicios_seccion_4_recycler", "4");
-                                        editor.putString("web_servicios_seccion_4_caracteristica4_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica4_descripcion", descripTextoFinal);
+                                        editor.putString("web_servicios_seccion_4_caracteristica4_titulo", paginaWebModa_.getSecciones().getServices().getList().get(3).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica4_descripcion", paginaWebModa_.getSecciones().getServices().getList().get(3).getDescripcion());
 
                                     }
-                                    else if (datos.size() == 5){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[1];
-                                        String descripcionTexto = itemCortado[0];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                    else if (paginaWebModa_.getSecciones().getServices().getList().size() == 5){
 
                                         editor.putString("web_servicios_seccion_4_recycler", "1");
-                                        editor.putString("web_servicios_seccion_4_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica1_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_4_caracteristica1_titulo", paginaWebModa_.getSecciones().getServices().getList().get(0).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica1_descripcion", paginaWebModa_.getSecciones().getServices().getList().get(0).getDescripcion());
 
                                         editor.putString("web_servicios_seccion_4_recycler", "2");
-                                        editor.putString("web_servicios_seccion_4_caracteristica2_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica2_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_4_caracteristica2_titulo", paginaWebModa_.getSecciones().getServices().getList().get(1).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica2_descripcion", paginaWebModa_.getSecciones().getServices().getList().get(1).getDescripcion());
 
                                         editor.putString("web_servicios_seccion_4_recycler", "3");
-                                        editor.putString("web_servicios_seccion_4_caracteristica3_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica3_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(3).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_4_caracteristica3_titulo", paginaWebModa_.getSecciones().getServices().getList().get(2).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica3_descripcion", paginaWebModa_.getSecciones().getServices().getList().get(2).getDescripcion());
 
                                         editor.putString("web_servicios_seccion_4_recycler", "4");
-                                        editor.putString("web_servicios_seccion_4_caracteristica4_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica4_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(4).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_4_caracteristica4_titulo", paginaWebModa_.getSecciones().getServices().getList().get(3).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica4_descripcion", paginaWebModa_.getSecciones().getServices().getList().get(3).getDescripcion());
 
                                         editor.putString("web_servicios_seccion_4_recycler", "5");
-                                        editor.putString("web_servicios_seccion_4_caracteristica5_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica5_descripcion", descripTextoFinal);
-
-                                        editor.commit();
+                                        editor.putString("web_servicios_seccion_4_caracteristica5_titulo", paginaWebModa_.getSecciones().getServices().getList().get(4).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica5_descripcion", paginaWebModa_.getSecciones().getServices().getList().get(4).getDescripcion());
 
                                     }
-                                    else if (datos.size() == 6){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[1];
-                                        String descripcionTexto = itemCortado[0];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                    else if (paginaWebModa_.getSecciones().getServices().getList().size() == 6){
 
                                         editor.putString("web_servicios_seccion_4_recycler", "1");
-                                        editor.putString("web_servicios_seccion_4_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica1_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_4_caracteristica1_titulo", paginaWebModa_.getSecciones().getServices().getList().get(0).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica1_descripcion", paginaWebModa_.getSecciones().getServices().getList().get(0).getDescripcion());
 
                                         editor.putString("web_servicios_seccion_4_recycler", "2");
-                                        editor.putString("web_servicios_seccion_4_caracteristica2_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica2_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_4_caracteristica2_titulo", paginaWebModa_.getSecciones().getServices().getList().get(1).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica2_descripcion", paginaWebModa_.getSecciones().getServices().getList().get(1).getDescripcion());
 
                                         editor.putString("web_servicios_seccion_4_recycler", "3");
-                                        editor.putString("web_servicios_seccion_4_caracteristica3_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica3_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(3).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_4_caracteristica3_titulo", paginaWebModa_.getSecciones().getServices().getList().get(2).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica3_descripcion", paginaWebModa_.getSecciones().getServices().getList().get(2).getDescripcion());
 
                                         editor.putString("web_servicios_seccion_4_recycler", "4");
-                                        editor.putString("web_servicios_seccion_4_caracteristica4_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica4_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(4).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_4_caracteristica4_titulo", paginaWebModa_.getSecciones().getServices().getList().get(3).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica4_descripcion", paginaWebModa_.getSecciones().getServices().getList().get(3).getDescripcion());
 
                                         editor.putString("web_servicios_seccion_4_recycler", "5");
-                                        editor.putString("web_servicios_seccion_4_caracteristica5_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica5_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(5).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_servicios_seccion_4_caracteristica5_titulo", paginaWebModa_.getSecciones().getServices().getList().get(4).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica5_descripcion", paginaWebModa_.getSecciones().getServices().getList().get(4).getDescripcion());
 
                                         editor.putString("web_servicios_seccion_4_recycler", "6");
-                                        editor.putString("web_servicios_seccion_4_caracteristica6_titulo", tituloFinal);
-                                        editor.putString("web_servicios_seccion_4_caracteristica6_descripcion", descripTextoFinal);
-
-                                        editor.commit();
+                                        editor.putString("web_servicios_seccion_4_caracteristica6_titulo", paginaWebModa_.getSecciones().getServices().getList().get(5).getTitulo());
+                                        editor.putString("web_servicios_seccion_4_caracteristica6_descripcion", paginaWebModa_.getSecciones().getServices().getList().get(5).getDescripcion());
 
                                     }
 
                                     //work
 
-                                    prueba  = web.get("work");
-                                    datos = convertObjectToList(prueba);
-
-
-                                    if (datos.size() == 1){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String descripcionTexto = itemCortado[0];
-                                        String imagenTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                    if (paginaWebModa_.getSecciones().getWork().size() == 1){
 
                                         editor.putString("web_moda_seccion_3_recycler", "1");
-                                        editor.putString("web_moda_seccion_3_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_moda_seccion_3_caracteristica1_descripcion", descripTextoFinal);
-                                        editor.putString("web_moda_seccion_3_caracteristica1_url", imagenFinal);
+                                        editor.putString("web_moda_seccion_3_caracteristica1_titulo", paginaWebModa_.getSecciones().getWork().get(0).getTitulo());
+                                        editor.putString("web_moda_seccion_3_caracteristica1_descripcion", paginaWebModa_.getSecciones().getWork().get(0).getDescripcion());
+                                        editor.putString("web_moda_seccion_3_caracteristica1_url", paginaWebModa_.getSecciones().getWork().get(0).getImagen());
                                     }
-                                    else if (datos.size() == 2){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String descripcionTexto = itemCortado[0];
-                                        String imagenTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                    else if (paginaWebModa_.getSecciones().getWork().size() == 2){
 
                                         editor.putString("web_moda_seccion_3_recycler", "1");
-                                        editor.putString("web_moda_seccion_3_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_moda_seccion_3_caracteristica1_descripcion", descripTextoFinal);
-                                        editor.putString("web_moda_seccion_3_caracteristica1_url", imagenFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_moda_seccion_3_caracteristica1_titulo", paginaWebModa_.getSecciones().getWork().get(0).getTitulo());
+                                        editor.putString("web_moda_seccion_3_caracteristica1_descripcion", paginaWebModa_.getSecciones().getWork().get(0).getDescripcion());
+                                        editor.putString("web_moda_seccion_3_caracteristica1_url", paginaWebModa_.getSecciones().getWork().get(0).getImagen());
 
                                         editor.putString("web_moda_seccion_3_recycler", "2");
-                                        editor.putString("web_moda_seccion_3_caracteristica2_titulo", tituloFinal);
-                                        editor.putString("web_moda_seccion_3_caracteristica2_descripcion", descripTextoFinal);
-                                        editor.putString("web_moda_seccion_3_caracteristica2_url", imagenFinal);
+                                        editor.putString("web_moda_seccion_3_caracteristica2_titulo", paginaWebModa_.getSecciones().getWork().get(1).getTitulo());
+                                        editor.putString("web_moda_seccion_3_caracteristica2_descripcion", paginaWebModa_.getSecciones().getWork().get(1).getDescripcion());
+                                        editor.putString("web_moda_seccion_3_caracteristica2_url", paginaWebModa_.getSecciones().getWork().get(1).getImagen());
 
                                     }
-                                    else if (datos.size() == 3){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String descripcionTexto = itemCortado[0];
-                                        String imagenTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                    else if (paginaWebModa_.getSecciones().getWork().size() == 3){
 
                                         editor.putString("web_moda_seccion_3_recycler", "1");
-                                        editor.putString("web_moda_seccion_3_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_moda_seccion_3_caracteristica1_descripcion", descripTextoFinal);
-                                        editor.putString("web_moda_seccion_3_caracteristica1_url", imagenFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_moda_seccion_3_caracteristica1_titulo", paginaWebModa_.getSecciones().getWork().get(0).getTitulo());
+                                        editor.putString("web_moda_seccion_3_caracteristica1_descripcion", paginaWebModa_.getSecciones().getWork().get(0).getDescripcion());
+                                        editor.putString("web_moda_seccion_3_caracteristica1_url", paginaWebModa_.getSecciones().getWork().get(0).getImagen());
 
                                         editor.putString("web_moda_seccion_3_recycler", "2");
-                                        editor.putString("web_moda_seccion_3_caracteristica2_titulo", tituloFinal);
-                                        editor.putString("web_moda_seccion_3_caracteristica2_descripcion", descripTextoFinal);
-                                        editor.putString("web_moda_seccion_3_caracteristica2_url", imagenFinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_moda_seccion_3_caracteristica2_titulo", paginaWebModa_.getSecciones().getWork().get(1).getTitulo());
+                                        editor.putString("web_moda_seccion_3_caracteristica2_descripcion", paginaWebModa_.getSecciones().getWork().get(1).getDescripcion());
+                                        editor.putString("web_moda_seccion_3_caracteristica2_url", paginaWebModa_.getSecciones().getWork().get(1).getImagen());
 
                                         editor.putString("web_moda_seccion_3_recycler", "3");
-                                        editor.putString("web_moda_seccion_3_caracteristica3_titulo", tituloFinal);
-                                        editor.putString("web_moda_seccion_3_caracteristica3_descripcion", descripTextoFinal);
-                                        editor.putString("web_moda_seccion_3_caracteristica3_url", imagenFinal);
+                                        editor.putString("web_moda_seccion_3_caracteristica3_titulo", paginaWebModa_.getSecciones().getWork().get(2).getTitulo());
+                                        editor.putString("web_moda_seccion_3_caracteristica3_descripcion", paginaWebModa_.getSecciones().getWork().get(2).getDescripcion());
+                                        editor.putString("web_moda_seccion_3_caracteristica3_url", paginaWebModa_.getSecciones().getWork().get(2).getImagen());
 
                                     }
 
                                     // variables galleria
 
-                                    String galeria_navbar = "";
-                                    String galeria_titulo = "";
-                                    String galeria_subtitulo = "";
+                                    editor.putString("web_moda_titulo_seccion5", paginaWebModa_.getSecciones().getGallery().getTitle());
+                                    editor.putString("web_moda_subtitulo_seccion5", paginaWebModa_.getSecciones().getGallery().getSubtitle());
 
-                                    galeria_navbar = (String)gallery.get("navbar");
-                                    galeria_titulo = (String)gallery.get("title");
-                                    galeria_subtitulo = (String)gallery.get("subtitle");
 
-                                    editor.putString("web_moda_titulo_seccion5", galeria_titulo);
-                                    editor.putString("web_moda_subtitulo_seccion5", galeria_subtitulo);
+                                    if (paginaWebModa_.getSecciones().getGallery().getImagen().size() == 1){
 
-                                    prueba  = gallery.get("imagen");
-                                    datos = convertObjectToList(prueba);
+                                        editor.putString("web_moda_img_1_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(0).getImagen());
+                                    }
+                                    else if (paginaWebModa_.getSecciones().getGallery().getImagen().size() == 2){
 
-                                    if (datos.size() == 1){
+                                        editor.putString("web_moda_img_1_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(0).getImagen());
 
-                                        String frase = datos.get(0).toString();
+                                        editor.putString("web_moda_img_2_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(1).getImagen());
+                                    }
+                                    else if (paginaWebModa_.getSecciones().getGallery().getImagen().size() == 3){
 
-                                        String[] itemCortado = frase.split(",");
-                                        String descripcionTexto = itemCortado[0];
-                                        String imagenTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
+                                        editor.putString("web_moda_img_1_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(0).getImagen());
 
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_moda_img_2_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(1).getImagen());
 
-                                        editor.putString("web_moda_img_1_seccion_5", imagenFinal);
+                                        editor.putString("web_moda_img_3_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(2).getImagen());
 
                                     }
-                                    else if (datos.size() == 2){
+                                    else if (paginaWebModa_.getSecciones().getGallery().getImagen().size() == 4){
 
-                                        String frase = datos.get(0).toString();
+                                        editor.putString("web_moda_img_1_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(0).getImagen());
 
-                                        String[] itemCortado = frase.split(",");
-                                        String descripcionTexto = itemCortado[0];
-                                        String imagenTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
+                                        editor.putString("web_moda_img_2_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(1).getImagen());
 
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_moda_img_3_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(2).getImagen());
 
-                                        editor.putString("web_moda_img_1_seccion_5", imagenFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
-
-                                        editor.putString("web_moda_img_2_seccion_5", imagenFinal);
-
+                                        editor.putString("web_moda_img_4_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(3).getImagen());
 
                                     }
-                                    else if (datos.size() == 3){
+                                    else if (paginaWebModa_.getSecciones().getGallery().getImagen().size() == 5){
 
-                                        String frase = datos.get(0).toString();
+                                        editor.putString("web_moda_img_1_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(0).getImagen());
 
-                                        String[] itemCortado = frase.split(",");
-                                        String descripcionTexto = itemCortado[0];
-                                        String imagenTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
+                                        editor.putString("web_moda_img_2_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(1).getImagen());
 
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_moda_img_3_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(2).getImagen());
 
-                                        editor.putString("web_moda_img_1_seccion_5", imagenFinal);
+                                        editor.putString("web_moda_img_4_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(3).getImagen());
 
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
-
-                                        editor.putString("web_moda_img_2_seccion_5", imagenFinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
-
-                                        editor.putString("web_moda_img_3_seccion_5", imagenFinal);
+                                        editor.putString("web_moda_img_5_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(4).getImagen());
 
                                     }
-                                    else if (datos.size() == 4){
+                                    else if (paginaWebModa_.getSecciones().getGallery().getImagen().size() == 6){
 
-                                        String frase = datos.get(0).toString();
+                                        editor.putString("web_moda_img_1_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(0).getImagen());
 
-                                        String[] itemCortado = frase.split(",");
-                                        String descripcionTexto = itemCortado[0];
-                                        String imagenTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
+                                        editor.putString("web_moda_img_2_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(1).getImagen());
 
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_moda_img_3_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(2).getImagen());
 
-                                        editor.putString("web_moda_img_1_seccion_5", imagenFinal);
+                                        editor.putString("web_moda_img_4_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(3).getImagen());
 
-                                        frase = datos.get(1).toString();
+                                        editor.putString("web_moda_img_5_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(4).getImagen());
 
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
-
-                                        editor.putString("web_moda_img_2_seccion_5", imagenFinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
-
-                                        editor.putString("web_moda_img_3_seccion_5", imagenFinal);
-
-                                        frase = datos.get(3).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
-
-                                        editor.putString("web_moda_img_4_seccion_5", imagenFinal);
+                                        editor.putString("web_moda_img_6_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(5).getImagen());
 
                                     }
-                                    else if (datos.size() == 5){
+                                    else if (paginaWebModa_.getSecciones().getGallery().getImagen().size() == 7){
 
-                                        String frase = datos.get(0).toString();
+                                        editor.putString("web_moda_img_1_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(0).getImagen());
 
-                                        String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[1];
-                                        String descripcionTexto = itemCortado[0];
-                                        String tituloTexto = itemCortado[2];
+                                        editor.putString("web_moda_img_2_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(1).getImagen());
 
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_moda_img_3_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(2).getImagen());
 
-                                        editor.putString("web_moda_img_1_seccion_5", imagenFinal);
+                                        editor.putString("web_moda_img_4_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(3).getImagen());
 
-                                        frase = datos.get(1).toString();
+                                        editor.putString("web_moda_img_5_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(4).getImagen());
 
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[0];
-                                        descripcionTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
+                                        editor.putString("web_moda_img_6_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(5).getImagen());
 
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
-
-                                        editor.putString("web_moda_img_2_seccion_5", imagenFinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
-
-                                        editor.putString("web_moda_img_3_seccion_5", imagenFinal);
-
-                                        frase = datos.get(3).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
-
-                                        editor.putString("web_moda_img_4_seccion_5", imagenFinal);
-
-                                        frase = datos.get(4).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
-
-                                        editor.putString("web_moda_img_5_seccion_5", imagenFinal);
+                                        editor.putString("web_moda_img_7_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(6).getImagen());
 
                                     }
-                                    else if (datos.size() == 6){
+                                    else if (paginaWebModa_.getSecciones().getGallery().getImagen().size() == 8){
 
-                                        String frase = datos.get(0).toString();
+                                        editor.putString("web_moda_img_1_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(0).getImagen());
 
-                                        String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[1];
-                                        String descripcionTexto = itemCortado[0];
-                                        String tituloTexto = itemCortado[2];
+                                        editor.putString("web_moda_img_2_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(1).getImagen());
 
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_moda_img_3_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(2).getImagen());
 
-                                        editor.putString("web_moda_img_1_seccion_5", imagenFinal);
+                                        editor.putString("web_moda_img_4_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(3).getImagen());
 
-                                        frase = datos.get(1).toString();
+                                        editor.putString("web_moda_img_5_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(4).getImagen());
 
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
+                                        editor.putString("web_moda_img_6_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(5).getImagen());
 
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_moda_img_7_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(6).getImagen());
 
-                                        editor.putString("web_moda_img_2_seccion_5", imagenFinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
-
-                                        editor.putString("web_moda_img_3_seccion_5", imagenFinal);
-
-                                        frase = datos.get(3).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
-
-                                        editor.putString("web_moda_img_4_seccion_5", imagenFinal);
-
-                                        frase = datos.get(4).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
-
-                                        editor.putString("web_moda_img_5_seccion_5", imagenFinal);
-
-                                        frase = datos.get(5).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
-
-                                        editor.putString("web_moda_img_6_seccion_5", imagenFinal);
+                                        editor.putString("web_moda_img_8_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(7).getImagen());
 
                                     }
-                                    else if (datos.size() == 7){
+                                    else if (paginaWebModa_.getSecciones().getGallery().getImagen().size() == 9){
 
-                                        String frase = datos.get(0).toString();
+                                        editor.putString("web_moda_img_1_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(0).getImagen());
 
-                                        String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[1];
-                                        String descripcionTexto = itemCortado[0];
-                                        String tituloTexto = itemCortado[2];
+                                        editor.putString("web_moda_img_2_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(1).getImagen());
 
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_moda_img_3_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(2).getImagen());
 
-                                        editor.putString("web_moda_img_1_seccion_5", imagenFinal);
+                                        editor.putString("web_moda_img_4_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(3).getImagen());
 
-                                        frase = datos.get(1).toString();
+                                        editor.putString("web_moda_img_5_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(4).getImagen());
 
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
+                                        editor.putString("web_moda_img_6_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(5).getImagen());
 
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
+                                        editor.putString("web_moda_img_7_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(6).getImagen());
 
-                                        editor.putString("web_moda_img_2_seccion_5", imagenFinal);
+                                        editor.putString("web_moda_img_8_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(7).getImagen());
 
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
-
-                                        editor.putString("web_moda_img_3_seccion_5", imagenFinal);
-
-                                        frase = datos.get(3).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
-
-                                        editor.putString("web_moda_img_4_seccion_5", imagenFinal);
-
-                                        frase = datos.get(4).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
-
-                                        editor.putString("web_moda_img_5_seccion_5", imagenFinal);
-
-                                        frase = datos.get(5).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
-
-                                        editor.putString("web_moda_img_6_seccion_5", imagenFinal);
-
-                                        frase = datos.get(6).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
-
-                                        editor.putString("web_moda_img_7_seccion_5", imagenFinal);
-
-                                    }
-                                    else if (datos.size() == 8){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[1];
-                                        String descripcionTexto = itemCortado[0];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
-
-                                        editor.putString("web_moda_img_1_seccion_5", imagenFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
-
-                                        editor.putString("web_moda_img_2_seccion_5", imagenFinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
-
-                                        editor.putString("web_moda_img_3_seccion_5", imagenFinal);
-
-                                        frase = datos.get(3).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
-
-                                        editor.putString("web_moda_img_4_seccion_5", imagenFinal);
-
-                                        frase = datos.get(4).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
-
-                                        editor.putString("web_moda_img_5_seccion_5", imagenFinal);
-
-                                        frase = datos.get(5).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
-
-                                        editor.putString("web_moda_img_6_seccion_5", imagenFinal);
-
-                                        frase = datos.get(6).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
-
-                                        editor.putString("web_moda_img_7_seccion_5", imagenFinal);
-
-                                        frase = datos.get(7).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
-
-                                        editor.putString("web_moda_img_8_seccion_5", imagenFinal);
-
-                                    }
-                                    else if (datos.size() == 9){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String imagenTexto = itemCortado[1];
-                                        String descripcionTexto = itemCortado[0];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] imagenCortado = imagenTexto.split("gen=");
-                                        String imagenFinal;
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
-
-                                        editor.putString("web_moda_img_1_seccion_5", imagenFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
-
-                                        editor.putString("web_moda_img_2_seccion_5", imagenFinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
-
-                                        editor.putString("web_moda_img_3_seccion_5", imagenFinal);
-
-                                        frase = datos.get(3).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
-
-                                        editor.putString("web_moda_img_4_seccion_5", imagenFinal);
-
-                                        frase = datos.get(4).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
-
-                                        editor.putString("web_moda_img_5_seccion_5", imagenFinal);
-
-                                        frase = datos.get(5).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
-
-                                        editor.putString("web_moda_img_6_seccion_5", imagenFinal);
-
-                                        frase = datos.get(6).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
-
-                                        editor.putString("web_moda_img_7_seccion_5", imagenFinal);
-
-                                        frase = datos.get(7).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
-
-                                        editor.putString("web_moda_img_8_seccion_5", imagenFinal);
-
-                                        frase = datos.get(8).toString();
-
-                                        itemCortado = frase.split(",");
-                                        imagenTexto = itemCortado[1];
-                                        descripcionTexto = itemCortado[0];
-                                        tituloTexto = itemCortado[2];
-
-                                        imagenCortado = imagenTexto.split("gen=");
-                                        if (imagenCortado.length > 1){
-                                            imagenFinal = imagenCortado[1];
-                                        }
-                                        else {
-                                            imagenFinal = "";
-                                        }
-
-                                        editor.putString("web_moda_img_9_seccion_5", imagenFinal);
+                                        editor.putString("web_moda_img_9_seccion_5", paginaWebModa_.getSecciones().getGallery().getImagen().get(8).getImagen());
 
                                     }
 
                                     // variables contacto
-                                    String contacto_navbar = "";
-                                    String contacto_titulo = "";
-                                    String contacto_telefono = "";
-                                    String contacto_email = "";
-                                    String contacto_lugar = "";
-                                    String contacto_img = "";
 
-                                    contacto_navbar = (String)contact.get("navbar");
-                                    contacto_titulo = (String)contact.get("title");
-                                    contacto_telefono = (String)contact.get("phone");
-                                    contacto_email = (String)contact.get("email");
-                                    contacto_lugar = (String)contact.get("address");
-                                    contacto_img = (String)contact.get("img");
-
-                                    editor.putString("web_moda_img_seccion_6", contacto_img);
-                                    editor.putString("web_moda_titulo_seccion6", contacto_titulo);
-                                    editor.putString("web_moda_direccion_seccion6", contacto_lugar);
-                                    editor.putString("web_moda_telefono_seccion6", contacto_telefono);
-                                    editor.putString("web_moda_email_seccion6", contacto_email);
+                                    editor.putString("web_moda_img_seccion_6", paginaWebModa_.getSecciones().getContact().getImg());
+                                    editor.putString("web_moda_titulo_seccion6", paginaWebModa_.getSecciones().getContact().getTitle());
+                                    editor.putString("web_moda_direccion_seccion6", paginaWebModa_.getSecciones().getContact().getAddress());
+                                    editor.putString("web_moda_telefono_seccion6", paginaWebModa_.getSecciones().getContact().getPhone());
+                                    editor.putString("web_moda_email_seccion6", paginaWebModa_.getSecciones().getContact().getEmail());
 
                                     // variables social
-                                    String social_facebook = "";
-                                    String social_twitter = "";
-                                    String social_instagram = "";
 
-                                    social_facebook = (String)social.get("facebook");
-                                    social_twitter = (String)social.get("twitter");
-                                    social_instagram = (String)social.get("instagram");
-
-                                    editor.putString("web_moda_facebook_seccion7", social_facebook);
-                                    editor.putString("web_moda_instagram_seccion7", social_instagram);
-                                    editor.putString("web_moda_twitter_seccion7", social_twitter);
+                                    editor.putString("web_moda_facebook_seccion7", paginaWebModa_.getSecciones().getSocial().getFacebook());
+                                    editor.putString("web_moda_instagram_seccion7", paginaWebModa_.getSecciones().getSocial().getInstagram());
+                                    editor.putString("web_moda_twitter_seccion7", paginaWebModa_.getSecciones().getSocial().getTwitter());
 
                                     editor.commit();
 
                                 }
                                 else if(miPagina.getTipo() == 5){
 
+                                    paginaWebSalud paginaWebSalud_ = documentopagina.toObject(paginaWebSalud.class);
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                                    editor.clear();
+
                                     editor.putString(user.getUid()+"-tipo_mi_pag_web", "5");
-                                    editor.putString("nombrePagWeb", miPagina.getUrl());
+                                    editor.putString("nombrePagWeb", paginaWebSalud_.getUrl());
 
                                     //SALUD
 
-                                    Map<String, Object> web;
-                                    Map<String, Object> home;
-                                    Map<String, Object> servicios;
-                                    Map<String, Object> horario;
-                                    Map<String, Object> about;
-                                    Map<String, Object> baner;
-                                    Map<String, Object> contacto;
-                                    Map<String, Object> sociales;
 
-                                    web = miPagina.getSecciones();
-                                    home = (Map)web.get("home");
-                                    servicios = (Map)web.get("servicios");
-                                    horario = (Map)web.get("horario");
-                                    about = (Map)web.get("about");
-                                    baner = (Map)web.get("banner");
-                                    contacto = (Map)web.get("contacto");
-                                    sociales = (Map)web.get("sociales");
-
-                                    List<caracteristicas_web> servicio = new ArrayList<>();
-                                    List<Horario> hora = new ArrayList<>();
-                                    List<caracteristicas_web> caracteristicas = new ArrayList<>();
-
-                                    // variables home
-                                    String home_navbar = "";
-                                    String home_logo = "";
-                                    String home_imagen = "";
-                                    String home_titulo = "";
-                                    String home_subtitulo = "";
-
-                                    home_navbar = (String)home.get("navbar");
-                                    home_logo = (String)home.get("logo");
-                                    home_imagen = (String)home.get("imagen");
-                                    home_titulo = (String)home.get("titulo");
-                                    home_subtitulo = (String)home.get("subtitulo");
-
-                                    editor.putString("web_salud_img_seccion_1", home_imagen);
-                                    editor.putString("web_salud_titulo_home", home_titulo);
-                                    editor.putString("web_salud_subtitulo_home", home_subtitulo);
-
-                                    // variables servicios
-                                    String servicios_navbar = "";
-                                    String servicios_descripcion = "";
-                                    String servicios_titulo = "";
-
-                                    String imagen = "";
-                                    String titulo = "";
-                                    String descripcion = "";
-
-                                    servicios_navbar = (String)servicios.get("navbar");
-                                    servicios_descripcion = (String)servicios.get("descripcion");
-                                    servicios_titulo = (String)servicios.get("titulo");
-
-                                    editor.putString("web_salud_seccion_2_titulo", servicios_titulo);
-                                    editor.putString("web_salud_seccion_2_descripcion", servicios_descripcion);
-
-                                    Object prueba  = servicios.get("servicio");
-                                    List<?> datos = convertObjectToList(prueba);
+                                    editor.putString("web_salud_img_seccion_1", paginaWebSalud_.getSecciones().getHome().getImagen());
+                                    editor.putString("web_salud_titulo_home", paginaWebSalud_.getSecciones().getHome().getTitulo());
+                                    editor.putString("web_salud_subtitulo_home", paginaWebSalud_.getSecciones().getHome().getSubtitulo());
 
 
-                                    if (datos.size() == 1){
+                                    editor.putString("web_salud_seccion_2_titulo", paginaWebSalud_.getSecciones().getServicios().getTitulo());
+                                    editor.putString("web_salud_seccion_2_descripcion", paginaWebSalud_.getSecciones().getServicios().getDescripcion());
 
-                                        String frase = datos.get(0).toString();
 
-                                        String[] itemCortado = frase.split(",");
-                                        String descripcionTexto = itemCortado[0];
-                                        String imagenTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
+                                    if (paginaWebSalud_.getSecciones().getServicios().getServicio().size() == 1){
 
                                         editor.putString("web_salud_seccion_2_recycler", "1");
-                                        editor.putString("web_salud_seccion_2_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_salud_seccion_2_caracteristica1_descripcion", descripTextoFinal);
+                                        editor.putString("web_salud_seccion_2_caracteristica1_titulo", paginaWebSalud_.getSecciones().getServicios().getServicio().get(0).getTitulo());
+                                        editor.putString("web_salud_seccion_2_caracteristica1_descripcion", paginaWebSalud_.getSecciones().getServicios().getServicio().get(0).getDescripcion());
 
                                     }
-                                    else if (datos.size() == 2){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-
-                                        String descripcionTexto = itemCortado[0];
-                                        String imagenTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
+                                    else if (paginaWebSalud_.getSecciones().getServicios().getServicio().size() == 2){
 
                                         editor.putString("web_salud_seccion_2_recycler", "1");
-                                        editor.putString("web_salud_seccion_2_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_salud_seccion_2_caracteristica1_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
+                                        editor.putString("web_salud_seccion_2_caracteristica1_titulo", paginaWebSalud_.getSecciones().getServicios().getServicio().get(0).getTitulo());
+                                        editor.putString("web_salud_seccion_2_caracteristica1_descripcion", paginaWebSalud_.getSecciones().getServicios().getServicio().get(0).getDescripcion());
 
                                         editor.putString("web_salud_seccion_2_recycler", "2");
-                                        editor.putString("web_salud_seccion_2_caracteristica2_titulo", tituloFinal);
-                                        editor.putString("web_salud_seccion_2_caracteristica2_descripcion", descripTextoFinal);
+                                        editor.putString("web_salud_seccion_2_caracteristica2_titulo", paginaWebSalud_.getSecciones().getServicios().getServicio().get(1).getTitulo());
+                                        editor.putString("web_salud_seccion_2_caracteristica2_descripcion", paginaWebSalud_.getSecciones().getServicios().getServicio().get(1).getDescripcion());
 
                                     }
-                                    else if (datos.size() == 3){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-
-                                        String descripcionTexto = itemCortado[0];
-                                        String imagenTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
+                                    else if (paginaWebSalud_.getSecciones().getServicios().getServicio().size() == 3){
 
                                         editor.putString("web_salud_seccion_2_recycler", "1");
-                                        editor.putString("web_salud_seccion_2_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_salud_seccion_2_caracteristica1_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
+                                        editor.putString("web_salud_seccion_2_caracteristica1_titulo", paginaWebSalud_.getSecciones().getServicios().getServicio().get(0).getTitulo());
+                                        editor.putString("web_salud_seccion_2_caracteristica1_descripcion", paginaWebSalud_.getSecciones().getServicios().getServicio().get(0).getDescripcion());
 
                                         editor.putString("web_salud_seccion_2_recycler", "2");
-                                        editor.putString("web_salud_seccion_2_caracteristica2_titulo", tituloFinal);
-                                        editor.putString("web_salud_seccion_2_caracteristica2_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
+                                        editor.putString("web_salud_seccion_2_caracteristica2_titulo", paginaWebSalud_.getSecciones().getServicios().getServicio().get(1).getTitulo());
+                                        editor.putString("web_salud_seccion_2_caracteristica2_descripcion", paginaWebSalud_.getSecciones().getServicios().getServicio().get(1).getDescripcion());
 
                                         editor.putString("web_salud_seccion_2_recycler", "3");
-                                        editor.putString("web_salud_seccion_2_caracteristica3_titulo", tituloFinal);
-                                        editor.putString("web_salud_seccion_2_caracteristica3_descripcion", descripTextoFinal);
+                                        editor.putString("web_salud_seccion_2_caracteristica3_titulo", paginaWebSalud_.getSecciones().getServicios().getServicio().get(2).getTitulo());
+                                        editor.putString("web_salud_seccion_2_caracteristica3_descripcion", paginaWebSalud_.getSecciones().getServicios().getServicio().get(2).getDescripcion());
 
                                     }
-                                    else if (datos.size() == 4){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-
-                                        String descripcionTexto = itemCortado[0];
-                                        String imagenTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
+                                    else if (paginaWebSalud_.getSecciones().getServicios().getServicio().size() == 4){
 
                                         editor.putString("web_salud_seccion_2_recycler", "1");
-                                        editor.putString("web_salud_seccion_2_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_salud_seccion_2_caracteristica1_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
+                                        editor.putString("web_salud_seccion_2_caracteristica1_titulo", paginaWebSalud_.getSecciones().getServicios().getServicio().get(0).getTitulo());
+                                        editor.putString("web_salud_seccion_2_caracteristica1_descripcion", paginaWebSalud_.getSecciones().getServicios().getServicio().get(0).getDescripcion());
 
                                         editor.putString("web_salud_seccion_2_recycler", "2");
-                                        editor.putString("web_salud_seccion_2_caracteristica2_titulo", tituloFinal);
-                                        editor.putString("web_salud_seccion_2_caracteristica2_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
+                                        editor.putString("web_salud_seccion_2_caracteristica2_titulo", paginaWebSalud_.getSecciones().getServicios().getServicio().get(1).getTitulo());
+                                        editor.putString("web_salud_seccion_2_caracteristica2_descripcion", paginaWebSalud_.getSecciones().getServicios().getServicio().get(1).getDescripcion());
 
                                         editor.putString("web_salud_seccion_2_recycler", "3");
-                                        editor.putString("web_salud_seccion_2_caracteristica3_titulo", tituloFinal);
-                                        editor.putString("web_salud_seccion_2_caracteristica3_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(3).toString();
-
-                                        itemCortado = frase.split(",");
-
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
+                                        editor.putString("web_salud_seccion_2_caracteristica3_titulo", paginaWebSalud_.getSecciones().getServicios().getServicio().get(2).getTitulo());
+                                        editor.putString("web_salud_seccion_2_caracteristica3_descripcion", paginaWebSalud_.getSecciones().getServicios().getServicio().get(2).getDescripcion());
 
                                         editor.putString("web_salud_seccion_2_recycler", "4");
-                                        editor.putString("web_salud_seccion_2_caracteristica4_titulo", tituloFinal);
-                                        editor.putString("web_salud_seccion_2_caracteristica4_descripcion", descripTextoFinal);
+                                        editor.putString("web_salud_seccion_2_caracteristica4_titulo", paginaWebSalud_.getSecciones().getServicios().getServicio().get(3).getTitulo());
+                                        editor.putString("web_salud_seccion_2_caracteristica4_descripcion", paginaWebSalud_.getSecciones().getServicios().getServicio().get(3).getDescripcion());
 
                                     }
 
                                     // variables horarios
-                                    String horarios_titulo = "Horarios";
 
-                                    horarios_titulo = (String)horario.get("titulo");
 
-                                    prueba  = horario.get("hora");
-                                    datos = convertObjectToList(prueba);
-
-                                    if (datos.size() == 1){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String horaTexto = itemCortado[0];
-                                        String horaHastaTexto = itemCortado[1];
-                                        String diaTexto = itemCortado[2];
-
-                                        String[] horaCortado = horaTexto.split("=");
-                                        String horaFinal;
-                                        if (horaCortado.length > 1){
-                                            horaFinal = horaCortado[1];
-                                        }
-                                        else {
-                                            horaFinal = "";
-                                        }
-
-                                        String[] diaCortado = diaTexto.split("=");
-                                        String diaFinal;
-                                        if (diaCortado.length > 1){
-                                            diaFinal = diaCortado[1];
-                                            diaFinal = diaFinal.substring(0, diaFinal.length() - 1);
-                                        }
-                                        else {
-                                            diaFinal = "";
-                                        }
+                                    if (paginaWebSalud_.getSecciones().getHorario().getHora().size() == 1){
 
                                         editor.putString("web_salud_seccion_3_recycler", "1");
-                                        editor.putString("web_salud_seccion_3_caracteristica1_titulo", diaFinal);
-                                        editor.putString("web_salud_seccion_3_caracteristica1_descripcion", horaFinal);
+                                        editor.putString("web_salud_seccion_3_caracteristica1_titulo", paginaWebSalud_.getSecciones().getHorario().getHora().get(0).getDia());
+                                        editor.putString("web_salud_seccion_3_caracteristica1_descripcion", paginaWebSalud_.getSecciones().getHorario().getHora().get(0).getDehora());
 
                                     }
-                                    else if (datos.size() == 2){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String horaTexto = itemCortado[0];
-                                        String horaHastaTexto = itemCortado[1];
-                                        String diaTexto = itemCortado[2];
-
-                                        String[] horaCortado = horaTexto.split("=");
-                                        String horaFinal;
-                                        if (horaCortado.length > 1){
-                                            horaFinal = horaCortado[1];
-                                        }
-                                        else {
-                                            horaFinal = "";
-                                        }
-
-                                        String[] diaCortado = diaTexto.split("=");
-                                        String diaFinal;
-                                        if (diaCortado.length > 1){
-                                            diaFinal = diaCortado[1];
-                                            diaFinal = diaFinal.substring(0, diaFinal.length() - 1);
-                                        }
-                                        else {
-                                            diaFinal = "";
-                                        }
+                                    else if (paginaWebSalud_.getSecciones().getHorario().getHora().size() == 2){
 
                                         editor.putString("web_salud_seccion_3_recycler", "1");
-                                        editor.putString("web_salud_seccion_3_caracteristica1_titulo", diaFinal);
-                                        editor.putString("web_salud_seccion_3_caracteristica1_descripcion", horaFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        horaTexto = itemCortado[0];
-                                        horaHastaTexto = itemCortado[1];
-                                        diaTexto = itemCortado[2];
-
-                                        horaCortado = horaTexto.split("=");
-                                        if (horaCortado.length > 1){
-                                            horaFinal = horaCortado[1];
-                                        }
-                                        else {
-                                            horaFinal = "";
-                                        }
-
-                                        diaCortado = diaTexto.split("=");
-                                        if (diaCortado.length > 1){
-                                            diaFinal = diaCortado[1];
-                                            diaFinal = diaFinal.substring(0, diaFinal.length() - 1);
-                                        }
-                                        else {
-                                            diaFinal = "";
-                                        }
+                                        editor.putString("web_salud_seccion_3_caracteristica1_titulo",paginaWebSalud_.getSecciones().getHorario().getHora().get(0).getDia());
+                                        editor.putString("web_salud_seccion_3_caracteristica1_descripcion",paginaWebSalud_.getSecciones().getHorario().getHora().get(0).getDehora());
 
                                         editor.putString("web_salud_seccion_3_recycler", "2");
-                                        editor.putString("web_salud_seccion_3_caracteristica2_titulo", diaFinal);
-                                        editor.putString("web_salud_seccion_3_caracteristica2_descripcion", horaFinal);
+                                        editor.putString("web_salud_seccion_3_caracteristica2_titulo",paginaWebSalud_.getSecciones().getHorario().getHora().get(1).getDia());
+                                        editor.putString("web_salud_seccion_3_caracteristica2_descripcion",paginaWebSalud_.getSecciones().getHorario().getHora().get(1).getDehora());
 
                                     }
-                                    else if (datos.size() == 3){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String horaTexto = itemCortado[0];
-                                        String horaHastaTexto = itemCortado[1];
-                                        String diaTexto = itemCortado[2];
-
-                                        String[] horaCortado = horaTexto.split("=");
-                                        String horaFinal;
-                                        if (horaCortado.length > 1){
-                                            horaFinal = horaCortado[1];
-                                        }
-                                        else {
-                                            horaFinal = "";
-                                        }
-
-                                        String[] diaCortado = diaTexto.split("=");
-                                        String diaFinal;
-                                        if (diaCortado.length > 1){
-                                            diaFinal = diaCortado[1];
-                                            diaFinal = diaFinal.substring(0, diaFinal.length() - 1);
-                                        }
-                                        else {
-                                            diaFinal = "";
-                                        }
+                                    else if (paginaWebSalud_.getSecciones().getHorario().getHora().size() == 3){
 
                                         editor.putString("web_salud_seccion_3_recycler", "1");
-                                        editor.putString("web_salud_seccion_3_caracteristica1_titulo", diaFinal);
-                                        editor.putString("web_salud_seccion_3_caracteristica1_descripcion", horaFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        horaTexto = itemCortado[0];
-                                        horaHastaTexto = itemCortado[1];
-                                        diaTexto = itemCortado[2];
-
-                                        horaCortado = horaTexto.split("=");
-                                        if (horaCortado.length > 1){
-                                            horaFinal = horaCortado[1];
-                                        }
-                                        else {
-                                            horaFinal = "";
-                                        }
-
-                                        diaCortado = diaTexto.split("=");
-                                        if (diaCortado.length > 1){
-                                            diaFinal = diaCortado[1];
-                                            diaFinal = diaFinal.substring(0, diaFinal.length() - 1);
-                                        }
-                                        else {
-                                            diaFinal = "";
-                                        }
+                                        editor.putString("web_salud_seccion_3_caracteristica1_titulo", paginaWebSalud_.getSecciones().getHorario().getHora().get(0).getDia());
+                                        editor.putString("web_salud_seccion_3_caracteristica1_descripcion", paginaWebSalud_.getSecciones().getHorario().getHora().get(0).getDehora());
 
                                         editor.putString("web_salud_seccion_3_recycler", "2");
-                                        editor.putString("web_salud_seccion_3_caracteristica2_titulo", diaFinal);
-                                        editor.putString("web_salud_seccion_3_caracteristica2_descripcion", horaFinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        horaTexto = itemCortado[0];
-                                        horaHastaTexto = itemCortado[1];
-                                        diaTexto = itemCortado[2];
-
-                                        horaCortado = horaTexto.split("=");
-                                        if (horaCortado.length > 1){
-                                            horaFinal = horaCortado[1];
-                                        }
-                                        else {
-                                            horaFinal = "";
-                                        }
-
-                                        diaCortado = diaTexto.split("=");
-                                        if (diaCortado.length > 1){
-                                            diaFinal = diaCortado[1];
-                                            diaFinal = diaFinal.substring(0, diaFinal.length() - 1);
-                                        }
-                                        else {
-                                            diaFinal = "";
-                                        }
+                                        editor.putString("web_salud_seccion_3_caracteristica2_titulo", paginaWebSalud_.getSecciones().getHorario().getHora().get(1).getDia());
+                                        editor.putString("web_salud_seccion_3_caracteristica2_descripcion", paginaWebSalud_.getSecciones().getHorario().getHora().get(1).getDehora());
 
                                         editor.putString("web_salud_seccion_3_recycler", "3");
-                                        editor.putString("web_salud_seccion_3_caracteristica3_titulo", diaFinal);
-                                        editor.putString("web_salud_seccion_3_caracteristica3_descripcion", horaFinal);
+                                        editor.putString("web_salud_seccion_3_caracteristica3_titulo", paginaWebSalud_.getSecciones().getHorario().getHora().get(2).getDia());
+                                        editor.putString("web_salud_seccion_3_caracteristica3_descripcion", paginaWebSalud_.getSecciones().getHorario().getHora().get(2).getDehora());
 
                                     }
-                                    else if (datos.size() == 4){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String horaTexto = itemCortado[0];
-                                        String horaHastaTexto = itemCortado[1];
-                                        String diaTexto = itemCortado[2];
-
-                                        String[] horaCortado = horaTexto.split("=");
-                                        String horaFinal;
-                                        if (horaCortado.length > 1){
-                                            horaFinal = horaCortado[1];
-                                        }
-                                        else {
-                                            horaFinal = "";
-                                        }
-
-                                        String[] diaCortado = diaTexto.split("=");
-                                        String diaFinal;
-                                        if (diaCortado.length > 1){
-                                            diaFinal = diaCortado[1];
-                                            diaFinal = diaFinal.substring(0, diaFinal.length() - 1);
-                                        }
-                                        else {
-                                            diaFinal = "";
-                                        }
+                                    else if (paginaWebSalud_.getSecciones().getHorario().getHora().size() == 4){
 
                                         editor.putString("web_salud_seccion_3_recycler", "1");
-                                        editor.putString("web_salud_seccion_3_caracteristica1_titulo", diaFinal);
-                                        editor.putString("web_salud_seccion_3_caracteristica1_descripcion", horaFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        horaTexto = itemCortado[0];
-                                        horaHastaTexto = itemCortado[1];
-                                        diaTexto = itemCortado[2];
-
-                                        horaCortado = horaTexto.split("=");
-                                        if (horaCortado.length > 1){
-                                            horaFinal = horaCortado[1];
-                                        }
-                                        else {
-                                            horaFinal = "";
-                                        }
-
-                                        diaCortado = diaTexto.split("=");
-                                        if (diaCortado.length > 1){
-                                            diaFinal = diaCortado[1];
-                                            diaFinal = diaFinal.substring(0, diaFinal.length() - 1);
-                                        }
-                                        else {
-                                            diaFinal = "";
-                                        }
+                                        editor.putString("web_salud_seccion_3_caracteristica1_titulo", paginaWebSalud_.getSecciones().getHorario().getHora().get(0).getDia());
+                                        editor.putString("web_salud_seccion_3_caracteristica1_descripcion", paginaWebSalud_.getSecciones().getHorario().getHora().get(0).getDehora());
 
                                         editor.putString("web_salud_seccion_3_recycler", "2");
-                                        editor.putString("web_salud_seccion_3_caracteristica2_titulo", diaFinal);
-                                        editor.putString("web_salud_seccion_3_caracteristica2_descripcion", horaFinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        horaTexto = itemCortado[0];
-                                        horaHastaTexto = itemCortado[1];
-                                        diaTexto = itemCortado[2];
-
-                                        horaCortado = horaTexto.split("=");
-                                        if (horaCortado.length > 1){
-                                            horaFinal = horaCortado[1];
-                                        }
-                                        else {
-                                            horaFinal = "";
-                                        }
-
-                                        diaCortado = diaTexto.split("=");
-                                        if (diaCortado.length > 1){
-                                            diaFinal = diaCortado[1];
-                                            diaFinal = diaFinal.substring(0, diaFinal.length() - 1);
-                                        }
-                                        else {
-                                            diaFinal = "";
-                                        }
+                                        editor.putString("web_salud_seccion_3_caracteristica2_titulo", paginaWebSalud_.getSecciones().getHorario().getHora().get(1).getDia());
+                                        editor.putString("web_salud_seccion_3_caracteristica2_descripcion", paginaWebSalud_.getSecciones().getHorario().getHora().get(1).getDehora());
 
                                         editor.putString("web_salud_seccion_3_recycler", "3");
-                                        editor.putString("web_salud_seccion_3_caracteristica3_titulo", diaFinal);
-                                        editor.putString("web_salud_seccion_3_caracteristica3_descripcion", horaFinal);
-
-                                        frase = datos.get(3).toString();
-
-                                        itemCortado = frase.split(",");
-                                        horaTexto = itemCortado[0];
-                                        horaHastaTexto = itemCortado[1];
-                                        diaTexto = itemCortado[2];
-
-                                        horaCortado = horaTexto.split("=");
-                                        if (horaCortado.length > 1){
-                                            horaFinal = horaCortado[1];
-                                        }
-                                        else {
-                                            horaFinal = "";
-                                        }
-
-                                        diaCortado = diaTexto.split("=");
-                                        if (diaCortado.length > 1){
-                                            diaFinal = diaCortado[1];
-                                            diaFinal = diaFinal.substring(0, diaFinal.length() - 1);
-                                        }
-                                        else {
-                                            diaFinal = "";
-                                        }
+                                        editor.putString("web_salud_seccion_3_caracteristica3_titulo", paginaWebSalud_.getSecciones().getHorario().getHora().get(2).getDia());
+                                        editor.putString("web_salud_seccion_3_caracteristica3_descripcion", paginaWebSalud_.getSecciones().getHorario().getHora().get(2).getDehora());
 
                                         editor.putString("web_salud_seccion_3_recycler", "4");
-                                        editor.putString("web_salud_seccion_3_caracteristica4_titulo", diaFinal);
-                                        editor.putString("web_salud_seccion_3_caracteristica4_descripcion", horaFinal);
+                                        editor.putString("web_salud_seccion_3_caracteristica4_titulo", paginaWebSalud_.getSecciones().getHorario().getHora().get(3).getDia());
+                                        editor.putString("web_salud_seccion_3_caracteristica4_descripcion", paginaWebSalud_.getSecciones().getHorario().getHora().get(3).getDehora());
 
                                     }
 
                                     // variables about
-                                    String about_navbar = "";
-                                    String about_titulo = "";
-                                    String about_descripcion = "";
 
-                                    about_navbar = (String)about.get("navbar");
-                                    about_titulo = (String)about.get("titulo");
-                                    about_descripcion = (String)about.get("descripcion");
+                                    editor.putString("web_salud_seccion_4_titulo", paginaWebSalud_.getSecciones().getAbout().getTitulo());
+                                    editor.putString("web_salud_seccion_4_descripcion", paginaWebSalud_.getSecciones().getAbout().getDescripcion());
 
-                                    editor.putString("web_salud_seccion_4_titulo", about_titulo);
-                                    editor.putString("web_salud_seccion_4_descripcion", about_descripcion);
 
-                                    prueba  = about.get("caracteristicas");
-                                    datos = convertObjectToList(prueba);
-
-                                    if (datos.size() == 1){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String descripcionTexto = itemCortado[0];
-                                        String imagenTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
+                                    if (paginaWebSalud_.getSecciones().getAbout().getCaracteristicas().size() == 1){
 
                                         editor.putString("web_salud_seccion_4_recycler", "1");
-                                        editor.putString("web_salud_seccion_4_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_salud_seccion_4_caracteristica1_descripcion", descripTextoFinal);
+                                        editor.putString("web_salud_seccion_4_caracteristica1_titulo", paginaWebSalud_.getSecciones().getAbout().getCaracteristicas().get(0).getTitulo());
+                                        editor.putString("web_salud_seccion_4_caracteristica1_descripcion", paginaWebSalud_.getSecciones().getAbout().getCaracteristicas().get(0).getDescripcion());
 
                                     }
-                                    else if (datos.size() == 2){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String descripcionTexto = itemCortado[0];
-                                        String imagenTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
+                                    else if (paginaWebSalud_.getSecciones().getAbout().getCaracteristicas().size() == 2){
 
                                         editor.putString("web_salud_seccion_4_recycler", "1");
-                                        editor.putString("web_salud_seccion_4_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_salud_seccion_4_caracteristica1_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
+                                        editor.putString("web_salud_seccion_4_caracteristica1_titulo", paginaWebSalud_.getSecciones().getAbout().getCaracteristicas().get(0).getTitulo());
+                                        editor.putString("web_salud_seccion_4_caracteristica1_descripcion", paginaWebSalud_.getSecciones().getAbout().getCaracteristicas().get(0).getDescripcion());
 
                                         editor.putString("web_salud_seccion_4_recycler", "2");
-                                        editor.putString("web_salud_seccion_4_caracteristica2_titulo", tituloFinal);
-                                        editor.putString("web_salud_seccion_4_caracteristica2_descripcion", descripTextoFinal);
+                                        editor.putString("web_salud_seccion_4_caracteristica2_titulo", paginaWebSalud_.getSecciones().getAbout().getCaracteristicas().get(1).getTitulo());
+                                        editor.putString("web_salud_seccion_4_caracteristica2_descripcion", paginaWebSalud_.getSecciones().getAbout().getCaracteristicas().get(1).getDescripcion());
 
                                     }
-                                    else if (datos.size() == 3){
-
-                                        String frase = datos.get(0).toString();
-
-                                        String[] itemCortado = frase.split(",");
-                                        String descripcionTexto = itemCortado[0];
-                                        String imagenTexto = itemCortado[1];
-                                        String tituloTexto = itemCortado[2];
-
-                                        String[] descripcionCortado = descripcionTexto.split("=");
-                                        String descripTextoFinal;
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        String[] tituloCortado = tituloTexto.split("=");
-                                        String tituloFinal;
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
+                                    else if (paginaWebSalud_.getSecciones().getAbout().getCaracteristicas().size() == 3){
 
                                         editor.putString("web_salud_seccion_4_recycler", "1");
-                                        editor.putString("web_salud_seccion_4_caracteristica1_titulo", tituloFinal);
-                                        editor.putString("web_salud_seccion_4_caracteristica1_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(1).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
+                                        editor.putString("web_salud_seccion_4_caracteristica1_titulo", paginaWebSalud_.getSecciones().getAbout().getCaracteristicas().get(0).getTitulo());
+                                        editor.putString("web_salud_seccion_4_caracteristica1_descripcion", paginaWebSalud_.getSecciones().getAbout().getCaracteristicas().get(0).getDescripcion());
 
                                         editor.putString("web_salud_seccion_4_recycler", "2");
-                                        editor.putString("web_salud_seccion_4_caracteristica2_titulo", tituloFinal);
-                                        editor.putString("web_salud_seccion_4_caracteristica2_descripcion", descripTextoFinal);
-
-                                        frase = datos.get(2).toString();
-
-                                        itemCortado = frase.split(",");
-                                        descripcionTexto = itemCortado[0];
-                                        imagenTexto = itemCortado[1];
-                                        tituloTexto = itemCortado[2];
-
-                                        descripcionCortado = descripcionTexto.split("=");
-                                        if (descripcionCortado.length > 1){
-                                            descripTextoFinal = descripcionCortado[1];
-                                        }
-                                        else {
-                                            descripTextoFinal = "";
-                                        }
-
-                                        tituloCortado = tituloTexto.split("=");
-                                        if (tituloCortado.length > 1){
-                                            tituloFinal = tituloCortado[1];
-                                            tituloFinal = tituloFinal.substring(0, tituloFinal.length() - 1);
-                                        }
-                                        else {
-                                            tituloFinal = "";
-                                        }
+                                        editor.putString("web_salud_seccion_4_caracteristica2_titulo", paginaWebSalud_.getSecciones().getAbout().getCaracteristicas().get(1).getTitulo());
+                                        editor.putString("web_salud_seccion_4_caracteristica2_descripcion", paginaWebSalud_.getSecciones().getAbout().getCaracteristicas().get(1).getDescripcion());
 
                                         editor.putString("web_salud_seccion_4_recycler", "3");
-                                        editor.putString("web_salud_seccion_4_caracteristica3_titulo", tituloFinal);
-                                        editor.putString("web_salud_seccion_4_caracteristica3_descripcion", descripTextoFinal);
+                                        editor.putString("web_salud_seccion_4_caracteristica3_titulo", paginaWebSalud_.getSecciones().getAbout().getCaracteristicas().get(2).getTitulo());
+                                        editor.putString("web_salud_seccion_4_caracteristica3_descripcion", paginaWebSalud_.getSecciones().getAbout().getCaracteristicas().get(2).getDescripcion());
 
                                     }
 
                                     // variables banner
-                                    String banner_titulo = "";
-                                    String banner_descripcion = "";
-                                    String banner_autor = "";
 
-                                    banner_titulo = (String)baner.get("titulo");
-                                    banner_descripcion = (String)baner.get("descripcion");
-                                    banner_autor = (String)baner.get("autor");
-
-                                    editor.putString("web_salud_titulo_baner", banner_titulo);
-                                    editor.putString("web_salud_frase_baner", banner_descripcion);
-                                    editor.putString("web_salud_autor_baner", banner_autor);
+                                    editor.putString("web_salud_titulo_baner", paginaWebSalud_.getSecciones().getBanner().getTitulo());
+                                    editor.putString("web_salud_frase_baner", paginaWebSalud_.getSecciones().getBanner().getDescripcion());
+                                    editor.putString("web_salud_autor_baner", paginaWebSalud_.getSecciones().getBanner().getAutor());
 
                                     // variables contacto
-                                    String contacto_navbar = "";
-                                    String contacto_titulo = "";
-                                    String contacto_telefono = "";
-                                    String contacto_email = "";
-                                    String contacto_ubicacion = "";
 
-                                    contacto_navbar = (String)contacto.get("navbar");
-                                    contacto_titulo = (String)contacto.get("titulo");
-                                    contacto_telefono = (String)contacto.get("telefono");
-                                    contacto_email = (String)contacto.get("email");
-                                    contacto_ubicacion = (String)contacto.get("lugar");
-
-                                    editor.putString("web_salud_ubicacion_contacto", contacto_ubicacion);
-                                    editor.putString("web_salud_email_contacto", contacto_email);
-                                    editor.putString("web_salud_telefono_contacto", contacto_telefono);
+                                    editor.putString("web_salud_ubicacion_contacto", paginaWebSalud_.getSecciones().getContacto().getLugar());
+                                    editor.putString("web_salud_email_contacto", paginaWebSalud_.getSecciones().getContacto().getEmail());
+                                    editor.putString("web_salud_telefono_contacto", paginaWebSalud_.getSecciones().getContacto().getTelefono());
+                                    editor.putString("web_salud_titulo_nav_contacto",paginaWebSalud_.getSecciones().getContacto().getNavbar());
 
                                     // variables sociales
-                                    String sociales_titulo = "";
-                                    String sociales_facebook = "";
-                                    String sociales_instagram = "";
-                                    String sociales_twitter = "";
 
-                                    sociales_titulo = (String)sociales.get("titulo");
-                                    sociales_facebook = (String)sociales.get("facebook");
-                                    sociales_instagram = (String)sociales.get("instagram");
-                                    sociales_twitter = (String)sociales.get("twitter");
-
-                                    editor.putString("web_salud_facebook_seccion_7", sociales_facebook);
-                                    editor.putString("web_salud_instagram_seccion_7", sociales_instagram);
-                                    editor.putString("web_salud_twitter_seccion_7", sociales_twitter);
+                                    editor.putString("web_salud_facebook_seccion_7", paginaWebSalud_.getSecciones().getSociales().getFacebook());
+                                    editor.putString("web_salud_instagram_seccion_7", paginaWebSalud_.getSecciones().getSociales().getInstagram());
+                                    editor.putString("web_salud_twitter_seccion_7", paginaWebSalud_.getSecciones().getSociales().getTwitter());
 
                                     editor.commit();
 
                                 }
                                 else if(miPagina.getTipo() == 6){
 
+                                    paginaWebAplicaciones paginaWebAplicaciones_ = documentopagina.toObject(paginaWebAplicaciones.class);
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                                    editor.clear();
+
                                     editor.putString(user.getUid()+"-tipo_mi_pag_web", "6");
-                                    editor.putString("nombrePagWeb", miPagina.getUrl());
+                                    editor.putString("nombrePagWeb", paginaWebAplicaciones_.getUrl());
 
                                     //APPS
 
-                                    Map<String, Object> web;
-                                    Map<String, Object> banner;
-                                    Map<String, Object> contacto;
-                                    Map<String, Object> descargas;
-                                    Map<String, Object> home;
-                                    Map<String, Object> servicios;
 
-                                    web = miPagina.getSecciones();
-                                    home = (Map)web.get("home");
-                                    servicios = (Map)web.get("servicios");
-                                    banner = (Map)web.get("banner");
-                                    descargas = (Map)web.get("descargas");
-                                    contacto = (Map)web.get("contacto");
+                                    //variables home
 
-                                    //variables home     __
-                                    String home_titulo = "";
-                                    String home_imagen = "";
-
-                                    home_titulo = (String)home.get("titulo");
-                                    home_imagen = (String)home.get("imagen");
-
-                                    editor.putString("web_apps_img_seccion_1", home_imagen);
-                                    editor.putString("web_apps_titulo_home", home_titulo);
+                                    editor.putString("web_apps_img_seccion_1", paginaWebAplicaciones_.getSecciones().getHome().getImagen());
+                                    editor.putString("web_apps_titulo_home", paginaWebAplicaciones_.getSecciones().getHome().getTitulo());
 
                                     //variables descarga
-                                    String descargas_google = "";
-                                    String descargas_apple = "";
-                                    String descargas_titulo = "";
-                                    String descargas_subtitulo = "";
 
-                                    descargas_google = (String)descargas.get("botonplay");
-                                    descargas_apple = (String)descargas.get("botonaps");
-                                    descargas_titulo = (String)descargas.get("titulo");
-                                    descargas_subtitulo = (String)descargas.get("subtitulo");
-
-                                    editor.putString("web_apps_titulo_seccion_2", descargas_titulo);
-                                    editor.putString("web_apps_subtitulo_seccion_2", descargas_subtitulo);
-                                    editor.putString("web_apps_google_seccion_2", descargas_google);
-                                    editor.putString("web_apps_apple_seccion_2", descargas_apple);
+                                    editor.putString("web_apps_titulo_seccion_2", paginaWebAplicaciones_.getSecciones().getDescargas().getTitulo());
+                                    editor.putString("web_apps_subtitulo_seccion_2", paginaWebAplicaciones_.getSecciones().getDescargas().getSubtitulo());
+                                    editor.putString("web_apps_google_seccion_2", paginaWebAplicaciones_.getSecciones().getDescargas().getBotonplay());
+                                    editor.putString("web_apps_apple_seccion_2", paginaWebAplicaciones_.getSecciones().getDescargas().getBotonaps());
 
                                     // variables servicios
-                                    String servicios_titulo1 = "";
-                                    String servicios_titulo2 = "";
-                                    String servicios_titulo3 = "";
-                                    String servicios_titulo4 = "";
-                                    String servicios_descripcion1 = "";
-                                    String servicios_descripcion2 = "";
-                                    String servicios_descripcion3 = "";
-                                    String servicios_descripcion4 = "";
-                                    String servicios_imagen = "";
-                                    String servicios_titulo = "";
 
-                                    servicios_titulo1 = (String)servicios.get("serviciuno");
-                                    servicios_titulo2 = (String)servicios.get("serviciodos");
-                                    servicios_titulo3 = (String)servicios.get("serviciotres");
-                                    servicios_titulo4 = (String)servicios.get("serviciocuatro");
-                                    servicios_descripcion1 = (String)servicios.get("subtitulouno");
-                                    servicios_descripcion2 = (String)servicios.get("subtitulodos");
-                                    servicios_descripcion3 = (String)servicios.get("subtitulotres");
-                                    servicios_descripcion4 = (String)servicios.get("subtitulocuatro");
-                                    servicios_titulo = (String)servicios.get("titulo");
-                                    servicios_imagen = (String)servicios.get("imagen");
-
-                                    editor.putString("web_apps_img_seccion_3", servicios_imagen);
-                                    editor.putString("web_apps_titulo_seccion_3", servicios_titulo);
-                                    editor.putString("web_apps_titulo_1_seccion_3", servicios_titulo1);
-                                    editor.putString("web_apps_subtitulo_1_seccion_3", servicios_descripcion1);
-                                    editor.putString("web_apps_titulo_2_seccion_3", servicios_titulo2);
-                                    editor.putString("web_apps_subtitulo_2_seccion_3", servicios_descripcion2);
-                                    editor.putString("web_apps_titulo_3_seccion_3", servicios_titulo3);
-                                    editor.putString("web_apps_subtitulo_3_seccion_3", servicios_descripcion3);
-                                    editor.putString("web_apps_titulo_4_seccion_3", servicios_titulo4);
-                                    editor.putString("web_apps_subtitulo_4_seccion_3", servicios_descripcion4);
+                                    editor.putString("web_apps_img_seccion_3", paginaWebAplicaciones_.getSecciones().getServicios().getImagen());
+                                    editor.putString("web_apps_titulo_seccion_3", paginaWebAplicaciones_.getSecciones().getServicios().getTitulo());
+                                    editor.putString("web_apps_titulo_1_seccion_3", paginaWebAplicaciones_.getSecciones().getServicios().getServiciuno());
+                                    editor.putString("web_apps_subtitulo_1_seccion_3", paginaWebAplicaciones_.getSecciones().getServicios().getSubtitulouno());
+                                    editor.putString("web_apps_titulo_2_seccion_3", paginaWebAplicaciones_.getSecciones().getServicios().getServiciodos());
+                                    editor.putString("web_apps_subtitulo_2_seccion_3", paginaWebAplicaciones_.getSecciones().getServicios().getSubtitulodos());
+                                    editor.putString("web_apps_titulo_3_seccion_3", paginaWebAplicaciones_.getSecciones().getServicios().getServiciotres());
+                                    editor.putString("web_apps_subtitulo_3_seccion_3", paginaWebAplicaciones_.getSecciones().getServicios().getSubtitulotres());
+                                    editor.putString("web_apps_titulo_4_seccion_3", paginaWebAplicaciones_.getSecciones().getServicios().getServiciocuatro());
+                                    editor.putString("web_apps_subtitulo_4_seccion_3", paginaWebAplicaciones_.getSecciones().getServicios().getSubtitulocuatro());
 
                                     //variable banner
                                     String banner_titulo = "";
-                                    banner_titulo = (String)banner.get("titulo");
 
-                                    editor.putString("web_apps_titulo_seccion_4", banner_titulo);
+                                    editor.putString("web_apps_titulo_seccion_4", paginaWebAplicaciones_.getSecciones().getBanner().getTitulo());
 
                                     //variable contacto
-                                    String contacto_facebook = "";
-                                    String contacto_twitter = "";
-                                    String contacto_google = "";
-                                    String contacto_titulo = "";
 
-                                    contacto_facebook = (String)contacto.get("facebook");
-                                    contacto_twitter = (String)contacto.get("twitter");
-                                    contacto_google = (String)contacto.get("google");
-                                    contacto_titulo = (String)contacto.get("titulo");
-
-                                    editor.putString("web_apps_facebook_seccion_5", contacto_facebook);
-                                    editor.putString("web_apps_twitter_seccion_5", contacto_twitter);
-                                    editor.putString("web_apps_titulo_seccion_5", contacto_titulo);
+                                    editor.putString("web_apps_facebook_seccion_5", paginaWebAplicaciones_.getSecciones().getContacto().getFacebook());
+                                    editor.putString("web_apps_twitter_seccion_5", paginaWebAplicaciones_.getSecciones().getContacto().getTwitter());
+                                    editor.putString("web_apps_titulo_seccion_5", paginaWebAplicaciones_.getSecciones().getContacto().getTitulo());
+                                    editor.putString("web_apps_instagram_seccio_5",paginaWebAplicaciones_.getSecciones().getContacto().getGoogle());
 
                                     editor.commit();
                                 }

@@ -14,6 +14,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -99,6 +101,10 @@ public class WebsComidaSeccion5 extends AppCompatActivity {
                     itemTitulo.setText(menuComidaList.get(position).getTitulo());
                     itemDescripcion.setText(menuComidaList.get(position).getDescripcion());
                     itemPrecio.setText(String.valueOf(menuComidaList.get(position).getPrecio()));
+
+                    itemTitulo.setSelection(itemTitulo.getText().length());
+                    itemDescripcion.setSelection(itemDescripcion.getText().length());
+                    itemPrecio.setSelection(itemPrecio.getText().length());
 
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
@@ -208,8 +214,10 @@ public class WebsComidaSeccion5 extends AppCompatActivity {
     private TextInputEditText itemTitulo;
     private TextInputEditText itemDescripcion;
     private TextInputEditText itemPrecio;
+    private TextInputEditText txtTituloNav;
     private String nombre_web = "";
-
+    private String charactersForbiden = ",";
+    private String tituloNav;
     private String specials_img = "";
     private String specials_titulo = "";
     private String specials_descripcion = "";
@@ -225,9 +233,14 @@ public class WebsComidaSeccion5 extends AppCompatActivity {
         recyclerView = (RecyclerView)findViewById(R.id.recyclerComidaSeccion5);
         btnSiguiente = (Button)findViewById(R.id.btnComidaSeccion5Siguiente);
         addCaracteristica = (Button)findViewById(R.id.btnComidaSeccion5AddCaracteristica);
+        txtTituloNav = (TextInputEditText)findViewById(R.id.txt_web_comida_seccion5_tituloNav);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
         sharedPreferences = getSharedPreferences("misDatos", 0);
+
+        txtTituloNav.setText(sharedPreferences.getString("web_comida_titulo_seccion5", ""));
+
+        txtTituloNav.setSelection(txtTituloNav.getText().length());
 
         if(sharedPreferences.getString("web_comida_seccion_5_recycler", "").equals("1")){
             specials_titulo = sharedPreferences.getString("web_comida_seccion_5_caracteristica1_titulo","");
@@ -475,6 +488,21 @@ public class WebsComidaSeccion5 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                tituloNav = txtTituloNav.getText().toString();
+
+                if(tituloNav.length() > 0){
+                    // *********** Guardamos los principales datos de los nuevos usuarios *************
+                    sharedPreferences = getSharedPreferences("misDatos", 0);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("web_comida_titulo_seccion5",tituloNav);
+                    editor.commit();
+                    // ******************************************************************************
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "Para continuar debes escribir el titulo que llevará está sección", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
                 if(menuComidaList.size() < 2){
                     Toast.makeText(getApplicationContext(), "Debes introducir por lo menos dos de los alimentos que conforman tu menú", Toast.LENGTH_LONG).show();
                     return;
@@ -585,7 +613,16 @@ public class WebsComidaSeccion5 extends AppCompatActivity {
 
                 Intent i = new Intent(WebsComidaSeccion5.this, WebsComidaSeccion6.class);
                 startActivity(i);
+                finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(WebsComidaSeccion5.this, WebsComidaSeccion4.class);
+        startActivity(i);
+        finish();
     }
 }

@@ -43,6 +43,7 @@ public class WebsModaSeccion2 extends AppCompatActivity {
     private String subtitulo = "";
     private String descripcion = "";
     private boolean imgUpoloaded = false;
+    private ImageView portada_seccion2;
 
     FirebaseStorage storage = FirebaseStorage.getInstance();
     private ProgressDialog progressDialog;
@@ -59,6 +60,9 @@ public class WebsModaSeccion2 extends AppCompatActivity {
         editTitulo = (TextInputEditText)findViewById(R.id.txt_web_moda_seccion2_texto1);
         editSubtitulo = (TextInputEditText)findViewById(R.id.txt_web_moda_seccion2_subitutlo_1);
         editDescripcion = (TextInputEditText)findViewById(R.id.txt_web_moda_seccion2_descripcion_1);
+        portada_seccion2 = (ImageView)findViewById(R.id.portada_moda_seccion2);
+
+        portada_seccion2.setImageResource(R.drawable.web_moda_seccion_2);
 
         progressDialog = new ProgressDialog(WebsModaSeccion2.this);
 
@@ -72,6 +76,11 @@ public class WebsModaSeccion2 extends AppCompatActivity {
         editTitulo.setText(sharedPreferences.getString("web_moda_titulo_seccion_2", ""));
         editSubtitulo.setText(sharedPreferences.getString("web_moda_subtitulo_seccion_2", ""));
         editDescripcion.setText(sharedPreferences.getString("web_moda_descripcion_seccion_2", ""));
+
+        editTitulo.setSelection(editTitulo.getText().length());
+        editSubtitulo.setSelection(editSubtitulo.getText().length());
+        editDescripcion.setSelection(editDescripcion.getText().length());
+
         if (sharedPreferences.getString("web_moda_img_seccion_2","").length() > 1){
             imgUpoloaded = true;
             Picasso.get().load(sharedPreferences.getString("web_moda_img_seccion_2","")).placeholder(R.drawable.progress_animation).into(img);
@@ -144,7 +153,7 @@ public class WebsModaSeccion2 extends AppCompatActivity {
                 descripcion = editDescripcion.getText().toString();
 
                 if(!imgUpoloaded){
-                    Toast.makeText(getApplicationContext(), "Para continuar debes subir la imagen que irá en la sección de home", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Para continuar debes subir la imagen que irá en está sección", Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -159,13 +168,28 @@ public class WebsModaSeccion2 extends AppCompatActivity {
                     // ******************************************************************************
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), "Para continuar debes escribir el titulo y la descripción que llevará la sección de home", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Para continuar debes escribir el titulo y la descripción que llevará está sección", Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 Intent i = new Intent(WebsModaSeccion2.this, WebsModaSeccion3.class);
                 startActivity(i);
+                finish();
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        portada_seccion2.setImageDrawable(null);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(WebsModaSeccion2.this, WebsModaSeccion1.class);
+        startActivity(i);
+        finish();
     }
 }

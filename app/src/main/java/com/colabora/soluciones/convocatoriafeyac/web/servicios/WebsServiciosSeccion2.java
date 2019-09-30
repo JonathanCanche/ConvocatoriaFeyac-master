@@ -17,6 +17,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -111,8 +113,12 @@ public class WebsServiciosSeccion2 extends AppCompatActivity {
                     itemDescripcion = (TextInputEditText) formElementsView.findViewById(R.id.editItemSimpleDescripcion);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
+
                     itemTitulo.setText(itemSimpleList.get(position).getTitulo());
                     itemDescripcion.setText(itemSimpleList.get(position).getDescripcion());
+
+                    itemTitulo.setSelection(itemTitulo.getText().length());
+                    itemDescripcion.setSelection(itemDescripcion.getText().length());
 
                     builder.setTitle("Característica");
                     builder.setMessage("Por favor, introduce un título y descripción de las características distintivas de tus servicios");
@@ -219,7 +225,7 @@ public class WebsServiciosSeccion2 extends AppCompatActivity {
     private boolean imgUpoloaded = false;
     private List<itemSimple> itemSimpleList = new ArrayList<>();
     private List<caracteristicas_web> caracteristicas = new ArrayList<>();
-
+    private String charactersForbiden = ",";
 
     FirebaseStorage storage = FirebaseStorage.getInstance();
     private ProgressDialog progressDialog;
@@ -256,6 +262,11 @@ public class WebsServiciosSeccion2 extends AppCompatActivity {
         txtTitulo.setText(sharedPreferences.getString("web_servicios_seccion_2_titulo", ""));
         txtDescripcion.setText(sharedPreferences.getString("web_servicios_seccion_2_descripcion", ""));
         txtDescripcion2.setText(sharedPreferences.getString("web_servicios_seccion_2_descripcion_2", ""));
+
+        txtTitulo.setSelection(txtTitulo.getText().length());
+        txtDescripcion.setSelection(txtDescripcion.getText().length());
+        txtDescripcion2.setSelection(txtDescripcion2.getText().length());
+
         if (sharedPreferences.getString("web_servicios_img_seccion_2","").length() > 1){
             imgUpoloaded = true;
             Picasso.get().load(sharedPreferences.getString("web_servicios_img_seccion_2","")).placeholder(R.drawable.progress_animation).into(img);
@@ -341,6 +352,7 @@ public class WebsServiciosSeccion2 extends AppCompatActivity {
                     itemTitulo = (TextInputEditText) formElementsView.findViewById(R.id.editItemSimpleTitulo);
                     itemDescripcion = (TextInputEditText) formElementsView.findViewById(R.id.editItemSimpleDescripcion);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
 
                     builder.setTitle("Nueva Característica");
                     builder.setMessage("Por favor, introduce un título y descripción de las características distintivas de tus servicios");
@@ -511,9 +523,17 @@ public class WebsServiciosSeccion2 extends AppCompatActivity {
 
                 Intent i = new Intent(WebsServiciosSeccion2.this, WebsServiciosSeccion3.class);
                 startActivity(i);
+                finish();
             }
         });
 
+    }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(WebsServiciosSeccion2.this, WebsServiciosSeccion1.class);
+        startActivity(i);
+        finish();
     }
 }

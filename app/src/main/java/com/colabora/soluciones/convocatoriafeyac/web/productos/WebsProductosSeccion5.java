@@ -14,9 +14,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -44,6 +48,7 @@ import com.vansuita.pickimage.listeners.IPickResult;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class WebsProductosSeccion5 extends AppCompatActivity {
 
@@ -71,6 +76,9 @@ public class WebsProductosSeccion5 extends AppCompatActivity {
             btnEditar = (Button)itemView.findViewById(R.id.dialogItemSimpleEditar);
             btnEliminar = (Button)itemView.findViewById(R.id.dialogItemSimpleEliminar);
             //img = (ImageView)itemView.findViewById(R.id.itemFoto);
+
+            Random r = new Random();
+            final int nr = r.nextInt(80 - 65) + 65;
 
             btnEliminar.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -101,6 +109,12 @@ public class WebsProductosSeccion5 extends AppCompatActivity {
 
                     itemTitulo.setText(itemFotos.get(position).getTitulo());
                     itemDescripcion.setText(itemFotos.get(position).getDescripcion());
+
+                    itemTitulo.setSelection(itemTitulo.getText().length());
+                    itemDescripcion.setSelection(itemDescripcion.getText().length());
+
+                    url_ = "";
+
                     Picasso.get().load(itemFotos.get(position).getUrl()).placeholder(R.drawable.progress_animation).into(imgPortafolio);
 
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -122,7 +136,7 @@ public class WebsProductosSeccion5 extends AppCompatActivity {
                                             r.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, outputStream);
                                             byte[] data = outputStream.toByteArray();
 
-                                            StorageReference refSubirImagen = storage.getReferenceFromUrl("gs://pyme-assistant.appspot.com/web/userid").child(nombre_web + itemFotoList.size() + 6);
+                                            StorageReference refSubirImagen = storage.getReferenceFromUrl("gs://pyme-assistant.appspot.com/web/userid").child(nombre_web + itemFotoList.size() + nr);
 
                                             UploadTask uploadTask = refSubirImagen.putBytes(data);
                                             uploadTask.addOnFailureListener(new OnFailureListener() {
@@ -167,20 +181,37 @@ public class WebsProductosSeccion5 extends AppCompatActivity {
 
                             String titulo = itemTitulo.getText().toString();
                             String descripcion = itemDescripcion.getText().toString();
+                            String img_url = itemFotoList.get(position).getUrl();
 
-                            if(titulo.length() > 0 && descripcion.length() > 0 && url_.length() > 0){
-                                itemFotoList.remove(position);
-                                ItemFoto itemFoto = new ItemFoto(titulo, descripcion,url_);
-                                itemFotoList.add(itemFoto);
 
-                                // *********** LLENAMOS EL RECYCLER VIEW *****************************
-                                adapter = new WebsProductosSeccion5.DataConfigAdapter(itemFotoList, getApplicationContext());
-                                recyclerView.setAdapter(adapter);
+                            if (url_.length()>0){
+
+                                if(titulo.length() > 0 && descripcion.length() > 0 && url_.length() > 0){
+                                    itemFotoList.remove(position);
+                                    ItemFoto itemFoto = new ItemFoto(titulo, descripcion,url_);
+                                    itemFotoList.add(itemFoto);
+
+                                    // *********** LLENAMOS EL RECYCLER VIEW *****************************
+                                    adapter = new WebsProductosSeccion5.DataConfigAdapter(itemFotoList, getApplicationContext());
+                                    recyclerView.setAdapter(adapter);
+                                }
+                                else{
+                                    Toast.makeText(getApplicationContext(), "Debes introducir datos válidos", Toast.LENGTH_LONG).show();
+                                }
+                            }else {
+                                if(titulo.length() > 0 && descripcion.length() > 0 && img_url.length() > 0){
+                                    itemFotoList.remove(position);
+                                    ItemFoto itemFoto = new ItemFoto(titulo, descripcion,img_url);
+                                    itemFotoList.add(itemFoto);
+
+                                    // *********** LLENAMOS EL RECYCLER VIEW *****************************
+                                    adapter = new WebsProductosSeccion5.DataConfigAdapter(itemFotoList, getApplicationContext());
+                                    recyclerView.setAdapter(adapter);
+                                }
+                                else{
+                                    Toast.makeText(getApplicationContext(), "Debes introducir datos válidos", Toast.LENGTH_LONG).show();
+                                }
                             }
-                            else{
-                                Toast.makeText(getApplicationContext(), "Debes introducir datos válidos", Toast.LENGTH_LONG).show();
-                            }
-
                         }
                     });
 
@@ -261,6 +292,10 @@ public class WebsProductosSeccion5 extends AppCompatActivity {
     private TextInputEditText itemDescripcion;
     private Button btnAddFoto;
     private ImageView imgPortafolio;
+    private TextInputEditText txtTituloNav;
+    private String tituloNav = "";
+    private ImageView imgPortada;
+    private String charactersForbiden = ",";
 
     private ProgressDialog progressDialog;
     private String url_ = "";
@@ -280,9 +315,17 @@ public class WebsProductosSeccion5 extends AppCompatActivity {
         btnSiguiente = (Button)findViewById(R.id.btnProductoSeccion5Siguiente);
         addCaracteristica = (Button)findViewById(R.id.btnProductosSeccion5AddCaracteristica);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        txtTituloNav = (TextInputEditText)findViewById(R.id.txt_web_producto_seccion5_nav);
+        imgPortada = (ImageView)findViewById(R.id.img_web_producto_seccion5_portada);
+
+        imgPortada.setImageResource(R.drawable.web_producto_seccion_5);
 
         sharedPreferences = getSharedPreferences("misDatos", 0);
         nombre_web = sharedPreferences.getString("nombrePagWeb","");
+
+        txtTituloNav.setText(sharedPreferences.getString("web_productos_titulo_nav_seccion5",""));
+
+        txtTituloNav.setSelection(txtTituloNav.getText().length());
 
         progressDialog = new ProgressDialog(WebsProductosSeccion5.this);
 
@@ -491,6 +534,7 @@ public class WebsProductosSeccion5 extends AppCompatActivity {
                     btnAddFoto = (Button)formElementsView.findViewById(R.id.editItemSimpleAddImagen);
                     imgPortafolio = (ImageView)formElementsView.findViewById(R.id.imgItemSimple);
 
+
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
                     btnAddFoto.setOnClickListener(new View.OnClickListener() {
@@ -597,6 +641,21 @@ public class WebsProductosSeccion5 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                tituloNav = txtTituloNav.getText().toString();
+
+                if(tituloNav.length() > 0){
+                    // *********** Guardamos los principales datos de los nuevos usuarios *************
+                    sharedPreferences = getSharedPreferences("misDatos", 0);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("web_productos_titulo_nav_seccion5",tituloNav);
+                    editor.commit();
+                    // ******************************************************************************
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "Para continuar debes escribir el titulo llevará esta sección", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
                 if(itemFotoList.size() < 2){
                     Toast.makeText(getApplicationContext(), "Debes introducir por lo menos dos imágenes de tus servicios", Toast.LENGTH_LONG).show();
                     return;
@@ -692,7 +751,16 @@ public class WebsProductosSeccion5 extends AppCompatActivity {
 
                 Intent i = new Intent(WebsProductosSeccion5.this, WebsProductosSeccion6.class);
                 startActivity(i);
+                finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(WebsProductosSeccion5.this, WebsProductosSeccion4.class);
+        startActivity(i);
+        finish();
     }
 }

@@ -8,11 +8,11 @@
     tools:context=".web.moda.WebsModaSeccion4">
 
     <ImageView
+        android:id="@+id/portada_moda_seccion4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scaleType="fitStart"
-        android:adjustViewBounds="true"
-        android:src="@drawable/web_moda_seccion_4"/>
+        android:adjustViewBounds="true"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -24,6 +24,20 @@
             android:layout_height="wrap_content"
             android:padding="10sp"
             android:orientation="vertical">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/txt_web_moda_seccion4_tituloNav"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine|textCapSentences"
+                    android:imeOptions="actionDone"
+                    android:hint="Título para la sección (Ejemplo:Servicios)" />
+
+            </android.support.design.widget.TextInputLayout>
 
             <Button
                 android:id="@+id/btnModaSeccion4"

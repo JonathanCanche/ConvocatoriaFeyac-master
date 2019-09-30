@@ -10,6 +10,8 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -38,6 +40,7 @@ public class WebsProductosSeccion2 extends AppCompatActivity {
     private TextInputEditText editDescripcion;
     private TextInputEditText editDescripcio2;
     private ImageView img;
+    private ImageView imgPortada;
     private String nombre_web = "";
     private String titulo = "";
     private String subtitulo = "";
@@ -57,10 +60,14 @@ public class WebsProductosSeccion2 extends AppCompatActivity {
         btnSubirFoto = (Button)findViewById(R.id.btnProductoSeccion2);
 
         img = (ImageView)findViewById(R.id.imgProductoSeccion2);
+        imgPortada = (ImageView)findViewById(R.id.imgProductoSeccion_portada);
+
+        imgPortada.setImageResource(R.drawable.web_producto_seccion_2);
 
         editTitulo = (TextInputEditText)findViewById(R.id.txt_web_producto_seccion2_texto1);
         editDescripcion = (TextInputEditText)findViewById(R.id.txt_web_producto_seccion2_descripcion1);
         editDescripcio2 = (TextInputEditText)findViewById(R.id.txt_web_producto_seccion2_descripcion2);
+
 
         progressDialog = new ProgressDialog(WebsProductosSeccion2.this);
 
@@ -73,6 +80,11 @@ public class WebsProductosSeccion2 extends AppCompatActivity {
         editTitulo.setText(sharedPreferences.getString("web_productos_titulo_seccion_2", ""));
         editDescripcion.setText(sharedPreferences.getString("web_productos_subtitulo_seccion_2", ""));
         editDescripcio2.setText(sharedPreferences.getString("web_productos_descripcion_seccion_2", ""));
+
+        editTitulo.setSelection(editTitulo.getText().length());
+        editDescripcion.setSelection(editDescripcion.getText().length());
+        editDescripcio2.setSelection(editDescripcio2.getText().length());
+
         if (sharedPreferences.getString("web_productos_img_seccion_2","").length() > 1){
             imgUpoloaded = true;
             Picasso.get().load(sharedPreferences.getString("web_productos_img_seccion_2","")).placeholder(R.drawable.progress_animation).into(img);
@@ -167,7 +179,16 @@ public class WebsProductosSeccion2 extends AppCompatActivity {
 
                 Intent i = new Intent(WebsProductosSeccion2.this, WebsProductosSeccion3.class);
                 startActivity(i);
+                finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(WebsProductosSeccion2.this, WebsProductosSeccion1.class);
+        startActivity(i);
+        finish();
     }
 }

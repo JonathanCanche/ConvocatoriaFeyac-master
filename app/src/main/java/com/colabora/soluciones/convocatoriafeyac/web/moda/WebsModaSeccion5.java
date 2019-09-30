@@ -71,6 +71,7 @@ public class WebsModaSeccion5 extends AppCompatActivity {
     private TextInputEditText editSubtitulo;
     private String titulo = "";
     private String subtitulo = "";
+    private ImageView portada_seccion5;
 
     FirebaseStorage storage = FirebaseStorage.getInstance();
     private ProgressDialog progressDialog;
@@ -103,6 +104,9 @@ public class WebsModaSeccion5 extends AppCompatActivity {
         img7 = (ImageView)findViewById(R.id.imgModaSeccion5_img7);
         img8 = (ImageView)findViewById(R.id.imgModaSeccion5_img8);
         img9 = (ImageView)findViewById(R.id.imgModaSeccion5_img9);
+        portada_seccion5 = (ImageView)findViewById(R.id.portada_moda_seccion5);
+
+        portada_seccion5.setImageResource(R.drawable.web_moda_seccion_5);
 
         progressDialog = new ProgressDialog(WebsModaSeccion5.this);
 
@@ -114,6 +118,9 @@ public class WebsModaSeccion5 extends AppCompatActivity {
 
         editTitulo.setText(sharedPreferences.getString("web_moda_titulo_seccion5", ""));
         editSubtitulo.setText(sharedPreferences.getString("web_moda_subtitulo_seccion5", ""));
+
+        editTitulo.setSelection(editTitulo.getText().length());
+        editSubtitulo.setSelection(editSubtitulo.getText().length());
 
         if (sharedPreferences.getString("web_moda_img_1_seccion_5","").length() > 1){
             imgUpoloaded = true;
@@ -710,7 +717,22 @@ public class WebsModaSeccion5 extends AppCompatActivity {
 
                 Intent i = new Intent(WebsModaSeccion5.this, WebsModaSeccion6.class);
                 startActivity(i);
+                finish();
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        portada_seccion5.setImageDrawable(null);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(WebsModaSeccion5.this, WebsModaSeccion4.class);
+        startActivity(i);
+        finish();
     }
 }

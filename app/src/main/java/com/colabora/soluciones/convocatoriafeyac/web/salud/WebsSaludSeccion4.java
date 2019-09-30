@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,8 +80,12 @@ public class WebsSaludSeccion4 extends AppCompatActivity {
                     itemDescripcion = (TextInputEditText) formElementsView.findViewById(R.id.editItemSimpleDescripcion);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
+
                     itemTitulo.setText(itemSimpleList.get(position).getTitulo());
                     itemDescripcion.setText(itemSimpleList.get(position).getDescripcion());
+
+                    itemTitulo.setSelection(itemTitulo.getText().length());
+                    itemDescripcion.setSelection(itemDescripcion.getText().length());
 
                     builder.setTitle("Nueva Ventaja");
                     builder.setMessage("Por favor, introduce un título y descripción de las ventajas competitivas de tus servicios");
@@ -184,7 +190,7 @@ public class WebsSaludSeccion4 extends AppCompatActivity {
     private Button btnSiguiente;
     private boolean imgUpoloaded = false;
     private List<itemSimple> itemSimpleList = new ArrayList<>();
-
+    private String charactersForbiden = ",";
 
     FirebaseStorage storage = FirebaseStorage.getInstance();
     private SharedPreferences sharedPreferences;
@@ -213,6 +219,9 @@ public class WebsSaludSeccion4 extends AppCompatActivity {
 
         txtTitulo.setText(sharedPreferences.getString("web_salud_seccion_4_titulo", ""));
         txtDescripcion.setText(sharedPreferences.getString("web_salud_seccion_4_descripcion", ""));
+
+        txtTitulo.setSelection(txtTitulo.getText().length());
+        txtDescripcion.setSelection(txtDescripcion.getText().length());
 
         if(sharedPreferences.getString("web_salud_seccion_4_recycler", "").equals("1")){
             imagen = "";
@@ -290,6 +299,7 @@ public class WebsSaludSeccion4 extends AppCompatActivity {
                     itemTitulo = (TextInputEditText) formElementsView.findViewById(R.id.editItemSimpleTitulo);
                     itemDescripcion = (TextInputEditText) formElementsView.findViewById(R.id.editItemSimpleDescripcion);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
 
                     builder.setTitle("Nueva Ventaja");
                     builder.setMessage("Por favor, introduce un título y descripción de las ventajas competitivas de tus servicios");
@@ -390,7 +400,16 @@ public class WebsSaludSeccion4 extends AppCompatActivity {
 
                 Intent i = new Intent(WebsSaludSeccion4.this, WebsSaludSeccion5.class);
                 startActivity(i);
+                finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(WebsSaludSeccion4.this, WebsSaludSeccion3.class);
+        startActivity(i);
+        finish();
     }
 }

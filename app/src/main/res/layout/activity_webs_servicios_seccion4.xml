@@ -28,7 +28,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Por favor, ingrese los datos correspondientes a las sección de su página web."
+                android:text="Por favor, ingrese los datos correspondientes a la sección de &quot;Servicios&quot; de su página web."
                 android:layout_marginBottom="10sp"/>
 
             <android.support.design.widget.TextInputLayout
@@ -41,7 +41,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine|textCapSentences"
                     android:imeOptions="actionDone"
-                    android:hint="Título" />
+                    android:hint="Título de la sección(Ejemplo:Servicios)" />
 
             </android.support.design.widget.TextInputLayout>
 

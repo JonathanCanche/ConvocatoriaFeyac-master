@@ -58,6 +58,9 @@ public class WebsSaludSeccion5 extends AppCompatActivity {
         editDescripcion.setText(sharedPreferences.getString("web_salud_frase_baner", ""));
         editAutor.setText(sharedPreferences.getString("web_salud_autor_baner", ""));
 
+        editTitulo.setSelection(editTitulo.getText().length());
+        editDescripcion.setSelection(editDescripcion.getText().length());
+        editAutor.setSelection(editAutor.getText().length());
 
         btnSiguiente.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,13 +81,22 @@ public class WebsSaludSeccion5 extends AppCompatActivity {
                     // ******************************************************************************
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), "Para continuar debes escribir los campos requeridos de esta sección", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Para continuar debes escribir los datos requeridos de esta sección", Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 Intent i = new Intent(WebsSaludSeccion5.this, WebsSaludSeccion6.class);
                 startActivity(i);
+                finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(WebsSaludSeccion5.this, WebsSaludSeccion4.class);
+        startActivity(i);
+        finish();
     }
 }

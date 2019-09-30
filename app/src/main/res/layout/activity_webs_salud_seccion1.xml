@@ -28,7 +28,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Por favor, ingrese los datos correspondientes a las sección de su página web."
+                android:text="Por favor, ingrese los datos correspondientes a la sección de &quot;inicio&quot; de su página web."
                 android:layout_marginBottom="10sp"/>
 
             <android.support.design.widget.TextInputLayout
@@ -64,7 +64,7 @@
                 android:layout_width="match_parent"
                 android:textAlignment="center"
                 android:layout_height="wrap_content"
-                android:text="Agregar imagen" />
+                android:text="Agregar imagen que va de fondo en la sección" />
 
             <ImageView
                 android:id="@+id/imgSaludSeccion1"

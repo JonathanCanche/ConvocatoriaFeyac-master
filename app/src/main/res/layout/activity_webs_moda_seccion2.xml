@@ -8,11 +8,11 @@
     tools:context=".web.moda.WebsModaSeccion2">
 
     <ImageView
+        android:id="@+id/portada_moda_seccion2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scaleType="fitStart"
-        android:adjustViewBounds="true"
-        android:src="@drawable/web_moda_seccion_2"/>
+        android:adjustViewBounds="true"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -41,7 +41,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine|textCapSentences"
                     android:imeOptions="actionDone"
-                    android:hint="Título" />
+                    android:hint="Título para la sección (Ejemplo:Nosotros)" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -69,7 +69,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine|textCapSentences"
                     android:imeOptions="actionDone"
-                    android:hint="Descripción" />
+                    android:hint="Descripción de la empresa" />
 
             </android.support.design.widget.TextInputLayout>
 

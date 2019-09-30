@@ -14,6 +14,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +44,7 @@ import com.vansuita.pickimage.listeners.IPickResult;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class WebsServiciosSeccion6 extends AppCompatActivity {
 
@@ -71,6 +74,9 @@ public class WebsServiciosSeccion6 extends AppCompatActivity {
             btnEliminar = (Button)itemView.findViewById(R.id.dialogItemSimpleEliminar);
             //img = (ImageView)itemView.findViewById(R.id.itemFoto);
 
+            Random r = new Random();
+            final int nr = r.nextInt(80 - 65) + 65;
+
             btnEliminar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -98,10 +104,14 @@ public class WebsServiciosSeccion6 extends AppCompatActivity {
                     btnAddFoto = (Button)formElementsView.findViewById(R.id.editItemSimpleAddImagen);
                     imgPortafolio = (ImageView)formElementsView.findViewById(R.id.imgItemSimple);
 
+
                     itemTitulo.setText(itemFotos.get(position).getTitulo());
                     itemDescripcion.setText(itemFotos.get(position).getDescripcion());
                     Picasso.get().load(itemFotos.get(position).getUrl()).placeholder(R.drawable.progress_animation).into(imgPortafolio);
 
+                    itemTitulo.setSelection(itemTitulo.getText().length());
+                    itemDescripcion.setSelection(itemDescripcion.getText().length());
+                    url_ = "";
 
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
@@ -122,7 +132,7 @@ public class WebsServiciosSeccion6 extends AppCompatActivity {
                                             r.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, outputStream);
                                             byte[] data = outputStream.toByteArray();
 
-                                            StorageReference refSubirImagen = storage.getReferenceFromUrl("gs://pyme-assistant.appspot.com/web/userid").child(nombre_web + itemFotoList.size() + 5);
+                                            StorageReference refSubirImagen = storage.getReferenceFromUrl("gs://pyme-assistant.appspot.com/web/userid").child(nombre_web + itemFotoList.size() + nr);
 
                                             UploadTask uploadTask = refSubirImagen.putBytes(data);
                                             uploadTask.addOnFailureListener(new OnFailureListener() {
@@ -167,20 +177,37 @@ public class WebsServiciosSeccion6 extends AppCompatActivity {
 
                             String titulo = itemTitulo.getText().toString();
                             String descripcion = itemDescripcion.getText().toString();
+                            String img_url = itemFotoList.get(position).getUrl();
 
-                            if(titulo.length() > 0 && descripcion.length() > 0 && url_.length() > 0){
-                                itemFotoList.remove(position);
-                                ItemFoto itemFoto = new ItemFoto(titulo, descripcion, url_);
-                                itemFotoList.add(itemFoto);
+                            if (url_.length()> 0){
 
-                                // *********** LLENAMOS EL RECYCLER VIEW *****************************
-                                adapter = new WebsServiciosSeccion6.DataConfigAdapter(itemFotoList, getApplicationContext());
-                                recyclerView.setAdapter(adapter);
+                                if(titulo.length() > 0 && descripcion.length() > 0 && url_.length() > 0){
+                                    itemFotoList.remove(position);
+                                    ItemFoto itemFoto = new ItemFoto(titulo, descripcion, url_);
+                                    itemFotoList.add(itemFoto);
+
+                                    // *********** LLENAMOS EL RECYCLER VIEW *****************************
+                                    adapter = new WebsServiciosSeccion6.DataConfigAdapter(itemFotoList, getApplicationContext());
+                                    recyclerView.setAdapter(adapter);
+                                }
+                                else{
+                                    Toast.makeText(getApplicationContext(), "Debes introducir datos válidos", Toast.LENGTH_LONG).show();
+                                }
+                            }else {
+
+                                if(titulo.length() > 0 && descripcion.length() > 0 && img_url.length() > 0){
+                                    itemFotoList.remove(position);
+                                    ItemFoto itemFoto = new ItemFoto(titulo, descripcion, img_url);
+                                    itemFotoList.add(itemFoto);
+
+                                    // *********** LLENAMOS EL RECYCLER VIEW *****************************
+                                    adapter = new WebsServiciosSeccion6.DataConfigAdapter(itemFotoList, getApplicationContext());
+                                    recyclerView.setAdapter(adapter);
+                                }
+                                else{
+                                    Toast.makeText(getApplicationContext(), "Debes introducir datos válidos", Toast.LENGTH_LONG).show();
+                                }
                             }
-                            else{
-                                Toast.makeText(getApplicationContext(), "Debes introducir datos válidos", Toast.LENGTH_LONG).show();
-                            }
-
                         }
                     });
 
@@ -261,7 +288,9 @@ public class WebsServiciosSeccion6 extends AppCompatActivity {
     private TextInputEditText itemDescripcion;
     private Button btnAddFoto;
     private ImageView imgPortafolio;
-
+    private TextInputEditText txtTituloNav;
+    private String tituloNav = "";
+    private String charactersForbiden = ",";
     private ProgressDialog progressDialog;
     private String url_ = "";
     private List<caracteristicas_web> imagenes = new ArrayList<>();
@@ -279,9 +308,13 @@ public class WebsServiciosSeccion6 extends AppCompatActivity {
         btnSiguiente = (Button)findViewById(R.id.btnServiciosSeccion6Siguiente);
         addCaracteristica = (Button)findViewById(R.id.btnServiciosSeccion6AddPortafolio);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        txtTituloNav = (TextInputEditText)findViewById(R.id.txtServiciosSeccion6TituloNav);
 
         sharedPreferences = getSharedPreferences("misDatos", 0);
         nombre_web = sharedPreferences.getString("nombrePagWeb","");
+
+        txtTituloNav.setText(sharedPreferences.getString("web_servicios_seccion6_tituloNav",""));
+        txtTituloNav.setSelection(txtTituloNav.getText().length());
 
         progressDialog = new ProgressDialog(WebsServiciosSeccion6.this);
 
@@ -592,6 +625,20 @@ public class WebsServiciosSeccion6 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                tituloNav = txtTituloNav.getText().toString();
+
+                if (tituloNav.length() > 0){
+                    // *********** Guardamos los principales datos de los nuevos usuarios *************
+                    sharedPreferences = getSharedPreferences("misDatos", 0);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("web_servicios_seccion6_tituloNav",tituloNav);
+                    editor.commit();
+                    // ******************************************************************************
+                }else {
+                    Toast.makeText(getApplicationContext(), "Debes ingresar el título de está sección", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
                 if(itemFotoList.size() < 2){
                     Toast.makeText(getApplicationContext(), "Debes introducir por lo menos dos imágenes de tus servicios", Toast.LENGTH_LONG).show();
                     return;
@@ -687,8 +734,17 @@ public class WebsServiciosSeccion6 extends AppCompatActivity {
 
                 Intent i = new Intent(WebsServiciosSeccion6.this, WebsServiciosSeccion7.class);
                 startActivity(i);
+                finish();
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(WebsServiciosSeccion6.this, WebsServiciosSeccion5.class);
+        startActivity(i);
+        finish();
     }
 }

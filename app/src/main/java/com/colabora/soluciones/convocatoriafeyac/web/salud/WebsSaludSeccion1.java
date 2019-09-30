@@ -38,10 +38,12 @@ public class WebsSaludSeccion1 extends AppCompatActivity {
     private Button btnSubirFoto;
     private TextInputEditText editTitulo;
     private TextInputEditText editDescripcion;
+    private TextInputEditText txtTituloNav;
     private ImageView img;
     private String nombre_web = "";
     private String titulo = "";
     private String subtitulo = "";
+    private String tituloNav = "";
     private boolean imgUpoloaded = false;
 
     FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -69,6 +71,10 @@ public class WebsSaludSeccion1 extends AppCompatActivity {
 
         editTitulo.setText(sharedPreferences.getString("web_salud_titulo_home", ""));
         editDescripcion.setText(sharedPreferences.getString("web_salud_subtitulo_home", ""));
+
+        editTitulo.setSelection(editTitulo.getText().length());
+        editDescripcion.setSelection(editDescripcion.getText().length());
+
         if (sharedPreferences.getString("web_salud_img_seccion_1","").length() > 1){
             imgUpoloaded = true;
             Picasso.get().load(sharedPreferences.getString("web_salud_img_seccion_1","")).placeholder(R.drawable.progress_animation).into(img);
@@ -140,7 +146,7 @@ public class WebsSaludSeccion1 extends AppCompatActivity {
                 subtitulo = editDescripcion.getText().toString();
 
                 if(!imgUpoloaded){
-                    Toast.makeText(getApplicationContext(), "Para continuar debes subir la imagen que irá en la sección de home", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Para continuar debes subir la imagen que irá en la sección de inicio", Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -154,15 +160,15 @@ public class WebsSaludSeccion1 extends AppCompatActivity {
                     // ******************************************************************************
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), "Para continuar debes escribir el titulo y la descripción que llevará la sección de home", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Para continuar debes escribir el titulo y la descripción que llevará está sección", Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 Intent i = new Intent(WebsSaludSeccion1.this, WebsSaludSeccion2.class);
                 startActivity(i);
+                finish();
             }
         });
-
 
     }
 }

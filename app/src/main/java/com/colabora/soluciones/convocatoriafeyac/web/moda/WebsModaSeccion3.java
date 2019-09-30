@@ -14,6 +14,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +47,7 @@ import com.vansuita.pickimage.listeners.IPickResult;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class WebsModaSeccion3 extends AppCompatActivity {
 
@@ -73,6 +76,9 @@ public class WebsModaSeccion3 extends AppCompatActivity {
             btnEliminar = (Button)itemView.findViewById(R.id.dialogItemSimpleEliminar);
             //img = (ImageView)itemView.findViewById(R.id.itemFoto);
 
+            Random r = new Random();
+            final int nr = r.nextInt(80 - 65) + 65;
+
             btnEliminar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -100,8 +106,13 @@ public class WebsModaSeccion3 extends AppCompatActivity {
                     btnAddFoto = (Button)formElementsView.findViewById(R.id.editItemSimpleAddImagen);
                     imgPortafolio = (ImageView)formElementsView.findViewById(R.id.imgItemSimple);
 
+
                     itemTitulo.setText(itemFotos.get(position).getTitulo());
                     itemDescripcion.setText(itemFotos.get(position).getDescripcion());
+
+                    itemTitulo.setSelection(itemTitulo.getText().length());
+                    itemDescripcion.setSelection(itemDescripcion.getText().length());
+
                     Picasso.get().load(itemFotos.get(position).getUrl()).placeholder(R.drawable.progress_animation).into(imgPortafolio);
 
 
@@ -124,7 +135,7 @@ public class WebsModaSeccion3 extends AppCompatActivity {
                                             r.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, outputStream);
                                             byte[] data = outputStream.toByteArray();
 
-                                            StorageReference refSubirImagen = storage.getReferenceFromUrl("gs://pyme-assistant.appspot.com/web/userid").child(nombre_web + itemFotoList.size() + 3);
+                                            StorageReference refSubirImagen = storage.getReferenceFromUrl("gs://pyme-assistant.appspot.com/web/userid").child(nombre_web + itemFotoList.size() + nr);
 
                                             UploadTask uploadTask = refSubirImagen.putBytes(data);
                                             uploadTask.addOnFailureListener(new OnFailureListener() {
@@ -169,20 +180,37 @@ public class WebsModaSeccion3 extends AppCompatActivity {
 
                             String titulo = itemTitulo.getText().toString();
                             String descripcion = itemDescripcion.getText().toString();
+                            String img_url = itemFotoList.get(position).getUrl();
 
-                            if(titulo.length() > 0 && descripcion.length() > 0 && url_.length() > 0){
-                                itemFotoList.remove(position);
-                                ItemFoto itemFoto = new ItemFoto(titulo, descripcion, url_);
-                                itemFotoList.add(itemFoto);
+                            if (url_.length() > 0){
 
-                                // *********** LLENAMOS EL RECYCLER VIEW *****************************
-                                adapter = new WebsModaSeccion3.DataConfigAdapter(itemFotoList, getApplicationContext());
-                                recyclerView.setAdapter(adapter);
+                                if(titulo.length() > 0 && descripcion.length() > 0 && url_.length() > 0){
+                                    itemFotoList.remove(position);
+                                    ItemFoto itemFoto = new ItemFoto(titulo, descripcion, url_);
+                                    itemFotoList.add(itemFoto);
+
+                                    // *********** LLENAMOS EL RECYCLER VIEW *****************************
+                                    adapter = new WebsModaSeccion3.DataConfigAdapter(itemFotoList, getApplicationContext());
+                                    recyclerView.setAdapter(adapter);
+                                }
+                                else{
+                                    Toast.makeText(getApplicationContext(), "Debes introducir datos válidos", Toast.LENGTH_LONG).show();
+                                }
+
+                            }else {
+                                if(titulo.length() > 0 && descripcion.length() > 0 && img_url.length() > 0){
+                                    itemFotoList.remove(position);
+                                    ItemFoto itemFoto = new ItemFoto(titulo, descripcion, img_url);
+                                    itemFotoList.add(itemFoto);
+
+                                    // *********** LLENAMOS EL RECYCLER VIEW *****************************
+                                    adapter = new WebsModaSeccion3.DataConfigAdapter(itemFotoList, getApplicationContext());
+                                    recyclerView.setAdapter(adapter);
+                                }
+                                else{
+                                    Toast.makeText(getApplicationContext(), "Debes introducir datos válidos", Toast.LENGTH_LONG).show();
+                                }
                             }
-                            else{
-                                Toast.makeText(getApplicationContext(), "Debes introducir datos válidos", Toast.LENGTH_LONG).show();
-                            }
-
                         }
                     });
 
@@ -263,7 +291,8 @@ public class WebsModaSeccion3 extends AppCompatActivity {
     private TextInputEditText itemDescripcion;
     private Button btnAddFoto;
     private ImageView imgPortafolio;
-
+    private ImageView portada_seccion3;
+    private String charactersForbiden = ",";
     private ProgressDialog progressDialog;
     private String url_ = "";
 
@@ -281,6 +310,9 @@ public class WebsModaSeccion3 extends AppCompatActivity {
         btnSiguiente = (Button)findViewById(R.id.btnModaSeccion3Siguiente);
         addCaracteristica = (Button)findViewById(R.id.btnModaSeccion3AddCaracteristica);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        portada_seccion3 = (ImageView)findViewById(R.id.portada_moda_seccion3);
+
+        portada_seccion3.setImageResource(R.drawable.web_moda_seccion_3);
 
         sharedPreferences = getSharedPreferences("misDatos", 0);
         nombre_web = sharedPreferences.getString("nombrePagWeb","");
@@ -519,7 +551,17 @@ public class WebsModaSeccion3 extends AppCompatActivity {
 
                 Intent i = new Intent(WebsModaSeccion3.this, WebsModaSeccion4.class);
                 startActivity(i);
+                finish();
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(WebsModaSeccion3.this, WebsModaSeccion2.class);
+        startActivity(i);
+        finish();
+    }
+
 }

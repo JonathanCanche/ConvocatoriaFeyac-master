@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.constraint.Placeholder;
@@ -11,6 +12,8 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -41,12 +44,15 @@ public class WebsProductosSeccion1 extends AppCompatActivity {
     private Button btnSubirFoto3;
     private TextInputEditText editTitulo;
     private TextInputEditText editDescripcion;
+    private TextInputEditText txtTituloNav;
     private ImageView img;
     private ImageView img2;
     private ImageView img3;
+    private ImageView imgPortada;
     private String nombre_web = "";
     private String titulo = "";
     private String subtitulo = "";
+    private String tituloNav = "";
     private boolean imgUpoloaded = false;
     private boolean imgUpoloaded2 = false;
     private boolean imgUpoloaded3 = false;
@@ -69,8 +75,13 @@ public class WebsProductosSeccion1 extends AppCompatActivity {
         img2 = (ImageView)findViewById(R.id.imgProductoSeccion2);
         img3 = (ImageView)findViewById(R.id.imgProductoSeccion3);
 
+        imgPortada = (ImageView)findViewById(R.id.img_web_producto_seccion1_portada);
+
+        imgPortada.setImageResource(R.drawable.web_producto_seccion_1);
+
         editTitulo = (TextInputEditText)findViewById(R.id.txt_web_producto_seccion1_texto1);
         editDescripcion = (TextInputEditText)findViewById(R.id.txt_web_producto_seccion1_descripcion1);
+
 
         progressDialog = new ProgressDialog(WebsProductosSeccion1.this);
 
@@ -82,15 +93,19 @@ public class WebsProductosSeccion1 extends AppCompatActivity {
 
         editTitulo.setText(sharedPreferences.getString("web_productos_titulo_home", ""));
         editDescripcion.setText(sharedPreferences.getString("web_productos_subtitulo_home", ""));
-        if (sharedPreferences.getString("web_productos_img_1_seccion_1","").length() > 1){
+
+        editTitulo.setSelection(editTitulo.getText().length());
+        editDescripcion.setSelection(editDescripcion.getText().length());
+
+        if (sharedPreferences.getString("web_productos_img_1_seccion_1","").length()>1){
             imgUpoloaded = true;
             Picasso.get().load(sharedPreferences.getString("web_productos_img_1_seccion_1","")).placeholder(R.drawable.progress_animation).into(img);
         }
-        if (sharedPreferences.getString("web_productos_img_2_seccion_1","").length() > 2){
+        if (sharedPreferences.getString("web_productos_img_2_seccion_1","").length()>1){
             imgUpoloaded2 = true;
             Picasso.get().load(sharedPreferences.getString("web_productos_img_2_seccion_1","")).placeholder(R.drawable.progress_animation).into(img2);
         }
-        if (sharedPreferences.getString("web_productos_img_3_seccion_1","").length() > 3){
+        if (sharedPreferences.getString("web_productos_img_3_seccion_1","").length()>1){
             Picasso.get().load(sharedPreferences.getString("web_productos_img_3_seccion_1","")).placeholder(R.drawable.progress_animation).into(img3);
         }
 
@@ -279,12 +294,12 @@ public class WebsProductosSeccion1 extends AppCompatActivity {
                 subtitulo = editDescripcion.getText().toString();
 
                 if(!imgUpoloaded){
-                    Toast.makeText(getApplicationContext(), "Para continuar debes subir la imagen 1 que irá en la sección de home", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Para continuar debes subir la imagen 1 que irá en la sección de inicio", Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 else if(!imgUpoloaded2){
-                    Toast.makeText(getApplicationContext(), "Para continuar debes subir la imagen 2 que irá en la sección de home", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Para continuar debes subir la imagen 2 que irá en la sección de inicio", Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -298,13 +313,20 @@ public class WebsProductosSeccion1 extends AppCompatActivity {
                     // ******************************************************************************
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), "Para continuar debes escribir el titulo y la descripción que llevará la sección de home", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Para continuar debes escribir el titulo y la descripción que llevará la sección de inicio", Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 Intent i = new Intent(WebsProductosSeccion1.this, WebsProductosSeccion2.class);
                 startActivity(i);
+                finish();
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        imgPortada.setImageResource(0);
     }
 }

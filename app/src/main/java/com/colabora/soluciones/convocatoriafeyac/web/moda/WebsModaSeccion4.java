@@ -14,6 +14,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,8 +99,12 @@ public class WebsModaSeccion4 extends AppCompatActivity {
                     itemDescripcion = (TextInputEditText) formElementsView.findViewById(R.id.editItemSimpleDescripcion);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
+
                     itemTitulo.setText(itemSimpleList.get(position).getTitulo());
                     itemDescripcion.setText(itemSimpleList.get(position).getDescripcion());
+
+                    itemTitulo.setSelection(itemTitulo.getText().length());
+                    itemDescripcion.setSelection(itemDescripcion.getText().length());
 
                     builder.setTitle("Servicios");
                     builder.setMessage("Por favor, introduce un título y descripción de las características distintivas de tus servicios");
@@ -200,7 +206,11 @@ public class WebsModaSeccion4 extends AppCompatActivity {
     private String nombre_web = "";
     private TextInputEditText itemTitulo;
     private TextInputEditText itemDescripcion;
+    private TextInputEditText txtTituloNav;
+    private String tiuloNav = "";
     private boolean imgUpoloaded = false;
+    private ImageView portada_seccion4;
+    private String charactersForbiden = ",";
 
     FirebaseStorage storage = FirebaseStorage.getInstance();
     private ProgressDialog progressDialog;
@@ -208,7 +218,6 @@ public class WebsModaSeccion4 extends AppCompatActivity {
     private String img_ = "";
     private String titulo = "";
     private String descripcion = "";
-
     private List<caracteristicas_web> list = new ArrayList<>();
 
     @Override
@@ -221,11 +230,19 @@ public class WebsModaSeccion4 extends AppCompatActivity {
         btnAddServicio = (Button)findViewById(R.id.btnModaSeccion4AddCaracteristica);
         btnSubirFoto = (Button)findViewById(R.id.btnModaSeccion4);
         img = (ImageView)findViewById(R.id.imgModaSeccion4);
+        txtTituloNav = (TextInputEditText)findViewById(R.id.txt_web_moda_seccion4_tituloNav);
+        portada_seccion4 = (ImageView)findViewById(R.id.portada_moda_seccion4);
+
+        portada_seccion4.setImageResource(R.drawable.web_moda_seccion_4);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
         sharedPreferences = getSharedPreferences("misDatos", 0);
         nombre_web = sharedPreferences.getString("nombrePagWeb","");
+
+        txtTituloNav.setText(sharedPreferences.getString("web_moda_titulo_nav_seccion4",""));
+
+        txtTituloNav.setSelection(txtTituloNav.getText().length());
 
         progressDialog = new ProgressDialog(WebsModaSeccion4.this);
 
@@ -477,6 +494,7 @@ public class WebsModaSeccion4 extends AppCompatActivity {
                     itemDescripcion = (TextInputEditText) formElementsView.findViewById(R.id.editItemSimpleDescripcion);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
+
                     builder.setTitle("Nuevo Servicio");
                     builder.setMessage("Por favor, introduce un título y descripción de tus servicios de forma breve");
                     builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
@@ -525,6 +543,21 @@ public class WebsModaSeccion4 extends AppCompatActivity {
         btnSiguiente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                tiuloNav = txtTituloNav.getText().toString();
+
+                if(tiuloNav.length()  > 0){
+                    // *********** Guardamos los principales datos de los nuevos usuarios *************
+                    sharedPreferences = getSharedPreferences("misDatos", 0);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("web_moda_titulo_nav_seccion4",tiuloNav);
+                    editor.commit();
+                    // ******************************************************************************
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "Para continuar debes escribir el titulo que llevará esta sección", Toast.LENGTH_LONG).show();
+                    return;
+                }
 
                 if(!imgUpoloaded){
                     Toast.makeText(getApplicationContext(), "Debes subir la imagen que se mostrará en esta sección de servicios", Toast.LENGTH_LONG).show();
@@ -604,8 +637,17 @@ public class WebsModaSeccion4 extends AppCompatActivity {
 
                 Intent i = new Intent(WebsModaSeccion4.this, WebsModaSeccion5.class);
                 startActivity(i);
+                finish();
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(WebsModaSeccion4.this, WebsModaSeccion3.class);
+        startActivity(i);
+        finish();
     }
 }
