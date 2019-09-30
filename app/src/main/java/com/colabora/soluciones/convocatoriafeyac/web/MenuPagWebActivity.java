@@ -77,7 +77,7 @@ public class MenuPagWebActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private SharedPreferences sharedPreferences;
     private Usuario miUsuario;
-
+    private String webusuario;
     private ProgressDialog progressDialog;
     private pagWebs miPagina;
     private QueryDocumentSnapshot documentopagina;

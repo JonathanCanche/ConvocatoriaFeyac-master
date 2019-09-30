@@ -86,6 +86,8 @@ public class WebVisualizacionPreviaActivity extends AppCompatActivity {
         progressDialog.setTitle("Valindando");
         progressDialog.setMessage("Espere un momento mientras el sistema valida el nombre de su página web");
 
+
+
         db = FirebaseFirestore.getInstance();
         Intent i = getIntent();
         tipo_pag = i.getStringExtra(PAG_WEB);
@@ -170,7 +172,9 @@ public class WebVisualizacionPreviaActivity extends AppCompatActivity {
                         builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+
                                 nombre_web = txtCheck.getText().toString();
+                                nombre_web = removerTildes(nombre_web);
 
                                 if(nombre_web.length() > 0){
                                     progressDialog.show();
@@ -269,6 +273,19 @@ public class WebVisualizacionPreviaActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    static String removerTildes(String cadena) {
+        return cadena.replace("Á", "A")
+                .replace("É", "E")
+                .replace("Í", "I")
+                .replace("Ó", "O")
+                .replace("Ú", "U")
+                .replace("á", "a")
+                .replace("é", "e")
+                .replace("í", "i")
+                .replace("ó", "o")
+                .replace("ú", "u");
     }
 
     @Override

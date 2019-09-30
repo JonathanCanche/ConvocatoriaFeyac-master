@@ -159,7 +159,7 @@ public class WebsAppsSeccion5 extends AppCompatActivity {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(WebsAppsSeccion5.this);
                 builder.setTitle("Aviso");
-                builder.setMessage("¿Estas seguro de querer finalizar?")
+                builder.setMessage("¿Estas seguro de finalizar?")
                         .setPositiveButton("Si", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
 
