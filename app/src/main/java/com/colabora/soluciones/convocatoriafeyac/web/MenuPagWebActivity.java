@@ -80,6 +80,7 @@ public class MenuPagWebActivity extends AppCompatActivity {
     private String webusuario;
     private ProgressDialog progressDialog;
     private pagWebs miPagina;
+    private String nada;
     private QueryDocumentSnapshot documentopagina;
 
     @Override
